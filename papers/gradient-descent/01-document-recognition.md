@@ -2,7 +2,7 @@
 
 **Authors:** Yann LeCun, Leon Bottou, Yoshua Bengio, Patrick Haffner  
 **Area:** Computer Vision, Deep Learning, OCR  
-**Link:** [https://ieeexplore.ieee.org/document/726791](https://ieeexplore.ieee.org/document/726791)
+**Link:** [IEEE Paper](https://ieeexplore.ieee.org/document/726791)
 
 ## Overview
 
