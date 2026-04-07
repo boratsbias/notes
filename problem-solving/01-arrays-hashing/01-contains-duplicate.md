@@ -13,8 +13,8 @@ Another possible approach is sorting the array and checking adjacent elements, b
 
 Using a set allows us to detect duplicates in a single pass through the array.
 
-**Time:** O(n)  
-**Space:** O(n)
+**Time:** **O(n)**
+**Space:** **O(n)**
 
 ## Code
 
