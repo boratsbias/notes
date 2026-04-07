@@ -17,7 +17,7 @@ Fundamental computer science topics including compilers, computer architecture, 
 
 ### [Problem Solving](problem-solving/index.md)
 
-Notes and explanations for popular data structures and algorithms problems from the NeetCode 150 list.
+Notes and explanations for popular algorithmic problems and problem solving patterns.
 
 ### [Papers](papers/index.md)
 
@@ -27,10 +27,11 @@ Notes and summaries from research papers that I read while exploring different t
 
 Some useful resources that guide the topics covered in these notes:
 
-- [https://teachyourselfcs.com/](https://teachyourselfcs.com/)
-- [https://roadmap.sh/](https://roadmap.sh/)
+- [https://teachyourselfcs.com](https://teachyourselfcs.com)
+- [https://roadmap.sh](https://roadmap.sh)
 - [https://github.com/ossu/computer-science](https://github.com/ossu/computer-science)
 - [https://github.com/jwasham/coding-interview-university](https://github.com/jwasham/coding-interview-university)
 - [https://github.com/donnemartin/system-design-primer](https://github.com/donnemartin/system-design-primer)
 - [https://github.com/karpathy/nn-zero-to-hero](https://github.com/karpathy/nn-zero-to-hero)
-- [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/)
+- [https://www.deeplearningbook.org](https://www.deeplearningbook.org)
+- - [https://neetcode.io](https://neetcode.io)
