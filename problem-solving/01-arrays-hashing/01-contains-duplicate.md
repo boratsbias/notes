@@ -1,10 +1,14 @@
 # Contains Duplicate
 
-**Problem:** [Link](https://leetcode.com/problems/contains-duplicate/)
+[Problem Link](https://leetcode.com/problems/contains-duplicate/)
 
-## Idea
-Use a set to track numbers seen so far.  
-If a number already exists in the set, a duplicate is found.
+## Explanation
+
+Use a set to track numbers that have already appeared.  
+If a number is seen again, a duplicate exists.  
+  
+Time: O(n)  
+Space: O(n)
 
 ## Code
 
@@ -20,8 +24,3 @@ class Solution:
 
         return False
 ```
-
-## Complexity
-
-**Time:** O(n)  
-**Space:** O(n)
