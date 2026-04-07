@@ -15,13 +15,13 @@ Notes related to artificial intelligence, machine learning, deep learning, and t
 
 Fundamental computer science topics including compilers, computer architecture, computer networks, data structures and algorithms, databases, distributed systems, and operating systems.
 
-### [Problem Solving](problem-solving/index.md)
-
-Notes and explanations for popular algorithmic problems and problem solving patterns.
-
 ### [Papers](papers/index.md)
 
 Notes and summaries from research papers that I read while exploring different topics.
+
+### [Problem Solving](problem-solving/index.md)
+
+Notes and explanations for popular algorithmic problems and problem solving patterns.
 
 ## References
 
