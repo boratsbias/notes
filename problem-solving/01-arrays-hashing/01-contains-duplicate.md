@@ -2,19 +2,23 @@
 
 [Problem Link](https://leetcode.com/problems/contains-duplicate/)
 
-## Explanation
+## Approach
 
-Use a set to track numbers that have already appeared.  
-If a number appears again, a duplicate exists.  
-  
-A set is used instead of a list because checking membership in a set is O(1) on average, while checking in a list takes O(n).  
-  
-Another possible approach is sorting the array and checking adjacent elements, but sorting takes O(n log n) time and may modify the input.  
-  
-Using a set allows us to detect duplicates in a single pass through the array.  
-  
-Time: O(n)  
-Space: O(n)
+Use a set to keep track of numbers that have already appeared.
+
+While iterating through the array:
+
+- If the number is already in the set, a duplicate exists.
+- Otherwise, add the number to the set.
+
+A set is preferred over a list because membership checks in a set take **O(1)** on average, while checking in a list takes **O(n)**.
+
+Another possible approach is sorting the array and checking adjacent elements. However, sorting takes **O(n log n)** time and may modify the input.
+
+Using a set allows us to detect duplicates in a single pass through the array.
+
+**Time Complexity:** O(n)  
+**Space Complexity:** O(n)
 
 ## Code
 
