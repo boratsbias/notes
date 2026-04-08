@@ -1,3 +1,4 @@
+# CS Notes 📚
 
 This repository is a collection of my personal notes while studying computer science, artificial intelligence, and related areas. I use it to organize what I learn, revisit concepts later, and gradually build a structured knowledge base.
 
