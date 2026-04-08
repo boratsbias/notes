@@ -3,3 +3,6 @@ plugins:
   - jekyll-remote-theme
 title: CS Notes 📚
 description: My personal notes
+markdown: kramdown
+kramdown:
+  math_engine: null
