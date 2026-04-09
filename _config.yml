@@ -7,3 +7,4 @@ description: My personal notes
 markdown: kramdown
 kramdown:
   math_engine: null
+  input: GFM
