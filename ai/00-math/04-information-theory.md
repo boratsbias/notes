@@ -16,6 +16,7 @@ $$H(X) = -\sum_x p(x) \log p(x)$$
 - For binary $X$: $H = -p\log p - (1-p)\log(1-p)$ (binary entropy function)
 
 **Differential entropy** for continuous distributions:
+
 $$h(X) = -\int p(x) \log p(x)\, dx$$
 
 Can be negative (unlike discrete entropy).
