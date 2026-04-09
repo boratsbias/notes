@@ -2,7 +2,7 @@ remote_theme: jekyll/minima
 plugins:
   - jekyll-remote-theme
   - jekyll-feed
-title: Hello World
+title: CS Notes 📚
 description: Anubrat Bora
 markdown: kramdown
 kramdown:
