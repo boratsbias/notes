@@ -55,8 +55,8 @@ Properties:
 - **Not symmetric:** $D_{KL}(p \Vert q) \neq D_{KL}(q \Vert p)$ in general
 - Relationship: $H(p, q) = H(p) + D_{KL}(p \Vert q)$
 
-**Forward KL** $D_{KL}(p \Vert q)$: zero-avoiding — $q$ must cover all of $p$.
-**Reverse KL** $D_{KL}(q \Vert p)$: zero-forcing — $q$ concentrates where $p$ is high. Used in variational inference (ELBO).
+**Forward KL** $D_{KL}(p \Vert q)$: zero-avoiding, $q$ must cover all of $p$.
+**Reverse KL** $D_{KL}(q \Vert p)$: zero-forcing, $q$ concentrates where $p$ is high. Used in variational inference (ELBO).
 
 ## Mutual Information
 
@@ -98,7 +98,7 @@ Connects information theory to Bayesian inference and model selection.
 
 ## Maximum Entropy Principle
 
-Among all distributions satisfying known constraints, choose the one with **maximum entropy** — the least committal distribution.
+Among all distributions satisfying known constraints, choose the one with **maximum entropy** (the least committal distribution).
 
 - No constraints → uniform distribution
 - Known mean and variance → Gaussian distribution (maximum entropy for fixed mean/variance)

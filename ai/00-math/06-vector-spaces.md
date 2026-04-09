@@ -86,7 +86,7 @@ Every normed space is a metric space via $d(\mathbf{x}, \mathbf{y}) = \lVert\mat
 
 **Hilbert space:** complete inner product space. The infinite-dimensional generalization of Euclidean space.
 
-- $L^2([a,b])$ — square-integrable functions — is a Hilbert space
+- $L^2([a,b])$ (square-integrable functions) is a Hilbert space
 - Used in: kernel methods (RKHS), quantum mechanics, signal processing
 
 ## Linear Maps (Linear Transformations)

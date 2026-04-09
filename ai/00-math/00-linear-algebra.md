@@ -70,7 +70,7 @@ $A\mathbf{x} = \mathbf{b}$
 
 - Unique solution if $A$ is invertible: $\mathbf{x} = A^{-1}\mathbf{b}$
 - No solution (overdetermined, inconsistent) or infinitely many (underdetermined)
-- Solved in practice via Gaussian elimination, LU decomposition — NOT by computing $A^{-1}$ directly
+- Solved in practice via Gaussian elimination, LU decomposition. Do not compute $A^{-1}$ directly.
 
 ## Decompositions
 
@@ -102,7 +102,7 @@ Solve $A\mathbf{x} \approx \mathbf{b}$ when the system is overdetermined.
 
 **Normal equations:** $A^T A \mathbf{x} = A^T \mathbf{b}$
 
-**Solution:** $\mathbf{x} = (A^T A)^{-1} A^T \mathbf{b}$ — the pseudoinverse projection.
+**Solution:** $\mathbf{x} = (A^T A)^{-1} A^T \mathbf{b}$ (the pseudoinverse projection).
 
 Used heavily in linear regression.
 

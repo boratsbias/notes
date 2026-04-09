@@ -57,7 +57,7 @@ Common use: converting image format $(B, H, W, C) \to (B, C, H, W)$.
 
 ## Broadcasting
 
-Allows operations on tensors with different shapes — smaller tensor is "broadcast" across larger.
+Allows operations on tensors with different shapes, where the smaller tensor is "broadcast" across the larger.
 
 **Rules:**
 1. Align shapes from the right
@@ -70,7 +70,7 @@ Allows operations on tensors with different shapes — smaller tensor is "broadc
 → (3, 2, 5)                # broadcast
 ```
 
-Broadcasting is zero-copy — no actual data duplication.
+Broadcasting is zero-copy (no actual data duplication).
 
 ## Elementwise Operations
 
@@ -117,7 +117,7 @@ torch.einsum('ii->', A)             # trace
 torch.einsum('ij->ji', A)           # transpose
 ```
 
-Einsum is expressive and efficient — preferred for complex contractions.
+Einsum is expressive and efficient, preferred for complex contractions.
 
 ## Outer Product and Kronecker Product
 
@@ -155,7 +155,7 @@ Tensors are stored in memory as 1-D arrays with **strides** describing how to st
 
 - After transpose/permute, tensor may be **non-contiguous** (strides don't match natural order)
 - `.contiguous()` makes a copy in natural row-major order
-- Non-contiguous tensors can cause errors with some ops — use `.contiguous()` before `.view()`
+- Non-contiguous tensors can cause errors with some ops. Use `.contiguous()` before `.view()`.
 
 ## Sparse Tensors
 
@@ -192,8 +192,8 @@ All tensor operations in frameworks like PyTorch support autograd:
 
 | Concept | Where Used |
 |---------|------------|
-| 4-D tensors $(B, C, H, W)$ | CNNs — image batches |
-| 3-D tensors $(B, T, D)$ | Transformers — token sequences |
+| 4-D tensors $(B, C, H, W)$ | CNNs (image batches) |
+| 3-D tensors $(B, T, D)$ | Transformers (token sequences) |
 | Batched matmul | Attention, feedforward layers |
 | Einsum | Attention scores, custom layer implementations |
 | Broadcasting | Loss computation, normalization |

@@ -49,7 +49,7 @@ For a vector-valued function $\mathbf{f}: \mathbb{R}^n \to \mathbb{R}^m$, the Ja
 
 $$J_{ij} = \frac{\partial f_i}{\partial x_j}$$
 
-Used heavily in backpropagation — the Jacobian of layer outputs w.r.t. inputs.
+Used heavily in backpropagation: the Jacobian of layer outputs w.r.t. inputs.
 
 ## Hessian
 

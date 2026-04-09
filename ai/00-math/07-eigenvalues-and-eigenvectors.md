@@ -104,7 +104,7 @@ For a graph with adjacency matrix $A$ or Laplacian $L = D - A$:
 
 - Eigenvalues of $L$ (spectrum) encode graph structure
 - Second smallest eigenvalue (Fiedler value) measures connectivity
-- Eigenvectors of $L$ = smooth graph signals — used in **spectral GNNs**
+- Eigenvectors of $L$ = smooth graph signals, used in **spectral GNNs**
 
 ## Eigenvalues in Optimization
 

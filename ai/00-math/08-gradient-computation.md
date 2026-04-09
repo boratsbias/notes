@@ -97,7 +97,7 @@ $$\bar{x} = \bar{z} \cdot \mathbf{1}[x > y], \quad \bar{y} = \bar{z} \cdot \math
 
 ### Reshape / Transpose
 
-Gradients are reshaped back to the original shape — no arithmetic, just indexing.
+Gradients are reshaped back to the original shape (no arithmetic, just indexing).
 
 ## Gradient Flow Problems
 
@@ -113,7 +113,7 @@ Solutions:
 - Better initialization (Xavier, He)
 
 ### Exploding Gradients
-Gradients grow unboundedly — common in RNNs.
+Gradients grow unboundedly, most commonly in RNNs.
 
 Solutions:
 - **Gradient clipping:** scale gradient if $\lVert\nabla\rVert > \text{threshold}$
@@ -135,7 +135,7 @@ Used in: training very large transformers.
 Computed by differentiating through the backward pass.
 
 Used in:
-- Meta-learning (MAML — computes gradients of gradients)
+- Meta-learning (MAML, which computes gradients of gradients)
 - Neural ODEs
 - Regularization via Hessian trace
 - Natural gradient methods

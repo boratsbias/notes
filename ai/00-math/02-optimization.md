@@ -17,7 +17,7 @@ In ML, $\mathcal{L}$ is the loss function computed over training data.
 - Local maximum: $\nabla \mathcal{L} = 0$ and $H \prec 0$
 - Saddle point: $\nabla \mathcal{L} = 0$ and $H$ indefinite
 
-**Convex functions** have only global minima — any local minimum is global.
+**Convex functions** have only global minima, so any local minimum is global.
 
 ## Gradient Descent
 
@@ -53,7 +53,7 @@ Typical $\beta = 0.9$.
 ## Adaptive Optimizers
 
 ### AdaGrad
-Scales learning rate by accumulated squared gradients — large updates for rare features:
+Scales learning rate by accumulated squared gradients, giving large updates for rare features:
 
 $$G_t = G_{t-1} + g_t^2, \quad \theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{G_t + \epsilon}} g_t$$
 
@@ -77,7 +77,7 @@ Default hyperparameters: $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-8}
 Most widely used optimizer in deep learning.
 
 ### AdamW
-Adam with decoupled weight decay — applies L2 regularization directly to weights, not through the gradient. Fixes Adam's poor weight decay behavior.
+Adam with decoupled weight decay. Applies L2 regularization directly to weights, not through the gradient. Fixes Adam's poor weight decay behavior.
 
 ## Newton's Method
 
@@ -86,7 +86,7 @@ Uses second-order information (Hessian) for faster convergence:
 $$\theta_{t+1} = \theta_t - H^{-1} \nabla \mathcal{L}(\theta_t)$$
 
 - Quadratic convergence near optimum
-- Computing and inverting $H$ is $O(n^3)$ — infeasible for large models
+- Computing and inverting $H$ is $O(n^3)$, infeasible for large models
 
 **Quasi-Newton methods** (L-BFGS) approximate the Hessian from gradient history. Used in smaller ML problems.
 
@@ -98,7 +98,7 @@ $$f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda) f(y) \quad \forall
 - Convex: linear regression, logistic regression, SVMs, lasso
 - Non-convex: neural networks (multiple local minima, saddle points)
 
-**In practice:** deep networks are non-convex but gradient descent works well due to the loss landscape properties — most local minima have similar loss values.
+**In practice:** deep networks are non-convex but gradient descent works well due to the loss landscape properties. Most local minima have similar loss values.
 
 ## Learning Rate Schedules
 

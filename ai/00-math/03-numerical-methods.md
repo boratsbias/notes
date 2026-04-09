@@ -23,7 +23,7 @@ Computers represent real numbers in IEEE 754 floating point (32-bit float, 64-bi
 
 An algorithm is **numerically stable** if errors do not amplify through computation.
 
-**Example — computing variance:**
+**Example: computing variance:**
 - Naive: $\text{Var}(X) = \frac{1}{n}\sum x_i^2 - \bar{x}^2$ → catastrophic cancellation
 - Stable: Welford's online algorithm
 
@@ -48,7 +48,7 @@ For symmetric positive definite $A$: $A = LL^T$. Twice as fast as LU.
 - Used in Gaussian processes, Kalman filters, covariance matrix operations
 
 ### Iterative Methods
-For large sparse systems: **Conjugate Gradient (CG)**, **GMRES**. Converge without forming full matrix — critical for large-scale ML.
+For large sparse systems: **Conjugate Gradient (CG)**, **GMRES**. These converge without forming the full matrix, which is critical for large-scale ML.
 
 ## Numerical Differentiation
 
@@ -60,7 +60,7 @@ Approximate derivatives when analytical form is unavailable.
 
 **Choice of $h$:** too large → truncation error; too small → cancellation error. Typically $h \approx \sqrt{\epsilon_{\text{mach}}}$.
 
-**In ML:** used for gradient checking — verify analytic gradients by comparing to numerical estimates.
+**In ML:** used for gradient checking, to verify analytic gradients by comparing to numerical estimates.
 
 ## Automatic Differentiation (Autograd)
 
@@ -94,7 +94,7 @@ Approximate $\int_a^b f(x)\, dx$.
 | Gaussian quadrature | Optimal node placement | very high accuracy |
 
 **Monte Carlo integration:** $\int f(x)p(x)dx \approx \frac{1}{N}\sum_i f(x_i)$, $x_i \sim p$.
-- Error $O(1/\sqrt{N})$, dimension-independent — only practical method in high dimensions.
+- Error $O(1/\sqrt{N})$, dimension-independent. The only practical method in high dimensions.
 
 ## Interpolation and Approximation
 
@@ -125,7 +125,7 @@ Measures sensitivity of a problem to perturbations in input:
 $$\kappa(A) = \|A\| \cdot \|A^{-1}\| = \frac{\sigma_{\max}}{\sigma_{\min}}$$
 
 - $\kappa \approx 1$: well-conditioned
-- $\kappa \gg 1$: ill-conditioned — small changes in $\mathbf{b}$ cause large changes in $\mathbf{x}$
+- $\kappa \gg 1$: ill-conditioned, small changes in $\mathbf{b}$ cause large changes in $\mathbf{x}$
 
 **In ML:** ill-conditioned Gram matrices ($X^T X$) make training unstable → addressed via regularization or batch normalization.
 

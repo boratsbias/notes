@@ -2,7 +2,7 @@
 
 ## Why Matrix Calculus?
 
-Neural network parameters live in matrices and tensors. Computing gradients w.r.t. entire weight matrices (rather than scalar-by-scalar) requires matrix calculus — the language of vectorized backpropagation.
+Neural network parameters live in matrices and tensors. Computing gradients w.r.t. entire weight matrices (rather than scalar-by-scalar) requires matrix calculus, the language of vectorized backpropagation.
 
 ## Layout Conventions
 

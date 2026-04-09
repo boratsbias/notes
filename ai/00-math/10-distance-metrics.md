@@ -18,7 +18,7 @@ $$d(\mathbf{x}, \mathbf{y}) = \|\mathbf{x} - \mathbf{y}\|_2 = \sqrt{\sum_i (x_i 
 - Sensitive to scale → normalize features first
 - Grows with dimension (curse of dimensionality)
 
-**Squared Euclidean:** $d^2 = \lVert\mathbf{x} - \mathbf{y}\rVert_2^2$ — often used since it avoids the square root and has the same minimizers.
+**Squared Euclidean:** $d^2 = \lVert\mathbf{x} - \mathbf{y}\rVert_2^2$, often used since it avoids the square root and has the same minimizers.
 
 ## Manhattan Distance (L1, City Block)
 
@@ -43,7 +43,7 @@ $$d_p(\mathbf{x}, \mathbf{y}) = \left(\sum_i |x_i - y_i|^p\right)^{1/p}$$
 **Similarity:**
 $$\cos(\mathbf{x}, \mathbf{y}) = \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \|\mathbf{y}\|}$$
 
-Range: $[-1, 1]$. Measures the **angle** between vectors — ignores magnitude.
+Range: $[-1, 1]$. Measures the **angle** between vectors, ignoring magnitude.
 
 **Cosine distance:** $d = 1 - \cos(\mathbf{x}, \mathbf{y})$
 
