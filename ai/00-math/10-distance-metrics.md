@@ -18,7 +18,7 @@ $$d(\mathbf{x}, \mathbf{y}) = \|\mathbf{x} - \mathbf{y}\|_2 = \sqrt{\sum_i (x_i 
 - Sensitive to scale → normalize features first
 - Grows with dimension (curse of dimensionality)
 
-**Squared Euclidean:** $d^2 = \|\mathbf{x} - \mathbf{y}\|_2^2$ — often used since it avoids the square root and has the same minimizers.
+**Squared Euclidean:** $d^2 = \lVert\mathbf{x} - \mathbf{y}\rVert_2^2$ — often used since it avoids the square root and has the same minimizers.
 
 ## Manhattan Distance (L1, City Block)
 

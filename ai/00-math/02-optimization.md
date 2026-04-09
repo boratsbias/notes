@@ -118,9 +118,9 @@ $$\mathcal{L}_{reg}(\theta) = \mathcal{L}(\theta) + \lambda R(\theta)$$
 
 | Regularizer | Penalty | Effect |
 |-------------|---------|--------|
-| L2 (Ridge) | $\|\theta\|_2^2$ | Small weights, smooth solution |
-| L1 (Lasso) | $\|\theta\|_1$ | Sparse weights, feature selection |
-| Elastic Net | $\alpha\|\theta\|_1 + (1-\alpha)\|\theta\|_2^2$ | Combines both |
+| L2 (Ridge) | $\lVert\theta\rVert_2^2$ | Small weights, smooth solution |
+| L1 (Lasso) | $\lVert\theta\rVert_1$ | Sparse weights, feature selection |
+| Elastic Net | $\alpha\lVert\theta\rVert_1 + (1-\alpha)\lVert\theta\rVert_2^2$ | Combines both |
 
 ## Constrained Optimization
 

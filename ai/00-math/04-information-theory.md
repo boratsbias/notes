@@ -47,16 +47,16 @@ where $y$ is the true label (one-hot) and $\hat{y}$ is the predicted probability
 
 Measures how much distribution $q$ diverges from the true distribution $p$:
 
-$$D_{KL}(p \| q) = \sum_x p(x) \log \frac{p(x)}{q(x)}$$
+$$D_{KL}(p \Vert q) = \sum_x p(x) \log \frac{p(x)}{q(x)}$$
 
 Properties:
-- $D_{KL}(p \| q) \geq 0$ (Gibbs' inequality)
-- $D_{KL}(p \| q) = 0$ iff $p = q$
-- **Not symmetric:** $D_{KL}(p \| q) \neq D_{KL}(q \| p)$ in general
-- Relationship: $H(p, q) = H(p) + D_{KL}(p \| q)$
+- $D_{KL}(p \Vert q) \geq 0$ (Gibbs' inequality)
+- $D_{KL}(p \Vert q) = 0$ iff $p = q$
+- **Not symmetric:** $D_{KL}(p \Vert q) \neq D_{KL}(q \Vert p)$ in general
+- Relationship: $H(p, q) = H(p) + D_{KL}(p \Vert q)$
 
-**Forward KL** $D_{KL}(p \| q)$: zero-avoiding — $q$ must cover all of $p$.
-**Reverse KL** $D_{KL}(q \| p)$: zero-forcing — $q$ concentrates where $p$ is high. Used in variational inference (ELBO).
+**Forward KL** $D_{KL}(p \Vert q)$: zero-avoiding — $q$ must cover all of $p$.
+**Reverse KL** $D_{KL}(q \Vert p)$: zero-forcing — $q$ concentrates where $p$ is high. Used in variational inference (ELBO).
 
 ## Mutual Information
 
@@ -67,7 +67,7 @@ $$I(X; Y) = \sum_{x,y} p(x,y) \log \frac{p(x,y)}{p(x)p(y)}$$
 $$I(X; Y) = H(X) - H(X|Y) = H(Y) - H(Y|X) = H(X) + H(Y) - H(X,Y)$$
 
 - $I(X; Y) = 0$ iff $X$ and $Y$ are independent
-- $I(X; Y) = D_{KL}(p(x,y) \| p(x)p(y))$
+- $I(X; Y) = D_{KL}(p(x,y) \Vert p(x)p(y))$
 
 Used in: feature selection, representation learning (InfoNCE), IB (information bottleneck).
 

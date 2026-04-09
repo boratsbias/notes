@@ -22,7 +22,7 @@ $$\frac{\partial f}{\partial x_i} \approx \frac{f(\mathbf{x} + h\mathbf{e}_i) - 
 - For $n$ parameters: $2n$ evaluations → $O(n)$ cost, impractical for large models
 - Used only for **gradient checking** (verifying autograd implementations)
 
-**Gradient check:** confirm $\|\nabla_{\text{autograd}} - \nabla_{\text{numerical}}\| / \max(\ldots) < 10^{-5}$
+**Gradient check:** confirm $\lVert\nabla_{\text{autograd}} - \nabla_{\text{numerical}}\rVert / \max(\ldots) < 10^{-5}$
 
 ## Computational Graphs
 
@@ -116,7 +116,7 @@ Solutions:
 Gradients grow unboundedly — common in RNNs.
 
 Solutions:
-- **Gradient clipping:** scale gradient if $\|\nabla\| > \text{threshold}$
+- **Gradient clipping:** scale gradient if $\lVert\nabla\rVert > \text{threshold}$
 - Weight regularization
 - LSTM / GRU gates
 

@@ -56,7 +56,7 @@ A vector space equipped with an **inner product** $\langle \cdot, \cdot \rangle 
 
 **Standard inner product in $\mathbb{R}^n$:** $\langle \mathbf{u}, \mathbf{v} \rangle = \mathbf{u}^T \mathbf{v} = \sum_i u_i v_i$
 
-**Induced norm:** $\|\mathbf{v}\| = \sqrt{\langle \mathbf{v}, \mathbf{v} \rangle}$
+**Induced norm:** $\lVert\mathbf{v}\rVert = \sqrt{\langle \mathbf{v}, \mathbf{v} \rangle}$
 
 ## Orthogonality
 
@@ -64,7 +64,7 @@ Vectors $\mathbf{u}$ and $\mathbf{v}$ are **orthogonal** if $\langle \mathbf{u},
 
 An **orthonormal basis** has vectors that are:
 - Pairwise orthogonal: $\langle \mathbf{e}_i, \mathbf{e}_j \rangle = 0$ for $i \neq j$
-- Unit norm: $\|\mathbf{e}_i\| = 1$
+- Unit norm: $\lVert\mathbf{e}_i\rVert = 1$
 
 **Gram-Schmidt process:** converts any basis into an orthonormal one.
 
@@ -73,12 +73,12 @@ $$\text{proj}_{\mathbf{u}} \mathbf{v} = \frac{\langle \mathbf{v}, \mathbf{u} \ra
 
 ## Normed Spaces and Metric Spaces
 
-**Normed space:** vector space with a norm $\|\cdot\|$
+**Normed space:** vector space with a norm $\lVert\cdot\rVert$
 
 **Metric space:** set with a distance function $d(x, y)$ satisfying:
 - Non-negativity, symmetry, triangle inequality, identity of indiscernibles
 
-Every normed space is a metric space via $d(\mathbf{x}, \mathbf{y}) = \|\mathbf{x} - \mathbf{y}\|$.
+Every normed space is a metric space via $d(\mathbf{x}, \mathbf{y}) = \lVert\mathbf{x} - \mathbf{y}\rVert$.
 
 ## Banach and Hilbert Spaces
 
