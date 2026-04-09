@@ -42,13 +42,13 @@
 Measure the "size" of a vector or matrix.
 
 **Vector norms:**
-- $L^1$ norm: $\|\mathbf{x}\|_1 = \sum_i |x_i|$
-- $L^2$ norm (Euclidean): $\|\mathbf{x}\|_2 = \sqrt{\sum_i x_i^2}$
-- $L^\infty$ norm: $\|\mathbf{x}\|_\infty = \max_i |x_i|$
-- $L^p$ norm: $\|\mathbf{x}\|_p = \left(\sum_i |x_i|^p\right)^{1/p}$
+- $L^1$ norm: $\lVert\mathbf{x}\rVert_1 = \sum_i \lvert x_i \rvert$
+- $L^2$ norm (Euclidean): $\lVert\mathbf{x}\rVert_2 = \sqrt{\sum_i x_i^2}$
+- $L^\infty$ norm: $\lVert\mathbf{x}\rVert_\infty = \max_i \lvert x_i \rvert$
+- $L^p$ norm: $\lVert\mathbf{x}\rVert_p = \left(\sum_i \lvert x_i \rvert^p\right)^{1/p}$
 
 **Matrix norms:**
-- Frobenius norm: $\|A\|_F = \sqrt{\sum_{i,j} A_{ij}^2}$
+- Frobenius norm: $\lVert A\rVert_F = \sqrt{\sum_{i,j} A_{ij}^2}$
 
 ## Linear Independence and Rank
 
