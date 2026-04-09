@@ -69,6 +69,7 @@ An **orthonormal basis** has vectors that are:
 **Gram-Schmidt process:** converts any basis into an orthonormal one.
 
 **Projection** of $\mathbf{v}$ onto $\mathbf{u}$:
+
 $$\text{proj}_{\mathbf{u}} \mathbf{v} = \frac{\langle \mathbf{v}, \mathbf{u} \rangle}{\langle \mathbf{u}, \mathbf{u} \rangle} \mathbf{u}$$
 
 ## Normed Spaces and Metric Spaces
@@ -92,6 +93,7 @@ Every normed space is a metric space via $d(\mathbf{x}, \mathbf{y}) = \lVert\mat
 ## Linear Maps (Linear Transformations)
 
 A function $T: V \to W$ is **linear** if:
+
 $$T(\alpha \mathbf{u} + \beta \mathbf{v}) = \alpha T(\mathbf{u}) + \beta T(\mathbf{v})$$
 
 Every linear map between finite-dimensional spaces has a **matrix representation**.
@@ -107,6 +109,7 @@ Every linear map between finite-dimensional spaces has a **matrix representation
 Given basis $B = \{\mathbf{b}_1, \ldots, \mathbf{b}_n\}$, the **change of basis matrix** $P$ converts coordinates from $B$ to the standard basis.
 
 If $A$ represents a linear map in the standard basis, the same map in basis $B$ is:
+
 $$A_B = P^{-1} A P$$
 
 This is why **eigendecomposition** is a change of basis to the eigenvector basis (where the transformation is diagonal).

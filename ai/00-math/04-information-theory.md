@@ -88,6 +88,7 @@ Jensen's inequality is used to derive the ELBO in VAEs and EM algorithm.
 ## Data Processing Inequality
 
 If $X \to Y \to Z$ form a Markov chain:
+
 $$I(X; Z) \leq I(X; Y)$$
 
 Processing data cannot increase the information about the original source. Foundation of the **information bottleneck** theory of deep learning.
