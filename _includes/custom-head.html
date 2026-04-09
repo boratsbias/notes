@@ -1,9 +1,23 @@
 <script>
-MathJax = {
+window.MathJax = {
   tex: {
     inlineMath: [['$', '$']],
     displayMath: [['$$', '$$']],
     processEscapes: true
+  },
+  startup: {
+    ready() {
+      // Kramdown converts _x_ inside $...$ to <em>x</em>, breaking MathJax's scanner.
+      // Strip those <em> tags and restore underscores before MathJax processes the page.
+      document.querySelectorAll('p, li, td, dt, dd, h1, h2, h3, h4').forEach(function(el) {
+        if (!el.innerHTML.includes('$')) return;
+        el.innerHTML = el.innerHTML.replace(/\$([^$]+)\$/g, function(match, inner) {
+          if (!inner.includes('<em>')) return match;
+          return '$' + inner.replace(/<\/em>/g, '_').replace(/<em>/g, '_') + '$';
+        });
+      });
+      MathJax.startup.defaultReady();
+    }
   }
 };
 </script>
