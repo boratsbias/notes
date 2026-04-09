@@ -19,6 +19,7 @@ $$\det(A - \lambda I) = 0$$
 This is the **characteristic polynomial** of $A$. Its roots are the eigenvalues.
 
 **Example for 2×2:**
+
 $$\det\begin{pmatrix}a-\lambda & b \\ c & d-\lambda\end{pmatrix} = (a-\lambda)(d-\lambda) - bc = 0$$
 
 ## Properties
@@ -35,7 +36,7 @@ If $A$ has $n$ linearly independent eigenvectors $\mathbf{v}_1, \ldots, \mathbf{
 
 $$A = Q \Lambda Q^{-1}$$
 
-where $Q = [\mathbf{v}_1 | \cdots | \mathbf{v}_n]$ and $\Lambda = \text{diag}(\lambda_1, \ldots, \lambda_n)$.
+where $Q = [\mathbf{v}_1 \mid \cdots \mid \mathbf{v}_n]$ and $\Lambda = \text{diag}(\lambda_1, \ldots, \lambda_n)$.
 
 **For symmetric matrices:** $A = Q \Lambda Q^T$ (since $Q$ is orthogonal: $Q^{-1} = Q^T$)
 
@@ -84,7 +85,7 @@ For $A \in \mathbb{R}^{m \times n}$ with SVD $A = U\Sigma V^T$:
 - Right singular vectors $V$ = eigenvectors of $A^T A$
 - Singular values $\sigma_i = \sqrt{\lambda_i(A^T A)}$
 
-For square symmetric matrices: singular values = |eigenvalues|.
+For square symmetric matrices: singular values = $|\lambda|$ (absolute value of eigenvalues).
 
 ## Principal Component Analysis (PCA)
 
@@ -127,7 +128,7 @@ repeat:
     v = v / ||v||
 ```
 
-Converges to the eigenvector for $\lambda_{\max}$. Rate depends on $|\lambda_1 / \lambda_2|$.
+Converges to the eigenvector for $\lambda_{\max}$. Rate depends on $\lvert \lambda_1 / \lambda_2 \rvert$.
 
 Used in: PageRank, spectral clustering initialization.
 
