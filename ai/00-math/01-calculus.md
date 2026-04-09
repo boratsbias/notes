@@ -79,9 +79,11 @@ Approximates a function around a point $a$:
 $$f(x) = f(a) + f'(a)(x-a) + \frac{f''(a)}{2!}(x-a)^2 + \cdots$$
 
 **First-order (linear) approximation:**
+
 $$f(\mathbf{x} + \delta) \approx f(\mathbf{x}) + \nabla f(\mathbf{x})^T \delta$$
 
 **Second-order approximation:**
+
 $$f(\mathbf{x} + \delta) \approx f(\mathbf{x}) + \nabla f(\mathbf{x})^T \delta + \frac{1}{2} \delta^T H \delta$$
 
 Used in Newton's method and second-order optimizers.
@@ -95,7 +97,7 @@ $$\int_a^b f(x)\, dx$$
 **Key integral identities:**
 - $\int e^x dx = e^x + C$
 - $\int x^n dx = \frac{x^{n+1}}{n+1} + C$ (for $n \neq -1$)
-- $\int \frac{1}{x} dx = \ln|x| + C$
+- $\int \frac{1}{x} dx = \ln\lvert x \rvert + C$
 
 **Gaussian integral:** $\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}$
 
@@ -103,7 +105,7 @@ Used extensively in probability distributions and variational inference.
 
 ## Multivariable Integration
 
-- **Change of variables:** introduces the Jacobian determinant $|\det J|$
+- **Change of variables:** introduces the Jacobian determinant $\lvert \det J \rvert$
 - **Monte Carlo integration:** approximate $\int f(x) p(x) dx \approx \frac{1}{N}\sum_i f(x_i)$ where $x_i \sim p$
 
 ## Key AI/ML Applications
