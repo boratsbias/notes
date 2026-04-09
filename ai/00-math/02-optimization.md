@@ -46,6 +46,7 @@ where $\eta$ is the **learning rate** (step size).
 Accumulates velocity in the gradient direction to smooth updates and escape local optima:
 
 $$v_{t+1} = \beta v_t + \nabla \mathcal{L}(\theta_t)$$
+
 $$\theta_{t+1} = \theta_t - \eta v_{t+1}$$
 
 Typical $\beta = 0.9$.
@@ -68,8 +69,11 @@ $$G_t = \rho G_{t-1} + (1-\rho) g_t^2$$
 Combines momentum (first moment) + RMSProp (second moment):
 
 $$m_t = \beta_1 m_{t-1} + (1-\beta_1) g_t$$
+
 $$v_t = \beta_2 v_{t-1} + (1-\beta_2) g_t^2$$
+
 $$\hat{m}_t = \frac{m_t}{1-\beta_1^t}, \quad \hat{v}_t = \frac{v_t}{1-\beta_2^t}$$
+
 $$\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon} \hat{m}_t$$
 
 Default hyperparameters: $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-8}$.
@@ -93,6 +97,7 @@ $$\theta_{t+1} = \theta_t - H^{-1} \nabla \mathcal{L}(\theta_t)$$
 ## Convexity
 
 A function $f$ is convex if:
+
 $$f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda) f(y) \quad \forall \lambda \in [0,1]$$
 
 - Convex: linear regression, logistic regression, SVMs, lasso
