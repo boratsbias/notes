@@ -26,9 +26,9 @@ $$H(X, Y) = -\sum_{x,y} p(x,y) \log p(x,y)$$
 
 $$H(Y|X) = -\sum_{x,y} p(x,y) \log p(y|x)$$
 
-**Chain rule:** $H(X, Y) = H(X) + H(Y|X)$
+**Chain rule:** $H(X, Y) = H(X) + H(Y \mid X)$
 
-**Conditioning reduces entropy:** $H(Y|X) \leq H(Y)$
+**Conditioning reduces entropy:** $H(Y \mid X) \leq H(Y)$
 
 ## Cross-Entropy
 
@@ -37,6 +37,7 @@ Measures the expected number of bits needed to encode samples from $p$ using a c
 $$H(p, q) = -\sum_x p(x) \log q(x)$$
 
 **Cross-entropy loss** in classification:
+
 $$\mathcal{L} = -\sum_i y_i \log \hat{y}_i$$
 
 where $y$ is the true label (one-hot) and $\hat{y}$ is the predicted probability.
@@ -74,9 +75,11 @@ Used in: feature selection, representation learning (InfoNCE), IB (information b
 ## Jensen's Inequality
 
 For a convex function $f$:
+
 $$f(\mathbb{E}[X]) \leq \mathbb{E}[f(X)]$$
 
 For a concave function (like $\log$):
+
 $$\log(\mathbb{E}[X]) \geq \mathbb{E}[\log X]$$
 
 Jensen's inequality is used to derive the ELBO in VAEs and EM algorithm.
@@ -114,6 +117,7 @@ $$\text{IG}(Y, A) = H(Y) - H(Y|A)$$
 Greedy split criterion: choose the feature that maximizes information gain. Used in ID3, C4.5 algorithms.
 
 **Gini impurity** is an alternative to entropy for CART:
+
 $$G = 1 - \sum_k p_k^2$$
 
 ## Key AI/ML Applications
