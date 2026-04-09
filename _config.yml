@@ -2,8 +2,8 @@ remote_theme: jekyll/minima
 plugins:
   - jekyll-remote-theme
   - jekyll-feed
-title: CS Notes 📚
-description: My personal notes
+title: Hello World
+description: Anubrat Bora
 markdown: kramdown
 kramdown:
   math_engine: null
