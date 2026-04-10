@@ -1,15 +1,15 @@
-# Natural Language Processing  
-  
-- Text Preprocessing  
-- Tokenization  
-- Word Embeddings  
-- Language Modeling  
-- Sequence Models  
-- Attention Mechanisms  
-- Transformers  
-- Machine Translation  
-- Question Answering  
-- Text Summarization  
-- Information Extraction  
-- Dialogue Systems  
-- Large Language Models
+# Natural Language Processing
+
+- [Text Preprocessing](00-text-preprocessing)
+- [Tokenization](01-tokenization)
+- [Word Embeddings](02-word-embeddings)
+- [Language Modeling](03-language-modeling)
+- [Sequence Models](04-sequence-models)
+- [Attention Mechanisms](05-attention-mechanisms)
+- [Transformers](06-transformers)
+- [Machine Translation](07-machine-translation)
+- [Question Answering](08-question-answering)
+- [Text Summarization](09-text-summarization)
+- [Information Extraction](10-information-extraction)
+- [Dialogue Systems](11-dialogue-systems)
+- [Large Language Models](12-large-language-models)
