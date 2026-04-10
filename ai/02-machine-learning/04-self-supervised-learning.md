@@ -1,75 +1,117 @@
 # Self Supervised Learning
 
-## Concept / Definition
+## Core Idea
 
-Self-supervised learning constructs surrogate targets from raw data
+Self-supervised learning (SSL) trains a model on a **pretext task** derived from unlabeled data, using the data itself to generate supervisory signals. The learned representations then transfer to downstream tasks with few or no labels.
 
-Given unlabeled samples
-$$D = \{x_i\}_{i=1}^n$$
-learn representation
-$$z = h_\theta(x)$$
-by solving pretext task
+Unlike semi-supervised learning, there is no labeled set at pretraining time. Labels are created automatically from structure in the data.
 
-## Mathematical Formulation
+## Why Self-Supervision Works
 
-Contrastive objective for positive pair $(x, x^+)$ and negatives $\{x_j^-\}$
-$$\mathcal{L}_{\text{InfoNCE}} = - \log \frac{\exp(\operatorname{sim}(z, z^+) / \tau)}{\exp(\operatorname{sim}(z, z^+) / \tau) + \sum_j \exp(\operatorname{sim}(z, z_j^-) / \tau)}$$
+Good representations should capture semantic structure. Self-supervised objectives that require understanding data content (rather than memorizing surface statistics) force the model to learn such structure.
 
-Reconstruction objective
-$$\mathcal{L}_{\text{rec}}(\theta,\phi) = \frac{1}{n} \sum_{i=1}^n \|x_i - g_\phi(h_\theta(x_i))\|_2^2$$
+**Transfer learning pipeline:**
+1. Pretrain encoder $f_\theta$ on large unlabeled corpus via pretext task.
+2. Fine-tune $f_\theta$ (or a linear head on top of it) on small labeled downstream dataset.
 
-Masked prediction
-$$\mathcal{L}_{\text{mask}} = - \sum_{t \in M} \log p_\theta(x_t \mid x_{\bar{M}})$$
-where $M$ is masked index set
+## Pretext Tasks
 
-After pretraining, fine-tuning solves
-$$\hat{\psi} = \arg\min_\psi \frac{1}{m} \sum_{i=1}^m \ell(g_\psi(h_\theta(x_i)), y_i)$$
+### For Images
 
-## Conditions / Properties
+| Pretext Task | Description |
+|-------------|-------------|
+| Rotation prediction | Predict rotation angle ($0°, 90°, 180°, 270°$) |
+| Jigsaw puzzle | Predict permutation of shuffled image patches |
+| Colorization | Predict color channels from grayscale |
+| Inpainting | Reconstruct masked regions |
+| Relative patch location | Predict spatial relationship between two patches |
 
-Invariance objective
-$$h_\theta(T_1(x)) \approx h_\theta(T_2(x))$$
-for label-preserving augmentations $T_1, T_2$
+### For Text
 
-Avoid collapse
-$$z_i = z_j \quad \forall i,j$$
-which gives trivial constant representation
+| Pretext Task | Description |
+|-------------|-------------|
+| Masked Language Modeling (MLM) | Predict masked tokens (BERT) |
+| Causal Language Modeling (CLM) | Predict next token (GPT) |
+| Sentence order prediction | Predict if two sentences are in order |
+| Next sentence prediction (NSP) | Predict if sentence B follows sentence A |
 
-Contrastive methods use negatives or asymmetry to prevent collapse
+## Contrastive Learning
 
-Masked modeling works when context predicts removed content
+The dominant paradigm for visual SSL. Learns representations by pulling **positive pairs** (different views of the same image) together and pushing **negative pairs** apart.
 
-## Algorithms / Methods
+**View generation:** two augmentations $v, v'$ of the same image $x$ form a positive pair. All other images in the batch form negatives.
 
-<table>
-<tr><th>Method family</th><th>Objective</th><th>Mechanism</th></tr>
-<tr><td>Contrastive</td><td>InfoNCE, NT-Xent</td><td>pull positives, repel negatives</td></tr>
-<tr><td>Non-contrastive</td><td>BYOL, SimSiam</td><td>predictor + stop-gradient or EMA target</td></tr>
-<tr><td>Masked modeling</td><td>masked-token or patch prediction</td><td>reconstruct missing content</td></tr>
-<tr><td>Autoencoding</td><td>reconstruction loss</td><td>bottleneck compression</td></tr>
-<tr><td>Predictive coding</td><td>future context prediction</td><td>temporal dependence</td></tr>
-</table>
+### InfoNCE Loss (NT-Xent)
 
-Cosine similarity
-$$\operatorname{sim}(u,v) = \frac{u^\top v}{\|u\|_2 \|v\|_2}$$
+$$\mathcal{L}_i = -\log \frac{\exp(\text{sim}(z_i, z_i') / \tau)}{\sum_{j=1}^{2N} \mathbf{1}[j \neq i] \exp(\text{sim}(z_i, z_j) / \tau)}$$
 
-## Variants / Extensions
+where $z_i = g(f_\theta(v_i))$ is the projected representation, $\text{sim}$ is cosine similarity, $\tau$ is temperature, and $N$ is batch size.
 
-<table>
-<tr><th>Variant</th><th>Data type</th><th>Example target</th></tr>
-<tr><td>Vision SSL</td><td>image</td><td>augmented view agreement, masked patches</td></tr>
-<tr><td>NLP SSL</td><td>text</td><td>masked token, next-token prediction</td></tr>
-<tr><td>Audio SSL</td><td>waveform/spectrogram</td><td>masked spans, temporal contrast</td></tr>
-<tr><td>Multimodal SSL</td><td>image-text, audio-text</td><td>cross-modal alignment</td></tr>
-</table>
+### SimCLR
 
-## Practical Notes
+Framework: augment $x$ twice, encode with shared $f_\theta$, project with small MLP $g$, apply NT-Xent. Projection head is discarded after pretraining; representations from $f_\theta$ are used for downstream tasks.
 
-Representation quality often evaluated by linear probing
-$$\hat{W} = \arg\min_W \sum_i \ell(W z_i, y_i)$$
+Key findings:
+- Strong augmentations (random crop, color jitter, Gaussian blur) are critical.
+- Larger batch sizes and longer training improve quality.
+- Nonlinear projection head significantly boosts representation quality.
 
-Augmentation choice defines invariances learned by encoder
+### MoCo (Momentum Contrast)
 
-Large batch or memory bank improves contrastive negative coverage
+Maintains a **queue** of negative keys from past batches, decoupling batch size from number of negatives. Key encoder updated as exponential moving average (EMA) of query encoder:
 
-Transfer gains strongest when pretraining distribution overlaps downstream domain
+$$\theta_k \leftarrow m \theta_k + (1 - m) \theta_q$$
+
+Allows large effective number of negatives without huge batch sizes.
+
+### BYOL
+
+Bootstrap Your Own Latent. Eliminates explicit negatives. Two networks: **online** ($\theta$) and **target** ($\xi$, EMA of $\theta$). Online predicts target representation:
+
+$$\mathcal{L} = 2 - 2 \cdot \frac{\langle q_\theta(z_\theta), z_\xi \rangle}{\|q_\theta(z_\theta)\| \cdot \|z_\xi\|}$$
+
+Avoids collapse via the asymmetric architecture and stop-gradient on the target.
+
+### SimSiam
+
+Similar to BYOL without EMA. Stop-gradient on one branch is the key to avoiding collapse. Simple and effective: no large batches, no negatives, no momentum encoder.
+
+## Masked Autoencoding
+
+### Masked Autoencoders (MAE)
+
+For images: mask a large fraction ($\sim 75\%$) of patches, encode only visible patches with a ViT, decode to reconstruct masked patches.
+
+$$\mathcal{L} = \frac{1}{|\mathcal{M}|} \sum_{p \in \mathcal{M}} \|x_p - \hat{x}_p\|^2$$
+
+High masking ratio forces the encoder to learn semantic representations rather than interpolating local statistics.
+
+## Comparison of Approaches
+
+| Method | Negatives | Momentum Encoder | Projection Head | Key Idea |
+|--------|-----------|-----------------|-----------------|---------|
+| SimCLR | Large batch | No | MLP | NT-Xent with strong augmentations |
+| MoCo | Queue | Yes | MLP | Decoupled negatives via memory bank |
+| BYOL | No | Yes (EMA) | Predictor | Asymmetric network prevents collapse |
+| SimSiam | No | No | Predictor | Stop-gradient avoids collapse |
+| MAE | No | No | Decoder | Reconstruction of masked patches |
+
+## Evaluation Protocol
+
+**Linear evaluation:** freeze pretrained encoder; train a linear classifier on top. Measures representation quality independent of fine-tuning.
+
+**Fine-tuning:** update all parameters. Measures transfer performance; typically higher than linear evaluation.
+
+**Few-shot:** fine-tune with very few labeled examples per class. Tests sample efficiency.
+
+## Key Augmentations for Visual SSL
+
+| Augmentation | Role |
+|-------------|------|
+| Random crop + resize | Invariance to scale and location |
+| Color jitter | Invariance to color and brightness |
+| Gaussian blur | Invariance to sharpness |
+| Grayscale | Removes color-based shortcuts |
+| Horizontal flip | Invariance to orientation |
+
+Augmentation strength must be calibrated: too weak and the task is trivial; too strong and positives become semantically different.

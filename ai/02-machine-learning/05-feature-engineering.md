@@ -1,82 +1,160 @@
 # Feature Engineering
 
-## Concept / Definition
+## Core Idea
 
-Feature engineering maps raw input $x$ to representation $\phi(x)$ better suited for predictor
+Feature engineering transforms raw input data into representations that are more informative for a learning algorithm. Even powerful models benefit from well-engineered features; poor representations can make a problem unlearnable regardless of model capacity.
 
-Model becomes
-$$f(x) = g(\phi(x))$$
+> "Applied machine learning is basically feature engineering." — Andrew Ng
 
-Goal: increase signal-to-noise ratio, improve linear separability, reduce nuisance variation
+## Feature Types
 
-## Mathematical Formulation
+| Type | Description | Examples |
+|------|-------------|---------|
+| Numerical | Continuous or discrete numbers | Age, price, count |
+| Categorical | Discrete unordered values | Country, product category |
+| Ordinal | Discrete ordered values | Rating (1-5), education level |
+| Text | Sequences of tokens | Reviews, documents |
+| Temporal | Time-indexed values | Timestamps, time series |
+| Geospatial | Coordinates or regions | Lat/lon, postal codes |
+| Image / Audio | Raw tensors | Pixel arrays, waveforms |
 
-Feature map
-$$\phi : \mathcal{X} \to \mathbb{R}^p$$
+## Numerical Feature Transformations
 
-Standardization
-$$z_j = \frac{x_j - \mu_j}{\sigma_j}$$
-where $\mu_j, \sigma_j$ computed on training split only
+### Scaling
 
-Polynomial expansion
-$$\phi(x) = [1, x_1, \dots, x_d, x_1^2, x_1x_2, \dots]$$
+Required for distance-based and gradient-based methods. Trees are invariant to monotone transformations.
 
-One-hot encoding for categorical feature $c \in \{1,\dots,K\}$
-$$\phi(c) = e_c \in \{0,1\}^K$$
+**Standard scaling (z-score):**
 
-Principal component transform
-$$z = W^\top (x - \bar{x})$$
+$$x' = \frac{x - \mu}{\sigma}$$
 
-## Conditions / Properties
+Results in zero mean and unit variance. Sensitive to outliers.
 
-Monotone scaling preserves order statistics but changes Euclidean geometry
+**Min-max scaling:**
 
-Collinearity in engineered features yields ill-conditioned matrix
-$$X^\top X$$
+$$x' = \frac{x - x_{\min}}{x_{\max} - x_{\min}}$$
 
-Leakage condition to avoid:
-$$\phi \text{ fit on full dataset } \Rightarrow \text{ optimistic validation estimate}$$
+Maps to $[0, 1]$. Sensitive to outliers.
 
-Sparse high-cardinality encodings increase dimension $p$ and memory cost
+**Robust scaling:**
 
-## Algorithms / Methods
+$$x' = \frac{x - \text{median}(x)}{\text{IQR}(x)}$$
 
-<table>
-<tr><th>Method</th><th>Formula</th><th>Technical effect</th></tr>
-<tr><td>Standardization</td><td>$(x-\mu)/\sigma$</td><td>comparable scale, stable optimization</td></tr>
-<tr><td>Min-max scaling</td><td>$(x-a)/(b-a)$</td><td>bounded interval</td></tr>
-<tr><td>Log transform</td><td>$\log(x+c)$</td><td>compress heavy tail</td></tr>
-<tr><td>Binning</td><td>discretize by thresholds</td><td>nonlinear monotone effect</td></tr>
-<tr><td>Interaction features</td><td>$x_i x_j$</td><td>explicit second-order terms</td></tr>
-<tr><td>PCA</td><td>top eigenvectors</td><td>decorrelation, dimension reduction</td></tr>
-</table>
+Uses interquartile range; robust to outliers.
 
-Target encoding for category $c$
-$$\phi(c) = \mathbb{E}[Y \mid C=c]$$
-requires out-of-fold estimation
+**Log transform:** $x' = \log(x + 1)$. Reduces right skew; requires $x \geq 0$.
 
-Missing value imputation
-$$\tilde{x}_{ij} = \begin{cases} x_{ij}, & x_{ij} \text{ observed} \\ m_j, & x_{ij} \text{ missing} \end{cases}$$
+**Box-Cox transform:**
 
-## Variants / Extensions
+$$x'(\lambda) = \begin{cases} \frac{x^\lambda - 1}{\lambda} & \lambda \neq 0 \\ \log x & \lambda = 0 \end{cases}$$
 
-<table>
-<tr><th>Variant</th><th>Mechanism</th><th>Typical models</th></tr>
-<tr><td>Manual domain features</td><td>handcrafted statistics</td><td>linear models, trees</td></tr>
-<tr><td>Automated feature crosses</td><td>combinatorial interactions</td><td>CTR models</td></tr>
-<tr><td>Embeddings</td><td>learned dense vectors</td><td>deep models, recommenders</td></tr>
-<tr><td>Hashing trick</td><td>$h(c) \in \{1,\dots,m\}$</td><td>large sparse categories</td></tr>
-<tr><td>Representation learning</td><td>neural $\phi_\theta(x)$</td><td>end-to-end systems</td></tr>
-</table>
+Finds optimal $\lambda$ to normalize distribution. Requires $x > 0$.
 
-## Practical Notes
+**Yeo-Johnson:** generalization of Box-Cox that handles $x \leq 0$.
 
-Trees need less scaling than distance-based or gradient-based linear models
+### Binning / Discretization
 
-Feature selection objective often uses
-$$\max_{S \subseteq \{1,\dots,p\}} \operatorname{Score}(S)$$
-with sparsity or validation constraint
+Converts continuous feature to ordinal categories. Reduces sensitivity to outliers and can expose non-linear relationships for linear models.
 
-Fit all preprocessing inside training folds during cross-validation
+- **Fixed-width bins:** equal-size intervals.
+- **Quantile bins:** equal-frequency intervals (handles skew better).
 
-Interpretability usually decreases as $\phi(x)$ becomes more learned and less manual
+## Categorical Feature Encoding
+
+### One-Hot Encoding
+
+Creates a binary indicator for each category. For $K$ categories: $K$ binary columns (or $K-1$ to avoid multicollinearity).
+
+$$\text{cat} \in \{A, B, C\} \to [1, 0, 0], [0, 1, 0], [0, 0, 1]$$
+
+Appropriate when categories have no natural order. Explodes dimensionality for high-cardinality features.
+
+### Ordinal Encoding
+
+Maps categories to integers preserving order. Only use when order is meaningful.
+
+### Target Encoding (Mean Encoding)
+
+Replace each category with the mean target value in that category:
+
+$$\text{enc}(c) = \frac{\sum_{i: x_i = c} y_i}{|\{i: x_i = c\}|}$$
+
+Risk of target leakage. Use cross-validation or smoothing:
+
+$$\text{enc}(c) = \frac{n_c \cdot \bar{y}_c + \lambda \cdot \bar{y}_{\text{global}}}{n_c + \lambda}$$
+
+### Embedding
+
+Learned dense vectors for high-cardinality categoricals (e.g., user ID, product ID). Standard in deep learning; can be pre-trained (word2vec, GloVe) or learned end-to-end.
+
+### Hashing Trick
+
+Maps categories to a fixed-size vector of length $m$ via a hash function. No vocabulary needed; handles unseen categories. Risk of collisions.
+
+## Temporal Features
+
+From timestamps, extract:
+- **Calendar features:** hour, day-of-week, month, quarter, year, is_holiday
+- **Cyclical encoding:** encode periodic features as $(\sin, \cos)$ pairs to preserve continuity
+
+$$\text{hour\_sin} = \sin\!\left(\frac{2\pi \cdot \text{hour}}{24}\right), \quad \text{hour\_cos} = \cos\!\left(\frac{2\pi \cdot \text{hour}}{24}\right)$$
+
+- **Lag features:** $x_{t-1}, x_{t-2}, \ldots$ for time series.
+- **Rolling statistics:** rolling mean, std, min, max over a window.
+- **Time since event:** days since last purchase, etc.
+
+## Feature Interactions
+
+**Polynomial features:** expand $[x_1, x_2]$ to $[x_1, x_2, x_1^2, x_1 x_2, x_2^2]$. Allows linear models to capture nonlinear relationships.
+
+**Cross features:** explicit products of two categorical or numerical features.
+
+**Ratio features:** $x_1 / x_2$ can capture meaningful relationships (e.g., debt-to-income ratio).
+
+## Feature Selection
+
+Reduces dimensionality, removes irrelevant/noisy features, and speeds up training.
+
+| Method | Approach |
+|--------|---------|
+| Filter (variance threshold) | Remove features with variance below threshold |
+| Filter (correlation) | Remove features highly correlated with each other |
+| Univariate statistical test | Select by $\chi^2$, ANOVA $F$-statistic, mutual information with target |
+| Recursive Feature Elimination (RFE) | Repeatedly train and remove weakest features |
+| L1 regularization (Lasso) | Drives irrelevant feature weights to zero |
+| Tree-based importance | Rank by impurity decrease (Gini/entropy) or permutation importance |
+| SHAP values | Model-agnostic, measures each feature's marginal contribution |
+
+## Handling Missing Values
+
+| Strategy | When to Use |
+|----------|------------|
+| Mean / median imputation | Numerical features, MCAR/MAR assumption |
+| Mode imputation | Categorical features |
+| Indicator feature | Add binary "was\_missing" column alongside imputed value |
+| Model-based imputation | MICE, KNN imputation |
+| Drop rows | Very few missing, missing not at random |
+| Drop feature | High fraction missing with no predictive value |
+
+## Text Features
+
+**Bag of Words (BoW):** count matrix over vocabulary. Sparse, ignores order.
+
+**TF-IDF:**
+
+$$\text{tf-idf}(t, d) = \text{tf}(t, d) \cdot \log \frac{N}{\text{df}(t)}$$
+
+Downweights common terms. Better than raw counts for retrieval and classification.
+
+**N-grams:** captures local word context. Bigrams, trigrams added to vocabulary.
+
+**Word embeddings:** dense representations from word2vec, GloVe, fastText. Average or pool over tokens for document representation.
+
+**Sentence/document embeddings:** BERT CLS token, Sentence-BERT, or bag of word-embeddings.
+
+## Feature Engineering Principles
+
+- Features should encode domain knowledge that the model cannot easily learn on its own from raw inputs.
+- Always transform training features and apply the same transformation to test/production features (fit on train only).
+- Check for data leakage: no feature should encode information about the future or the target itself.
+- High-cardinality features require special treatment to avoid overfitting.

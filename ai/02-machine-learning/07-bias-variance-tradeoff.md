@@ -1,77 +1,122 @@
 # Bias Variance Tradeoff
 
-## Concept / Definition
+## Core Idea
 
-Prediction error decomposes into approximation bias, estimator variance, and irreducible noise
+The bias-variance tradeoff decomposes the expected generalization error of a learning algorithm into three terms: bias (systematic error), variance (sensitivity to training data), and irreducible noise. Minimizing total error requires balancing bias and variance.
 
-For estimator $\hat{f}(x)$ under squared loss
+## Decomposition
 
-## Mathematical Formulation
+For a regression problem with squared error loss, the expected test error at a point $x$ is:
 
-Bias at point $x$
-$$\operatorname{Bias}(x) = \mathbb{E}[\hat{f}(x)] - f^\ast(x)$$
+$$\mathbb{E}[(y - \hat{f}(x))^2] = \text{Bias}^2[\hat{f}(x)] + \text{Var}[\hat{f}(x)] + \sigma^2$$
 
-Variance at point $x$
-$$\operatorname{Var}(x) = \mathbb{E}\big[(\hat{f}(x) - \mathbb{E}[\hat{f}(x)])^2\big]$$
+where:
+- $y = f(x) + \epsilon$, $\mathbb{E}[\epsilon] = 0$, $\text{Var}[\epsilon] = \sigma^2$
+- $\hat{f}(x)$ is the model's prediction, averaged over different training sets
 
-Decomposition
-$$\mathbb{E}\big[(Y - \hat{f}(x))^2 \mid X=x\big] = \sigma^2(x) + \operatorname{Bias}(x)^2 + \operatorname{Var}(x)$$
-where
-$$\sigma^2(x) = \operatorname{Var}(Y \mid X=x)$$
+**Bias:**
 
-Integrated risk
-$$R = \mathbb{E}_X[\sigma^2(X) + \operatorname{Bias}(X)^2 + \operatorname{Var}(X)]$$
+$$\text{Bias}[\hat{f}(x)] = \mathbb{E}[\hat{f}(x)] - f(x)$$
 
-## Conditions / Properties
+How far the average prediction is from the true function.
 
-Increasing model capacity usually decreases bias and increases variance
+**Variance:**
 
-Regularization parameter effect
-$$\lambda \uparrow \Rightarrow \text{bias} \uparrow, \quad \text{variance} \downarrow$$
+$$\text{Var}[\hat{f}(x)] = \mathbb{E}\left[(\hat{f}(x) - \mathbb{E}[\hat{f}(x)])^2\right]$$
 
-Training-set size effect
-$$n \uparrow \Rightarrow \text{variance} \downarrow$$
-typically
+How much the prediction changes across different training sets.
 
-Tradeoff concerns expected test error, not training error
+**Irreducible noise** $\sigma^2$: inherent randomness in the data. Cannot be reduced by any model.
 
-## Algorithms / Methods
+## Interpretation
 
-<table>
-<tr><th>Mechanism</th><th>Bias effect</th><th>Variance effect</th></tr>
-<tr><td>Deeper tree</td><td>decrease</td><td>increase</td></tr>
-<tr><td>Stronger L2 penalty</td><td>increase</td><td>decrease</td></tr>
-<tr><td>Bagging</td><td>near-constant</td><td>decrease</td></tr>
-<tr><td>Feature expansion</td><td>decrease</td><td>increase</td></tr>
-<tr><td>Early stopping</td><td>increase slightly</td><td>decrease</td></tr>
-</table>
+| Term | Meaning | Caused by |
+|------|---------|-----------|
+| High bias | Model systematically misses the true pattern | Underfitting, model too simple |
+| High variance | Model is highly sensitive to training data | Overfitting, model too complex |
+| Irreducible noise | Noise in labels or features | Measurement error, label ambiguity |
 
-Ridge estimator
-$$\hat{w}_{\lambda} = (X^\top X + \lambda I)^{-1} X^\top y$$
-shows explicit complexity control
+**Underfitting:** high bias, low variance. Model does not capture the signal.
 
-Ensemble variance reduction for average of $M$ estimators with variance $\sigma^2$ and pairwise correlation $\rho$
-$$\operatorname{Var}\left(\frac{1}{M}\sum_{m=1}^M h_m\right) = \sigma^2 \left(\rho + \frac{1-\rho}{M}\right)$$
+**Overfitting:** low bias, high variance. Model fits noise specific to training set.
 
-## Variants / Extensions
+**Sweet spot:** model complexity where total error is minimized.
 
-<table>
-<tr><th>Setting</th><th>Tradeoff form</th><th>Note</th></tr>
-<tr><td>Classification</td><td>no exact squared-loss decomposition</td><td>still useful conceptual lens</td></tr>
-<tr><td>Bayesian models</td><td>posterior mean balances fit and prior</td><td>variance encoded in posterior</td></tr>
-<tr><td>Double descent</td><td>error may fall again after interpolation threshold</td><td>modern overparameterized regime</td></tr>
-</table>
+## The Tradeoff
 
-## Practical Notes
+As model complexity increases:
+- Bias decreases (more expressive model can fit true function).
+- Variance increases (more parameters, more sensitivity to training set).
 
-High bias signs: train and validation errors both high
+Total expected error is a U-shaped curve as a function of complexity.
 
-High variance signs: training error low, validation error much higher
+$$\text{Total Error} = \text{Bias}^2 + \text{Variance} + \sigma^2$$
 
-Diagnostics should compare
-$$\hat{R}_{\text{train}}, \hat{R}_{\text{valid}}$$
-as model complexity changes
+## Identifying from Train/Test Error
 
-Remedies:
-$$\text{high bias} \to \text{richer model/features}$$
-$$\text{high variance} \to \text{more data/regularization/ensembling}$$
+| Situation | Train Error | Test Error | Diagnosis |
+|-----------|------------|------------|-----------|
+| High bias | High | High | Underfitting |
+| High variance | Low | High | Overfitting |
+| Optimal | Low | Low (close to train) | Good generalization |
+| Irreducible noise dominates | Cannot go below $\sigma^2$ | Cannot go below $\sigma^2$ | Improve data quality |
+
+## Reducing Bias
+
+- Use a more expressive model (higher degree polynomial, deeper network).
+- Add features or feature interactions.
+- Reduce regularization strength.
+- Train longer (for iterative methods).
+- Engineer better features.
+
+## Reducing Variance
+
+- Collect more training data: variance scales as $O(1/n)$ for many models.
+- Increase regularization (L1, L2, dropout, early stopping).
+- Reduce model complexity (fewer parameters, shallower depth, fewer features).
+- Use ensemble methods: **Bagging** averages predictions across models trained on bootstrap samples, reducing variance without increasing bias.
+- Data augmentation.
+
+## Formal Example: Polynomial Regression
+
+True function: $f(x) = \sin(2\pi x)$, noise $\sigma^2 = 0.1$.
+
+| Model | Bias | Variance |
+|-------|------|---------|
+| Degree 0 (constant) | High | Very low |
+| Degree 1 (linear) | High | Low |
+| Degree 3 (cubic) | Low | Medium |
+| Degree 9 (complex) | Very low | Very high |
+
+Degree 3 achieves the best balance for limited data.
+
+## Bagging as Variance Reduction
+
+If $\hat{f}_1, \ldots, \hat{f}_B$ are independent models each with variance $\sigma^2$ and pairwise correlation $\rho$:
+
+$$\text{Var}\!\left[\frac{1}{B}\sum_{b=1}^B \hat{f}_b\right] = \rho \sigma^2 + \frac{1-\rho}{B}\sigma^2$$
+
+As $B \to \infty$, variance approaches $\rho \sigma^2$. Decorrelating models (via random subspace, bootstrap) drives $\rho$ down and further reduces variance.
+
+## Double Descent
+
+Modern observation that transcends classical bias-variance tradeoff: as model complexity continues past the interpolation threshold (where training error reaches zero), test error can decrease again.
+
+**Three regimes:**
+1. **Classical:** increasing complexity reduces bias, increases variance (U-curve).
+2. **Interpolation threshold:** model is just large enough to fit training data; test error peaks.
+3. **Over-parameterized:** extremely large models can memorize training data while still generalizing well (implicit regularization from gradient descent, benign overfitting).
+
+Relevant for deep neural networks and large kernel machines. Challenges the classical assumption that overfitting always hurts.
+
+## Bias-Variance in Classification
+
+For 0-1 loss, the decomposition is more complex and non-additive. An analogous (but different) decomposition exists:
+
+- **Bias:** error of the main prediction (most frequent label across datasets).
+- **Variance:** probability that prediction differs from the main prediction.
+- Net error is not simply bias$^2$ + variance.
+
+The qualitative insight still holds: simpler models underfit, complex models overfit.
+
+See [Cross Validation](08-cross-validation) for empirically estimating these quantities and [Ensemble Learning](10-ensemble-learning) for structured variance reduction.

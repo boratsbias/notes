@@ -1,79 +1,160 @@
 # Model Interpretability
 
-## Concept / Definition
+## Core Idea
 
-Model interpretability studies how predictions depend on inputs, features, or internal representations
+Model interpretability (also called explainability or XAI) is the degree to which a human can understand the cause of a model's prediction. It is essential for debugging, building trust, satisfying regulatory requirements, and detecting bias.
 
-Given predictor $f(x)$, objective is explanation map
-$$E(x, f) \to \text{human-readable attribution or rule}$$
+**Interpretability vs. accuracy:** complex models (neural nets, gradient boosting) are often more accurate but harder to interpret. Interpretable models (linear regression, decision trees) trade some accuracy for transparency.
 
-## Mathematical Formulation
+## Scope of Explanation
 
-Local sensitivity
-$$\nabla_x f(x)$$
-measures infinitesimal change in prediction with respect to input
+| Scope | Question |
+|-------|---------|
+| **Global** | How does the model behave overall? Which features matter most? |
+| **Local** | Why did the model make this specific prediction for this instance? |
+| **Cohort** | How does the model behave on a specific subgroup? |
 
-Feature attribution with additive explanation
-$$f(x) \approx \phi_0 + \sum_{j=1}^d \phi_j$$
-where $\phi_j$ is contribution of feature $j$
+## Intrinsically Interpretable Models
 
-Permutation importance for feature $j$
-$$I_j = \widehat{R}(f; X_{\pi(j)}) - \widehat{R}(f; X)$$
-where $X_{\pi(j)}$ permutes feature $j$
+### Linear Models
 
-Partial dependence for subset $S$
-$$\operatorname{PD}_S(x_S) = \mathbb{E}_{X_C}[f(x_S, X_C)]$$
-where $C$ is complement of $S$
+Coefficients $\mathbf{w}$ directly quantify the effect of each feature:
 
-## Conditions / Properties
+$$\hat{y} = \mathbf{w}^T x + b$$
 
-Faithfulness requires explanation correlate with true model behavior
+$w_j$ is the change in $\hat{y}$ per unit increase in $x_j$, holding all else constant.
 
-Stability requires small perturbations in data or seed not change explanation excessively
+**Conditions for valid interpretation:**
+- Features are standardized (otherwise magnitudes are not comparable).
+- No strong multicollinearity (correlated features share credit arbitrarily).
+- Correct functional form (linear relationship holds).
 
-Global explanations summarize behavior over distribution
-$$P(X)$$
-local explanations explain one sample $x$
+### Decision Trees
 
-Correlated features break naive marginal interpretations such as permutation importance or PDP
+Provide natural rule-based explanations:
 
-## Algorithms / Methods
+```
+if age > 30:
+    if income > 50k: predict "approved"
+    else: predict "denied"
+else:
+    predict "denied"
+```
 
-<table>
-<tr><th>Method</th><th>Type</th><th>Mathematical object</th></tr>
-<tr><td>Linear coefficients</td><td>global intrinsic</td><td>sign and magnitude of $w_j$</td></tr>
-<tr><td>Decision paths</td><td>local intrinsic</td><td>split sequence in tree</td></tr>
-<tr><td>Permutation importance</td><td>global post hoc</td><td>metric drop after shuffling</td></tr>
-<tr><td>PDP / ICE</td><td>global/local post hoc</td><td>expected prediction curve</td></tr>
-<tr><td>SHAP</td><td>additive local attribution</td><td>Shapley values</td></tr>
-<tr><td>LIME</td><td>local surrogate</td><td>weighted local regression</td></tr>
-</table>
+Each prediction path is a conjunction of conditions. Depth $\leq 5$ trees are comprehensible to humans; deeper trees lose interpretability.
 
-Shapley value for feature $j$
-$$\phi_j = \sum_{S \subseteq N \setminus \{j\}} \frac{|S|!(|N|-|S|-1)!}{|N|!} \big(v(S \cup \{j\}) - v(S)\big)$$
+### Rule-Based Models
 
-LIME surrogate fit
-$$\arg\min_{g \in \mathcal{G}} \mathcal{L}(f, g, \pi_x) + \Omega(g)$$
+**Decision rules:** IF-THEN statements learned directly. E.g., RuleFit learns linear model + sparse set of rules from tree splits.
 
-## Variants / Extensions
+**Scoring systems:** additive point-based models (FICO score) where each feature contributes a small integer score. Directly applicable by humans without computation.
 
-<table>
-<tr><th>Variant</th><th>Scope</th><th>Example</th></tr>
-<tr><td>Intrinsic interpretability</td><td>model itself simple</td><td>linear model, shallow tree</td></tr>
-<tr><td>Post hoc interpretability</td><td>explain black box after training</td><td>SHAP, saliency</td></tr>
-<tr><td>Counterfactual explanations</td><td>minimal input change</td><td>actionable recourse</td></tr>
-<tr><td>Concept-based explanations</td><td>human concepts</td><td>TCAV</td></tr>
-</table>
+## Post-hoc Explanation Methods
 
-Counterfactual optimization
-$$x' = \arg\min_{x'} d(x', x) \quad \text{s.t.} \quad f(x') = y_{\text{target}}$$
+Applied after training any model.
 
-## Practical Notes
+### Feature Importance
 
-Interpretability does not imply causality
+**Permutation importance:** measure drop in validation metric when feature $j$ is randomly permuted:
 
-Use explanation method matched to question: global ranking, local decision, fairness audit, debugging
+$$\text{PI}_j = m(\hat{y}, y) - m(\hat{y}_{j\text{ permuted}}, y)$$
 
-For highly correlated tabular features, prefer conditional or grouped importance over naive permutation
+Model-agnostic; unbiased; accounts for feature interactions (any drop in performance means $j$ was carrying information).
 
-Human usefulness depends on stability, sparsity, and domain semantics, not only mathematical elegance
+**SHAP-based importance:** mean absolute SHAP value over the dataset. Consistent and theoretically grounded.
+
+### SHAP (SHapley Additive exPlanations)
+
+Attributes the model's prediction to each feature based on Shapley values from cooperative game theory.
+
+**Shapley value:** the average marginal contribution of feature $j$ across all possible orderings of features:
+
+$$\phi_j = \sum_{S \subseteq \mathcal{F} \setminus \{j\}} \frac{|S|!(|\mathcal{F}| - |S| - 1)!}{|\mathcal{F}|!} [f(S \cup \{j\}) - f(S)]$$
+
+**SHAP explanation:** $\hat{f}(x) = \phi_0 + \sum_{j=1}^d \phi_j(x)$, where $\phi_0 = \mathbb{E}[\hat{f}(x)]$.
+
+**Properties:**
+- **Efficiency:** $\sum_j \phi_j = \hat{f}(x) - \mathbb{E}[\hat{f}]$
+- **Symmetry:** features that contribute equally get equal values.
+- **Dummy:** features that never affect output get $\phi_j = 0$.
+- **Additivity:** SHAP values of a sum of models equal sum of individual SHAP values.
+
+**Algorithms:**
+
+| Variant | Target Model | Complexity |
+|---------|-------------|-----------|
+| TreeSHAP | Tree-based models | $O(TLD^2)$; exact |
+| KernelSHAP | Any model | $O(2^d)$ exact, approximated in practice |
+| LinearSHAP | Linear models | $O(d)$; exact |
+| DeepSHAP | Neural networks | Approximation via DeepLIFT |
+
+### LIME (Local Interpretable Model-agnostic Explanations)
+
+Locally approximates the black-box model with a simple (linear) model around a specific instance $x'$.
+
+**Algorithm:**
+1. Sample perturbed instances around $x'$.
+2. Get predictions from black-box model for each perturbation.
+3. Weight by proximity to $x'$: $w_i = \exp(-d(x', z_i)^2 / \sigma^2)$.
+4. Fit a sparse linear model to the weighted dataset.
+5. Report linear coefficients as explanation.
+
+**Limitations:** local linearity assumption may not hold; explanation can be unstable across runs.
+
+### Partial Dependence Plots (PDP)
+
+Shows the **marginal** effect of one (or two) features on the predicted outcome, averaging over all other features:
+
+$$\hat{f}_S(x_S) = \mathbb{E}_{x_C}[\hat{f}(x_S, x_C)] \approx \frac{1}{n}\sum_{i=1}^n \hat{f}(x_S, x_C^{(i)})$$
+
+Assumes feature independence. Can be misleading with correlated features.
+
+### Individual Conditional Expectation (ICE) Plots
+
+One line per sample: shows how prediction changes as a single feature varies, holding all others at their observed values. PDP is the mean of ICE curves. Reveals heterogeneous effects that PDP averages away.
+
+**Centered ICE (c-ICE):** subtract the value at a reference point to highlight differences in slopes.
+
+### Accumulated Local Effects (ALE)
+
+Resolves the feature independence assumption of PDP. Uses conditional distribution $P(X_{-j} | X_j)$ rather than marginal:
+
+$$\hat{f}_{j,\text{ALE}}(x_j) = \int_{z_0}^{x_j} \mathbb{E}_{X_{-j}|X_j=z}\!\left[\frac{\partial \hat{f}}{\partial X_j}(z, X_{-j})\right] dz$$
+
+Unbiased even with correlated features.
+
+### Saliency and Attribution for Neural Networks
+
+| Method | Approach |
+|--------|---------|
+| Gradient (Saliency map) | $|\partial \hat{y} / \partial x_j|$; highlights input features by gradient magnitude |
+| Integrated Gradients | Integrates gradients from baseline to input; satisfies completeness axiom |
+| GradCAM | Class-weighted activation maps; localizes image regions driving predictions |
+| LIME for images | Superpixel perturbations; identifies key image regions |
+
+## Global Surrogate Models
+
+Train an interpretable model (e.g., decision tree) to mimic the black-box model's predictions over the entire input space. Explanation quality depends on how well the surrogate approximates the original.
+
+$$R^2_{\text{surrogate}} = 1 - \frac{\sum_i (g(x_i) - \hat{f}(x_i))^2}{\sum_i (\hat{f}(x_i) - \bar{\hat{f}})^2}$$
+
+High $R^2$ means the surrogate is faithful to the original.
+
+## Fairness and Bias
+
+Interpretability enables fairness auditing:
+- Inspect SHAP values or PDP for sensitive attributes (age, race, gender).
+- **Disparate impact:** $\frac{P(\hat{y}=1 | A=0)}{P(\hat{y}=1 | A=1)}$ should be $\geq 0.8$ (four-fifths rule).
+- **Equalized odds:** equalize TPR and FPR across groups.
+
+## Choosing an Explanation Method
+
+| Scenario | Recommended Method |
+|----------|-------------------|
+| Tree model, any scope | TreeSHAP |
+| Any model, local explanation | LIME or KernelSHAP |
+| Feature ranking | Permutation importance or mean SHAP |
+| Single feature effect | ALE or ICE plot |
+| Neural network, image | GradCAM or Integrated Gradients |
+| Regulatory requirement (actionable) | Decision rules, scoring systems |
+| Debugging / data quality | Residual analysis + SHAP |
