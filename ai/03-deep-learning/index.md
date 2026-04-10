@@ -1,17 +1,17 @@
-# Deep Learning  
-  
-- Neural Networks  
-- Shallow Neural Networks  
-- Deep Neural Networks  
-- Activation Functions  
-- Loss Functions  
-- Gradient Descent  
-- Stochastic Gradient Descent  
-- Backpropagation  
-- Weight Initialization  
-- Regularization  
-- Dropout  
-- Batch Normalization  
-- Optimization Algorithms  
-- Model Evaluation  
-- Training Dynamics
+# Deep Learning
+
+- [Neural Networks](00-neural-networks)
+- [Shallow Neural Networks](01-shallow-neural-networks)
+- [Deep Neural Networks](02-deep-neural-networks)
+- [Activation Functions](03-activation-functions)
+- [Loss Functions](04-loss-functions)
+- [Gradient Descent](05-gradient-descent)
+- [Stochastic Gradient Descent](06-stochastic-gradient-descent)
+- [Backpropagation](07-backpropagation)
+- [Weight Initialization](08-weight-initialization)
+- [Regularization](09-regularization)
+- [Dropout](10-dropout)
+- [Batch Normalization](11-batch-normalization)
+- [Optimization Algorithms](12-optimization-algorithms)
+- [Model Evaluation](13-model-evaluation)
+- [Training Dynamics](14-training-dynamics)
