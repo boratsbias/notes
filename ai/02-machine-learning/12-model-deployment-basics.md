@@ -51,13 +51,14 @@ Rollback path required when new model violates service or business constraints
 
 ## Algorithms / Methods
 
-| Component | Technical requirement | Typical mechanism |
-|---|---|---|
-| Packaging | reproducible artifact | serialized weights, container image |
-| Serving | low-latency inference | REST, gRPC, batch scoring |
-| Rollout | controlled exposure | shadow, canary, A/B test |
-| Monitoring | drift and failures | feature stats, latency, error rate |
-| Retraining | update under drift | scheduled or trigger-based pipeline |
+<table>
+<tr><th>Component</th><th>Technical requirement</th><th>Typical mechanism</th></tr>
+<tr><td>Packaging</td><td>reproducible artifact</td><td>serialized weights, container image</td></tr>
+<tr><td>Serving</td><td>low-latency inference</td><td>REST, gRPC, batch scoring</td></tr>
+<tr><td>Rollout</td><td>controlled exposure</td><td>shadow, canary, A/B test</td></tr>
+<tr><td>Monitoring</td><td>drift and failures</td><td>feature stats, latency, error rate</td></tr>
+<tr><td>Retraining</td><td>update under drift</td><td>scheduled or trigger-based pipeline</td></tr>
+</table>
 
 Population Stability Index for binned feature
 $$
@@ -72,12 +73,13 @@ $$
 
 ## Variants / Extensions
 
-| Variant | Description | Use case |
-|---|---|---|
-| Batch inference | score offline at intervals | ETL pipelines, ranking refresh |
-| Online inference | per-request prediction | realtime APIs |
-| Edge deployment | on-device model | privacy, low network dependence |
-| Human-in-the-loop | model suggests, user confirms | high-risk decisions |
+<table>
+<tr><th>Variant</th><th>Description</th><th>Use case</th></tr>
+<tr><td>Batch inference</td><td>score offline at intervals</td><td>ETL pipelines, ranking refresh</td></tr>
+<tr><td>Online inference</td><td>per-request prediction</td><td>realtime APIs</td></tr>
+<tr><td>Edge deployment</td><td>on-device model</td><td>privacy, low network dependence</td></tr>
+<tr><td>Human-in-the-loop</td><td>model suggests, user confirms</td><td>high-risk decisions</td></tr>
+</table>
 
 ## Practical Notes
 

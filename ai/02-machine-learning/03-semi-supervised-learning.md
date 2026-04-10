@@ -54,13 +54,14 @@ Failure mode: if unlabeled distribution contains out-of-class or shifted samples
 
 ## Algorithms / Methods
 
-| Method | Main term | Technical idea |
-|---|---|---|
-| Self-training | pseudo-label loss | iterate teacher predictions |
-| Label propagation | graph smoothness | diffuse labels on similarity graph |
-| Co-training | agreement loss | two conditionally independent views |
-| Mean Teacher | consistency to EMA teacher | temporal ensembling |
-| FixMatch | weak/strong augmentation consistency | thresholded pseudo-labels |
+<table>
+<tr><th>Method</th><th>Main term</th><th>Technical idea</th></tr>
+<tr><td>Self-training</td><td>pseudo-label loss</td><td>iterate teacher predictions</td></tr>
+<tr><td>Label propagation</td><td>graph smoothness</td><td>diffuse labels on similarity graph</td></tr>
+<tr><td>Co-training</td><td>agreement loss</td><td>two conditionally independent views</td></tr>
+<tr><td>Mean Teacher</td><td>consistency to EMA teacher</td><td>temporal ensembling</td></tr>
+<tr><td>FixMatch</td><td>weak/strong augmentation consistency</td><td>thresholded pseudo-labels</td></tr>
+</table>
 
 Graph regularization
 $$
@@ -75,12 +76,13 @@ $$
 
 ## Variants / Extensions
 
-| Variant | Difference | Note |
-|---|---|---|
-| Transductive SSL | predict only observed unlabeled set | no explicit out-of-sample rule required |
-| Inductive SSL | learn general predictor | standard deployment setting |
-| Positive-unlabeled learning | only positives labeled | class-prior estimation important |
-| Semi-supervised regression | unlabeled smoothness in continuous target setting | graph and consistency methods |
+<table>
+<tr><th>Variant</th><th>Difference</th><th>Note</th></tr>
+<tr><td>Transductive SSL</td><td>predict only observed unlabeled set</td><td>no explicit out-of-sample rule required</td></tr>
+<tr><td>Inductive SSL</td><td>learn general predictor</td><td>standard deployment setting</td></tr>
+<tr><td>Positive-unlabeled learning</td><td>only positives labeled</td><td>class-prior estimation important</td></tr>
+<tr><td>Semi-supervised regression</td><td>unlabeled smoothness in continuous target setting</td><td>graph and consistency methods</td></tr>
+</table>
 
 ## Practical Notes
 

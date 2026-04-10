@@ -52,13 +52,14 @@ Tradeoff concerns expected test error, not training error
 
 ## Algorithms / Methods
 
-| Mechanism | Bias effect | Variance effect |
-|---|---|---|
-| Deeper tree | decrease | increase |
-| Stronger L2 penalty | increase | decrease |
-| Bagging | near-constant | decrease |
-| Feature expansion | decrease | increase |
-| Early stopping | increase slightly | decrease |
+<table>
+<tr><th>Mechanism</th><th>Bias effect</th><th>Variance effect</th></tr>
+<tr><td>Deeper tree</td><td>decrease</td><td>increase</td></tr>
+<tr><td>Stronger L2 penalty</td><td>increase</td><td>decrease</td></tr>
+<tr><td>Bagging</td><td>near-constant</td><td>decrease</td></tr>
+<tr><td>Feature expansion</td><td>decrease</td><td>increase</td></tr>
+<tr><td>Early stopping</td><td>increase slightly</td><td>decrease</td></tr>
+</table>
 
 Ridge estimator
 $$
@@ -74,11 +75,12 @@ $$
 
 ## Variants / Extensions
 
-| Setting | Tradeoff form | Note |
-|---|---|---|
-| Classification | no exact squared-loss decomposition | still useful conceptual lens |
-| Bayesian models | posterior mean balances fit and prior | variance encoded in posterior |
-| Double descent | error may fall again after interpolation threshold | modern overparameterized regime |
+<table>
+<tr><th>Setting</th><th>Tradeoff form</th><th>Note</th></tr>
+<tr><td>Classification</td><td>no exact squared-loss decomposition</td><td>still useful conceptual lens</td></tr>
+<tr><td>Bayesian models</td><td>posterior mean balances fit and prior</td><td>variance encoded in posterior</td></tr>
+<tr><td>Double descent</td><td>error may fall again after interpolation threshold</td><td>modern overparameterized regime</td></tr>
+</table>
 
 ## Practical Notes
 

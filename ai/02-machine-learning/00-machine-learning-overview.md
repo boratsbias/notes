@@ -71,13 +71,14 @@ Core property: success criterion is low test risk, not low training loss
 
 ## Algorithms / Methods
 
-| Component | Mathematical object | Typical choices |
-|---|---|---|
-| Model | $f_\theta(x)$ | linear model, tree, kernel method, neural network |
-| Loss | $\ell(\hat{y}, y)$ | MSE, cross-entropy, hinge |
-| Optimizer | $\theta_{t+1} = \theta_t - \eta_t \nabla J(\theta_t)$ | GD, SGD, Adam |
-| Regularizer | $\Omega(\theta)$ | $\|\theta\|_2^2$, $\|\theta\|_1$, early stopping |
-| Evaluation | $\widehat{R}_{\text{test}}$ | holdout, cross-validation |
+<table>
+<tr><th>Component</th><th>Mathematical object</th><th>Typical choices</th></tr>
+<tr><td>Model</td><td>$f_\theta(x)$</td><td>linear model, tree, kernel method, neural network</td></tr>
+<tr><td>Loss</td><td>$\ell(\hat{y}, y)$</td><td>MSE, cross-entropy, hinge</td></tr>
+<tr><td>Optimizer</td><td>$\theta_{t+1} = \theta_t - \eta_t \nabla J(\theta_t)$</td><td>GD, SGD, Adam</td></tr>
+<tr><td>Regularizer</td><td>$\Omega(\theta)$</td><td>$\|\theta\|_2^2$, $\|\theta\|_1$, early stopping</td></tr>
+<tr><td>Evaluation</td><td>$\widehat{R}_{\text{test}}$</td><td>holdout, cross-validation</td></tr>
+</table>
 
 Pipeline
 $$
@@ -86,14 +87,15 @@ $$
 
 ## Variants / Extensions
 
-| Setting | Training signal | Objective |
-|---|---|---|
-| Supervised | labeled $(x,y)$ | minimize predictive loss |
-| Unsupervised | unlabeled $x$ | estimate structure or density |
-| Semi-supervised | few labels + many unlabeled samples | combine supervised and unsupervised terms |
-| Self-supervised | surrogate labels from data | pretext objective then transfer |
-| Online | stream $(x_t, y_t)$ | sequential regret minimization |
-| Reinforcement learning | reward $r_t$ | maximize expected return |
+<table>
+<tr><th>Setting</th><th>Training signal</th><th>Objective</th></tr>
+<tr><td>Supervised</td><td>labeled $(x,y)$</td><td>minimize predictive loss</td></tr>
+<tr><td>Unsupervised</td><td>unlabeled $x$</td><td>estimate structure or density</td></tr>
+<tr><td>Semi-supervised</td><td>few labels + many unlabeled samples</td><td>combine supervised and unsupervised terms</td></tr>
+<tr><td>Self-supervised</td><td>surrogate labels from data</td><td>pretext objective then transfer</td></tr>
+<tr><td>Online</td><td>stream $(x_t, y_t)$</td><td>sequential regret minimization</td></tr>
+<tr><td>Reinforcement learning</td><td>reward $r_t$</td><td>maximize expected return</td></tr>
+</table>
 
 ## Practical Notes
 

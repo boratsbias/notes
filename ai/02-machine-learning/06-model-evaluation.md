@@ -63,13 +63,14 @@ can be high for poor classifier
 
 ## Algorithms / Methods
 
-| Metric family | Formula object | Best when |
-|---|---|---|
-| Point error | MSE, MAE, RMSE | regression |
-| Ranking | ROC-AUC, PR-AUC | probabilistic classifiers |
-| Probabilistic | log loss, Brier score | calibrated probabilities matter |
-| Set overlap | IoU, Dice | segmentation |
-| Retrieval | Recall@k, MAP, NDCG | ranking/recommenders |
+<table>
+<tr><th>Metric family</th><th>Formula object</th><th>Best when</th></tr>
+<tr><td>Point error</td><td>MSE, MAE, RMSE</td><td>regression</td></tr>
+<tr><td>Ranking</td><td>ROC-AUC, PR-AUC</td><td>probabilistic classifiers</td></tr>
+<tr><td>Probabilistic</td><td>log loss, Brier score</td><td>calibrated probabilities matter</td></tr>
+<tr><td>Set overlap</td><td>IoU, Dice</td><td>segmentation</td></tr>
+<tr><td>Retrieval</td><td>Recall@k, MAP, NDCG</td><td>ranking/recommenders</td></tr>
+</table>
 
 Log loss
 $$
@@ -83,12 +84,13 @@ $$
 
 ## Variants / Extensions
 
-| Setting | Preferred evaluation | Note |
-|---|---|---|
-| Imbalanced classification | PR-AUC, recall at fixed precision | ROC can appear optimistic |
-| Cost-sensitive deployment | expected cost | use business loss matrix |
-| Distribution shift | temporal or domain split | random split insufficient |
-| Uncertainty-aware models | NLL, calibration error | evaluate probabilistic outputs |
+<table>
+<tr><th>Setting</th><th>Preferred evaluation</th><th>Note</th></tr>
+<tr><td>Imbalanced classification</td><td>PR-AUC, recall at fixed precision</td><td>ROC can appear optimistic</td></tr>
+<tr><td>Cost-sensitive deployment</td><td>expected cost</td><td>use business loss matrix</td></tr>
+<tr><td>Distribution shift</td><td>temporal or domain split</td><td>random split insufficient</td></tr>
+<tr><td>Uncertainty-aware models</td><td>NLL, calibration error</td><td>evaluate probabilistic outputs</td></tr>
+</table>
 
 Expected decision cost
 $$

@@ -68,13 +68,14 @@ $$
 
 ## Algorithms / Methods
 
-| Method | Predictor | Objective |
-|---|---|---|
-| Linear regression | $f(x)=w^\top x + b$ | minimize $\sum (y_i - f(x_i))^2$ |
-| Logistic regression | $P(y=1 \mid x)=\sigma(w^\top x+b)$ | maximize Bernoulli likelihood |
-| SVM | $f(x)=\operatorname{sign}(w^\top x+b)$ | minimize hinge loss + margin penalty |
-| Decision tree | recursive partition | impurity reduction |
-| k-NN | local vote/average | nonparametric neighborhood rule |
+<table>
+<tr><th>Method</th><th>Predictor</th><th>Objective</th></tr>
+<tr><td>Linear regression</td><td>$f(x)=w^\top x + b$</td><td>minimize $\sum (y_i - f(x_i))^2$</td></tr>
+<tr><td>Logistic regression</td><td>$P(y=1 \mid x)=\sigma(w^\top x+b)$</td><td>maximize Bernoulli likelihood</td></tr>
+<tr><td>SVM</td><td>$f(x)=\operatorname{sign}(w^\top x+b)$</td><td>minimize hinge loss + margin penalty</td></tr>
+<tr><td>Decision tree</td><td>recursive partition</td><td>impurity reduction</td></tr>
+<tr><td>k-NN</td><td>local vote/average</td><td>nonparametric neighborhood rule</td></tr>
+</table>
 
 Gradient update
 $$
@@ -89,13 +90,14 @@ when $X^\top X$ invertible
 
 ## Variants / Extensions
 
-| Variant | Main idea | Mathematical note |
-|---|---|---|
-| Multi-output regression | predict vector target | $y \in \mathbb{R}^m$ |
-| Multiclass classification | $K>2$ classes | softmax loss |
-| Cost-sensitive learning | unequal error cost | minimize $\mathbb{E}[C(\hat{Y},Y)]$ |
-| Structured prediction | output sequence or graph | maximize score over structured space |
-| Ordinal regression | ordered labels | threshold or cumulative link model |
+<table>
+<tr><th>Variant</th><th>Main idea</th><th>Mathematical note</th></tr>
+<tr><td>Multi-output regression</td><td>predict vector target</td><td>$y \in \mathbb{R}^m$</td></tr>
+<tr><td>Multiclass classification</td><td>$K>2$ classes</td><td>softmax loss</td></tr>
+<tr><td>Cost-sensitive learning</td><td>unequal error cost</td><td>minimize $\mathbb{E}[C(\hat{Y},Y)]$</td></tr>
+<tr><td>Structured prediction</td><td>output sequence or graph</td><td>maximize score over structured space</td></tr>
+<tr><td>Ordinal regression</td><td>ordered labels</td><td>threshold or cumulative link model</td></tr>
+</table>
 
 ## Practical Notes
 

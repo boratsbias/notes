@@ -57,14 +57,15 @@ Sparse high-cardinality encodings increase dimension $p$ and memory cost
 
 ## Algorithms / Methods
 
-| Method | Formula | Technical effect |
-|---|---|---|
-| Standardization | $(x-\mu)/\sigma$ | comparable scale, stable optimization |
-| Min-max scaling | $(x-a)/(b-a)$ | bounded interval |
-| Log transform | $\log(x+c)$ | compress heavy tail |
-| Binning | discretize by thresholds | nonlinear monotone effect |
-| Interaction features | $x_i x_j$ | explicit second-order terms |
-| PCA | top eigenvectors | decorrelation, dimension reduction |
+<table>
+<tr><th>Method</th><th>Formula</th><th>Technical effect</th></tr>
+<tr><td>Standardization</td><td>$(x-\mu)/\sigma$</td><td>comparable scale, stable optimization</td></tr>
+<tr><td>Min-max scaling</td><td>$(x-a)/(b-a)$</td><td>bounded interval</td></tr>
+<tr><td>Log transform</td><td>$\log(x+c)$</td><td>compress heavy tail</td></tr>
+<tr><td>Binning</td><td>discretize by thresholds</td><td>nonlinear monotone effect</td></tr>
+<tr><td>Interaction features</td><td>$x_i x_j$</td><td>explicit second-order terms</td></tr>
+<tr><td>PCA</td><td>top eigenvectors</td><td>decorrelation, dimension reduction</td></tr>
+</table>
 
 Target encoding for category $c$
 $$
@@ -83,13 +84,14 @@ $$
 
 ## Variants / Extensions
 
-| Variant | Mechanism | Typical models |
-|---|---|---|
-| Manual domain features | handcrafted statistics | linear models, trees |
-| Automated feature crosses | combinatorial interactions | CTR models |
-| Embeddings | learned dense vectors | deep models, recommenders |
-| Hashing trick | $h(c) \in \{1,\dots,m\}$ | large sparse categories |
-| Representation learning | neural $\phi_\theta(x)$ | end-to-end systems |
+<table>
+<tr><th>Variant</th><th>Mechanism</th><th>Typical models</th></tr>
+<tr><td>Manual domain features</td><td>handcrafted statistics</td><td>linear models, trees</td></tr>
+<tr><td>Automated feature crosses</td><td>combinatorial interactions</td><td>CTR models</td></tr>
+<tr><td>Embeddings</td><td>learned dense vectors</td><td>deep models, recommenders</td></tr>
+<tr><td>Hashing trick</td><td>$h(c) \in \{1,\dots,m\}$</td><td>large sparse categories</td></tr>
+<tr><td>Representation learning</td><td>neural $\phi_\theta(x)$</td><td>end-to-end systems</td></tr>
+</table>
 
 ## Practical Notes
 

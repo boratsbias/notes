@@ -54,13 +54,14 @@ $$
 
 ## Algorithms / Methods
 
-| Method | Selection rule | Strength |
-|---|---|---|
-| Manual search | domain-guided trials | cheap when few knobs matter |
-| Grid search | exhaust finite mesh | simple, parallel |
-| Random search | sample $\lambda \sim p(\lambda)$ | efficient in sparse-relevance spaces |
-| Bayesian optimization | surrogate + acquisition | sample efficient |
-| Hyperband / ASHA | adaptive resource allocation | early-stop poor trials |
+<table>
+<tr><th>Method</th><th>Selection rule</th><th>Strength</th></tr>
+<tr><td>Manual search</td><td>domain-guided trials</td><td>cheap when few knobs matter</td></tr>
+<tr><td>Grid search</td><td>exhaust finite mesh</td><td>simple, parallel</td></tr>
+<tr><td>Random search</td><td>sample $\lambda \sim p(\lambda)$</td><td>efficient in sparse-relevance spaces</td></tr>
+<tr><td>Bayesian optimization</td><td>surrogate + acquisition</td><td>sample efficient</td></tr>
+<tr><td>Hyperband / ASHA</td><td>adaptive resource allocation</td><td>early-stop poor trials</td></tr>
+</table>
 
 Random search
 $$
@@ -74,12 +75,13 @@ $$
 
 ## Variants / Extensions
 
-| Variant | Description | Note |
-|---|---|---|
-| Multi-fidelity tuning | use subset epochs/data | cheaper approximate ranking |
-| Population-based training | evolve hyperparameters during training | nonstationary schedules |
-| Differentiable HPO | gradient through validation loss | expensive but principled |
-| Multi-objective tuning | accuracy-latency-memory tradeoff | Pareto frontier |
+<table>
+<tr><th>Variant</th><th>Description</th><th>Note</th></tr>
+<tr><td>Multi-fidelity tuning</td><td>use subset epochs/data</td><td>cheaper approximate ranking</td></tr>
+<tr><td>Population-based training</td><td>evolve hyperparameters during training</td><td>nonstationary schedules</td></tr>
+<tr><td>Differentiable HPO</td><td>gradient through validation loss</td><td>expensive but principled</td></tr>
+<tr><td>Multi-objective tuning</td><td>accuracy-latency-memory tradeoff</td><td>Pareto frontier</td></tr>
+</table>
 
 ## Practical Notes
 

@@ -48,13 +48,14 @@ Clustering quality without labels needs internal criteria such as silhouette or 
 
 ## Algorithms / Methods
 
-| Method | Objective | Key update |
-|---|---|---|
-| k-means | minimize within-cluster SSE | assign to nearest centroid, recompute means |
-| GMM | maximize mixture likelihood | EM updates for responsibilities |
-| PCA | maximize projected variance | top eigenvectors of covariance |
-| Hierarchical clustering | linkage criterion | greedy merges/splits |
-| DBSCAN | density connectivity | expand from core points |
+<table>
+<tr><th>Method</th><th>Objective</th><th>Key update</th></tr>
+<tr><td>k-means</td><td>minimize within-cluster SSE</td><td>assign to nearest centroid, recompute means</td></tr>
+<tr><td>GMM</td><td>maximize mixture likelihood</td><td>EM updates for responsibilities</td></tr>
+<tr><td>PCA</td><td>maximize projected variance</td><td>top eigenvectors of covariance</td></tr>
+<tr><td>Hierarchical clustering</td><td>linkage criterion</td><td>greedy merges/splits</td></tr>
+<tr><td>DBSCAN</td><td>density connectivity</td><td>expand from core points</td></tr>
+</table>
 
 k-means assignment
 $$
@@ -73,13 +74,14 @@ $$
 
 ## Variants / Extensions
 
-| Variant | Extension | Use case |
-|---|---|---|
-| Spectral clustering | graph Laplacian embedding | nonconvex cluster geometry |
-| Kernel PCA | nonlinear feature map | manifold structure |
-| ICA | independent latent sources | source separation |
-| NMF | nonnegative factors | parts-based decomposition |
-| Autoencoder | neural reconstruction | nonlinear representation learning |
+<table>
+<tr><th>Variant</th><th>Extension</th><th>Use case</th></tr>
+<tr><td>Spectral clustering</td><td>graph Laplacian embedding</td><td>nonconvex cluster geometry</td></tr>
+<tr><td>Kernel PCA</td><td>nonlinear feature map</td><td>manifold structure</td></tr>
+<tr><td>ICA</td><td>independent latent sources</td><td>source separation</td></tr>
+<tr><td>NMF</td><td>nonnegative factors</td><td>parts-based decomposition</td></tr>
+<tr><td>Autoencoder</td><td>neural reconstruction</td><td>nonlinear representation learning</td></tr>
+</table>
 
 ## Practical Notes
 

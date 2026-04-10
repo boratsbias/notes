@@ -51,14 +51,15 @@ Correlated features break naive marginal interpretations such as permutation imp
 
 ## Algorithms / Methods
 
-| Method | Type | Mathematical object |
-|---|---|---|
-| Linear coefficients | global intrinsic | sign and magnitude of $w_j$ |
-| Decision paths | local intrinsic | split sequence in tree |
-| Permutation importance | global post hoc | metric drop after shuffling |
-| PDP / ICE | global/local post hoc | expected prediction curve |
-| SHAP | additive local attribution | Shapley values |
-| LIME | local surrogate | weighted local regression |
+<table>
+<tr><th>Method</th><th>Type</th><th>Mathematical object</th></tr>
+<tr><td>Linear coefficients</td><td>global intrinsic</td><td>sign and magnitude of $w_j$</td></tr>
+<tr><td>Decision paths</td><td>local intrinsic</td><td>split sequence in tree</td></tr>
+<tr><td>Permutation importance</td><td>global post hoc</td><td>metric drop after shuffling</td></tr>
+<tr><td>PDP / ICE</td><td>global/local post hoc</td><td>expected prediction curve</td></tr>
+<tr><td>SHAP</td><td>additive local attribution</td><td>Shapley values</td></tr>
+<tr><td>LIME</td><td>local surrogate</td><td>weighted local regression</td></tr>
+</table>
 
 Shapley value for feature $j$
 $$
@@ -72,12 +73,13 @@ $$
 
 ## Variants / Extensions
 
-| Variant | Scope | Example |
-|---|---|---|
-| Intrinsic interpretability | model itself simple | linear model, shallow tree |
-| Post hoc interpretability | explain black box after training | SHAP, saliency |
-| Counterfactual explanations | minimal input change | actionable recourse |
-| Concept-based explanations | human concepts | TCAV |
+<table>
+<tr><th>Variant</th><th>Scope</th><th>Example</th></tr>
+<tr><td>Intrinsic interpretability</td><td>model itself simple</td><td>linear model, shallow tree</td></tr>
+<tr><td>Post hoc interpretability</td><td>explain black box after training</td><td>SHAP, saliency</td></tr>
+<tr><td>Counterfactual explanations</td><td>minimal input change</td><td>actionable recourse</td></tr>
+<tr><td>Concept-based explanations</td><td>human concepts</td><td>TCAV</td></tr>
+</table>
 
 Counterfactual optimization
 $$

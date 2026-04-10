@@ -43,13 +43,14 @@ Boosting can reduce bias and variance but may overfit noisy labels
 
 ## Algorithms / Methods
 
-| Method | Construction | Core formula |
-|---|---|---|
-| Bagging | bootstrap resamples + averaging | $F(x)=\frac{1}{M}\sum h_m(x)$ |
-| Random forest | bagging + random feature subsets | split on random subset of features |
-| AdaBoost | reweight hard samples | $\alpha_t = \frac{1}{2}\log\frac{1-\epsilon_t}{\epsilon_t}$ |
-| Gradient boosting | fit learners to residuals/gradients | stagewise descent in function space |
-| Stacking | meta-learner on model outputs | learn $g(h_1(x),\dots,h_M(x))$ |
+<table>
+<tr><th>Method</th><th>Construction</th><th>Core formula</th></tr>
+<tr><td>Bagging</td><td>bootstrap resamples + averaging</td><td>$F(x)=\frac{1}{M}\sum h_m(x)$</td></tr>
+<tr><td>Random forest</td><td>bagging + random feature subsets</td><td>split on random subset of features</td></tr>
+<tr><td>AdaBoost</td><td>reweight hard samples</td><td>$\alpha_t = \frac{1}{2}\log\frac{1-\epsilon_t}{\epsilon_t}$</td></tr>
+<tr><td>Gradient boosting</td><td>fit learners to residuals/gradients</td><td>stagewise descent in function space</td></tr>
+<tr><td>Stacking</td><td>meta-learner on model outputs</td><td>learn $g(h_1(x),\dots,h_M(x))$</td></tr>
+</table>
 
 AdaBoost sample weight update
 $$
@@ -63,12 +64,13 @@ $$
 
 ## Variants / Extensions
 
-| Variant | Difference | Example |
-|---|---|---|
-| Heterogeneous ensemble | different model families | tree + linear + NN |
-| Snapshot ensemble | multiple checkpoints of one training run | deep learning |
-| Bayesian model averaging | posterior model weights | uncertainty-aware aggregation |
-| Distillation | compress ensemble into one student | deployment efficiency |
+<table>
+<tr><th>Variant</th><th>Difference</th><th>Example</th></tr>
+<tr><td>Heterogeneous ensemble</td><td>different model families</td><td>tree + linear + NN</td></tr>
+<tr><td>Snapshot ensemble</td><td>multiple checkpoints of one training run</td><td>deep learning</td></tr>
+<tr><td>Bayesian model averaging</td><td>posterior model weights</td><td>uncertainty-aware aggregation</td></tr>
+<tr><td>Distillation</td><td>compress ensemble into one student</td><td>deployment efficiency</td></tr>
+</table>
 
 ## Practical Notes
 

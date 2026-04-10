@@ -57,13 +57,14 @@ Masked modeling works when context predicts removed content
 
 ## Algorithms / Methods
 
-| Method family | Objective | Mechanism |
-|---|---|---|
-| Contrastive | InfoNCE, NT-Xent | pull positives, repel negatives |
-| Non-contrastive | BYOL, SimSiam | predictor + stop-gradient or EMA target |
-| Masked modeling | masked-token or patch prediction | reconstruct missing content |
-| Autoencoding | reconstruction loss | bottleneck compression |
-| Predictive coding | future context prediction | temporal dependence |
+<table>
+<tr><th>Method family</th><th>Objective</th><th>Mechanism</th></tr>
+<tr><td>Contrastive</td><td>InfoNCE, NT-Xent</td><td>pull positives, repel negatives</td></tr>
+<tr><td>Non-contrastive</td><td>BYOL, SimSiam</td><td>predictor + stop-gradient or EMA target</td></tr>
+<tr><td>Masked modeling</td><td>masked-token or patch prediction</td><td>reconstruct missing content</td></tr>
+<tr><td>Autoencoding</td><td>reconstruction loss</td><td>bottleneck compression</td></tr>
+<tr><td>Predictive coding</td><td>future context prediction</td><td>temporal dependence</td></tr>
+</table>
 
 Cosine similarity
 $$
@@ -72,12 +73,13 @@ $$
 
 ## Variants / Extensions
 
-| Variant | Data type | Example target |
-|---|---|---|
-| Vision SSL | image | augmented view agreement, masked patches |
-| NLP SSL | text | masked token, next-token prediction |
-| Audio SSL | waveform/spectrogram | masked spans, temporal contrast |
-| Multimodal SSL | image-text, audio-text | cross-modal alignment |
+<table>
+<tr><th>Variant</th><th>Data type</th><th>Example target</th></tr>
+<tr><td>Vision SSL</td><td>image</td><td>augmented view agreement, masked patches</td></tr>
+<tr><td>NLP SSL</td><td>text</td><td>masked token, next-token prediction</td></tr>
+<tr><td>Audio SSL</td><td>waveform/spectrogram</td><td>masked spans, temporal contrast</td></tr>
+<tr><td>Multimodal SSL</td><td>image-text, audio-text</td><td>cross-modal alignment</td></tr>
+</table>
 
 ## Practical Notes
 

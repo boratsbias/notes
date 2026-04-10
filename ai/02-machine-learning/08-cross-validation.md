@@ -55,13 +55,14 @@ $$
 
 ## Algorithms / Methods
 
-| Method | Split rule | Use case |
-|---|---|---|
-| Holdout | one train-valid split | fast baseline |
-| k-fold | equal partitions | standard tabular evaluation |
-| Stratified k-fold | preserve class ratios | classification |
-| Group k-fold | split by group id | patient/user/item leakage control |
-| Time-series CV | forward chaining | temporal dependence |
+<table>
+<tr><th>Method</th><th>Split rule</th><th>Use case</th></tr>
+<tr><td>Holdout</td><td>one train-valid split</td><td>fast baseline</td></tr>
+<tr><td>k-fold</td><td>equal partitions</td><td>standard tabular evaluation</td></tr>
+<tr><td>Stratified k-fold</td><td>preserve class ratios</td><td>classification</td></tr>
+<tr><td>Group k-fold</td><td>split by group id</td><td>patient/user/item leakage control</td></tr>
+<tr><td>Time-series CV</td><td>forward chaining</td><td>temporal dependence</td></tr>
+</table>
 
 Forward-chaining folds
 $$
@@ -70,12 +71,13 @@ $$
 
 ## Variants / Extensions
 
-| Variant | Main change | Benefit |
-|---|---|---|
-| Repeated k-fold | repeat random partitions | lower Monte Carlo variance |
-| Monte Carlo CV | random subsampling | flexible split ratio |
-| Nested CV | inner tuning + outer evaluation | unbiased model selection estimate |
-| Blocked CV | contiguous blocks | dependent observations |
+<table>
+<tr><th>Variant</th><th>Main change</th><th>Benefit</th></tr>
+<tr><td>Repeated k-fold</td><td>repeat random partitions</td><td>lower Monte Carlo variance</td></tr>
+<tr><td>Monte Carlo CV</td><td>random subsampling</td><td>flexible split ratio</td></tr>
+<tr><td>Nested CV</td><td>inner tuning + outer evaluation</td><td>unbiased model selection estimate</td></tr>
+<tr><td>Blocked CV</td><td>contiguous blocks</td><td>dependent observations</td></tr>
+</table>
 
 ## Practical Notes
 
