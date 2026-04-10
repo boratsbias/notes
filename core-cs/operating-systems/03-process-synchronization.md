@@ -2,13 +2,13 @@
 
 ## The Critical Section Problem
 
-A **critical section** is a code segment that accesses shared data. If two processes are in their critical sections simultaneously, a **race condition** occurs — the outcome depends on execution order.
+A **critical section** is a code segment that accesses shared data. If two processes are in their critical sections simultaneously, a **race condition** occurs; the outcome depends on execution order.
 
 **Requirements for a correct solution:**
 
-1. **Mutual exclusion** — Only one process in the critical section at a time
-2. **Progress** — If no one is in the CS and some want to enter, selection cannot be postponed indefinitely
-3. **Bounded waiting** — A process must not wait forever to enter the CS
+1. **Mutual exclusion**: Only one process in the critical section at a time
+2. **Progress**: If no one is in the CS and some want to enter, selection cannot be postponed indefinitely
+3. **Bounded waiting**: A process must not wait forever to enter the CS
 
 ## Peterson's Solution (Software)
 
@@ -81,9 +81,9 @@ if S < 0:   if S <= 0:
   block()     wakeup(process)
 ```
 
-**Binary semaphore:** S ∈ {0, 1} — works like a mutex.
+**Binary semaphore:** S ∈ {0, 1}; works like a mutex.
 
-**Counting semaphore:** S = N — controls access to N instances of a resource.
+**Counting semaphore:** S = N; controls access to N instances of a resource.
 
 ### Producer-Consumer with Semaphore
 
@@ -232,7 +232,7 @@ Modern CPUs and compilers reorder instructions for performance. This breaks naiv
 - C11/C++11: `atomic_thread_fence()`, `std::atomic` with appropriate memory order
 
 Memory order options (C++):
-- `relaxed` — no ordering guarantees
-- `acquire` — no reads/writes can be reordered before this load
-- `release` — no reads/writes can be reordered after this store
-- `seq_cst` — total sequential consistency (default, most expensive)
+- `relaxed`: no ordering guarantees
+- `acquire`: no reads/writes can be reordered before this load
+- `release`: no reads/writes can be reordered after this store
+- `seq_cst`: total sequential consistency (default, most expensive)

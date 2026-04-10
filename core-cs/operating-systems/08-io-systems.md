@@ -66,7 +66,7 @@ OS reorders I/O requests for efficiency (especially for HDDs).
 - **C-SCAN (Circular SCAN):** Move in one direction, jump back to start. More uniform wait times.
 - **LOOK / C-LOOK:** Like SCAN/C-SCAN but only go as far as the last request (don't travel to disk edge).
 
-Modern SSDs have no seek time — FCFS or simple queuing is fine.
+Modern SSDs have no seek time; FCFS or simple queuing is fine.
 
 ### Buffering
 
@@ -89,7 +89,7 @@ Different from buffering: a cache is a copy of data that exists elsewhere (on di
 
 ### Spooling
 
-Simultaneous Peripheral Operations Online. Queue output to slow devices (printers) in a spool directory. Jobs processed in order. Multiple applications can "print" concurrently — the spooler serializes access.
+Simultaneous Peripheral Operations Online. Queue output to slow devices (printers) in a spool directory. Jobs processed in order. Multiple applications can "print" concurrently; the spooler serializes access.
 
 ### Error Handling
 
@@ -138,8 +138,8 @@ Common interface: `open()`, `read()`, `write()`, `close()`, `ioctl()` (device-sp
 **Asynchronous I/O (AIO):** System call returns immediately. Application gets notification (callback, signal, or polling) when complete.
 
 Linux interfaces:
-- POSIX AIO (`aio_read`, `aio_write`) — user-space thread simulation, not truly async
-- `io_uring` (Linux 5.1+) — true kernel async I/O with shared ring buffers between kernel and user space. Very low overhead. Used in high-performance servers.
+- POSIX AIO (`aio_read`, `aio_write`): user-space thread simulation, not truly async
+- `io_uring` (Linux 5.1+): true kernel async I/O with shared ring buffers between kernel and user space. Very low overhead. Used in high-performance servers.
 
 **Non-blocking I/O:** `O_NONBLOCK` flag. System call returns immediately with `EAGAIN` if no data available. Application must retry. Used with `select()`, `poll()`, `epoll()`.
 

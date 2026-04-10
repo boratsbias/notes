@@ -57,7 +57,7 @@ U between 0.693 and 1: may or may not be schedulable (need exact analysis).
 
 Dynamic priority. Task with **nearest absolute deadline** gets highest priority. Priority changes as deadlines approach.
 
-**Optimal** for preemptive uniprocessor scheduling — can achieve U = 1 (100% utilization).
+**Optimal** for preemptive uniprocessor scheduling; can achieve U = 1 (100% utilization).
 
 Harder to implement and analyze than RMS. Priority inversions more complex. Less predictable on overload.
 
@@ -126,7 +126,7 @@ A task can lock a resource only if its priority is higher than the ceiling of al
 
 ### Linux as RTOS
 
-Standard Linux is **not** real-time — it has unbounded latency (kernel preemption disabled in many code paths).
+Standard Linux is **not** real-time. It has unbounded latency (kernel preemption disabled in many code paths).
 
 **PREEMPT_RT patch:** Converts most spinlocks to mutexes, makes interrupt handlers preemptible. Achieves soft real-time guarantees (latency typically < 100μs).
 

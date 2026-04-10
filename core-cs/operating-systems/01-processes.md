@@ -55,7 +55,7 @@ When the CPU switches from one process to another:
 1. Save state of current process into its PCB
 2. Load state of next process from its PCB
 
-Context switch is **pure overhead** — no useful work done during the switch. Modern hardware provides features (multiple register sets) to reduce cost.
+Context switch is **pure overhead**; no useful work done during the switch. Modern hardware provides features (multiple register sets) to reduce cost.
 
 ## Process Creation
 
@@ -71,9 +71,9 @@ if (pid == 0) {
 }
 ```
 
-- `fork()` — duplicates the calling process. Returns 0 to child, child's PID to parent.
-- `exec()` — replaces the process image. Does not return on success.
-- `wait()` / `waitpid()` — parent waits for child to terminate; collects exit status.
+- `fork()`: duplicates the calling process. Returns 0 to child, child's PID to parent.
+- `exec()`: replaces the process image. Does not return on success.
+- `wait()` / `waitpid()`: parent waits for child to terminate; collects exit status.
 
 **Windows:** `CreateProcess()` combines fork + exec semantics.
 
@@ -93,13 +93,13 @@ Processes need to communicate and synchronize. Two main models:
 
 ### Shared Memory
 - Processes share a region of memory
-- Fast — no syscall overhead after setup
+- Fast; no syscall overhead after setup
 - Requires explicit synchronization (mutexes, semaphores)
 - Example: `shmget()`, `shmat()` (POSIX: `shm_open()`)
 
 ### Message Passing
 - Processes exchange messages via OS
-- No shared memory needed — good for distributed systems
+- No shared memory needed; good for distributed systems
 - Slower due to syscall overhead per message
 - Variants: pipes, message queues, sockets
 

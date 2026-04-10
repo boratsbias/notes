@@ -50,7 +50,7 @@ Run the process with the shortest next CPU burst. Optimal for minimizing average
 - **Non-preemptive SJF:** Current job finishes before switching
 - **Preemptive SJF (SRTF):** If new job has shorter remaining time, preempt current job
 - Problem: Cannot know the next CPU burst length in advance
-- Approximation: Exponential averaging — `τ_{n+1} = α·t_n + (1-α)·τ_n`
+- Approximation: Exponential averaging: `τ_{n+1} = α·t_n + (1-α)·τ_n`
 
 ### Round Robin (RR)
 
@@ -65,14 +65,14 @@ Each process gets a **time quantum** q. After q ms, it's preempted and goes to b
 
 Each process has a priority. Highest priority runs first. Can be preemptive or non-preemptive.
 
-**Problem — Starvation:** Low-priority processes may never run.
-**Solution — Aging:** Gradually increase priority of waiting processes.
+**Problem: Starvation.** Low-priority processes may never run.
+**Solution: Aging.** Gradually increase priority of waiting processes.
 
 ### Multilevel Queue Scheduling
 
 Ready queue split into multiple queues by process type:
-- Foreground (interactive) — higher priority, RR
-- Background (batch) — lower priority, FCFS
+- Foreground (interactive): higher priority, RR
+- Background (batch): lower priority, FCFS
 
 Queues have fixed priority. Processes cannot move between queues.
 

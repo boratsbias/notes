@@ -21,8 +21,8 @@ Conceptual model: matrix where rows = domains (users/processes), columns = objec
 
 ```
           File A    File B    Printer
-Process 1  read     read,write  —
-Process 2  read       —        print
+Process 1  read     read,write  -
+Process 2  read       -        print
 ```
 
 Too large to store directly. Implemented as:
@@ -33,9 +33,9 @@ Too large to store directly. Implemented as:
 
 **Capability lists:** Per domain, list of (object, rights). Like a ticket/token.
 - Easy to transfer/delegate access
-- Hard to revoke — must find and invalidate all capabilities
+- Hard to revoke; must find and invalidate all capabilities
 
-**Linux Unix permissions:** Simplified ACL — owner/group/other × read/write/execute.
+**Linux Unix permissions:** Simplified ACL; owner/group/other × read/write/execute.
 **Linux POSIX ACLs:** Extended per-file ACLs (via `getfacl`/`setfacl`).
 
 ### Role-Based Access Control (RBAC)
@@ -57,9 +57,9 @@ System enforces policy that users cannot override. Labels on subjects and object
 ## Authentication
 
 Verify identity. Three factors:
-- Something you **know** — password, PIN
-- Something you **have** — hardware token, phone (OTP)
-- Something you **are** — fingerprint, face
+- Something you **know**: password, PIN
+- Something you **have**: hardware token, phone (OTP)
+- Something you **are**: fingerprint, face
 
 **Multi-factor authentication (MFA):** Combine ≥2 factors.
 
@@ -160,5 +160,5 @@ Defense: SYN cookies.
 **Open design:** Security should not depend on secrecy of design (Kerckhoff's principle).
 
 **CVE (Common Vulnerabilities and Exposures):** Standardized identifiers for known vulnerabilities.
-**CVSS:** Common Vulnerability Scoring System — severity rating 0-10.
+**CVSS:** Common Vulnerability Scoring System; severity rating 0-10.
 **Patch management:** Apply security patches promptly. Unpatched systems are primary attack vector.

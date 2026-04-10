@@ -41,7 +41,7 @@ Hardware clocks drift. NTP (Network Time Protocol) synchronizes clocks over the 
 
 **Cristian's algorithm:** Client asks server for time, adjusts for round-trip delay.
 
-**Clock synchronization** cannot achieve perfect accuracy — messages take variable time.
+**Clock synchronization** cannot achieve perfect accuracy; messages take variable time.
 
 ### Logical Clocks
 
@@ -63,9 +63,9 @@ But `L(A) < L(B)` does NOT mean A → B (only a necessary condition, not suffici
 
 A distributed system can guarantee at most **two** of:
 
-- **C**onsistency — Every read sees the most recent write
-- **A**vailability — Every request receives a response (not an error)
-- **P**artition tolerance — System continues operating despite network partitions
+- **C**onsistency: Every read sees the most recent write
+- **A**vailability: Every request receives a response (not an error)
+- **P**artition tolerance: System continues operating despite network partitions
 
 Since partitions are unavoidable in real networks, systems must choose CP or AP.
 
@@ -204,7 +204,7 @@ Call a procedure on a remote machine as if it were local.
 4. Result marshaled and sent back
 5. Client stub returns result
 
-**Exactly-once semantics** is hard — network failures mean you may not know if the call executed. Design for **idempotency** (at-least-once is safer).
+**Exactly-once semantics** is hard; network failures mean you may not know if the call executed. Design for **idempotency** (at-least-once is safer).
 
 **Frameworks:** gRPC (Google, uses Protocol Buffers), Thrift (Meta), JSON-RPC.
 

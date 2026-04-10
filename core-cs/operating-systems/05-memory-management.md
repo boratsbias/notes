@@ -30,7 +30,7 @@ Each process gets a single contiguous block of memory.
 
 ### Fixed Partitioning
 Memory divided into fixed-size partitions. One process per partition.
-- Simple but wasteful — **internal fragmentation** (unused space inside a partition)
+- Simple but wasteful: **internal fragmentation** (unused space inside a partition)
 
 ### Variable Partitioning
 Partitions sized to fit processes exactly.
@@ -89,7 +89,7 @@ EAT = hit_rate × (TLB_time + memory_time)
 
 TLB hit rates are typically >99%, making EAT nearly equal to one memory access.
 
-**TLB flushing:** On context switch, TLB must be flushed (or use **ASIDs** — Address Space Identifiers — to tag entries by process).
+**TLB flushing:** On context switch, TLB must be flushed (or use **ASIDs**, Address Space Identifiers, to tag entries by process).
 
 ### Multi-Level Page Tables
 
@@ -114,7 +114,7 @@ One global page table, indexed by frame number rather than virtual page number. 
 
 Multiple processes can map the same physical frame (read-only code sharing, shared libraries).
 
-Requirements: Shared page must appear at the same virtual address in all processes (for code with absolute addresses) — or use position-independent code (PIC).
+Requirements: Shared page must appear at the same virtual address in all processes (for code with absolute addresses), or use position-independent code (PIC).
 
 ## Memory Protection
 

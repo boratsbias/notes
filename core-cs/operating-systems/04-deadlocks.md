@@ -2,16 +2,16 @@
 
 ## Definition
 
-A set of processes is deadlocked when every process in the set is waiting for an event that can only be triggered by another process in the set — and no process can proceed.
+A set of processes is deadlocked when every process in the set is waiting for an event that can only be triggered by another process in the set. No process can proceed.
 
 ## Four Necessary Conditions (Coffman Conditions)
 
 All four must hold simultaneously for deadlock to occur:
 
-1. **Mutual exclusion** — At least one resource is held in a non-shareable mode
-2. **Hold and wait** — A process holds resources while waiting for additional resources
-3. **No preemption** — Resources cannot be forcibly taken from a process; they must be released voluntarily
-4. **Circular wait** — A circular chain of processes exists, each waiting for a resource held by the next
+1. **Mutual exclusion**: At least one resource is held in a non-shareable mode
+2. **Hold and wait**: A process holds resources while waiting for additional resources
+3. **No preemption**: Resources cannot be forcibly taken from a process; they must be released voluntarily
+4. **Circular wait**: A circular chain of processes exists, each waiting for a resource held by the next
 
 ## Resource Allocation Graph (RAG)
 

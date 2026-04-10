@@ -15,10 +15,10 @@ A **file** is a named collection of related data stored persistently on a storag
 | Type | Unix extension | Identified by |
 |------|---------------|---------------|
 | Regular | .txt, .c, .exe | Content |
-| Directory | — | Inode type |
+| Directory | - | Inode type |
 | Symbolic link | .lnk | Inode type |
-| Special files (devices) | — | /dev/, inode type |
-| Pipe | — | Created via mkfifo |
+| Special files (devices) | - | /dev/, inode type |
+| Pipe | - | Created via mkfifo |
 | Socket | .sock | Created via socket() |
 
 **Magic numbers:** Unix identifies file type by first bytes (e.g., `#!` for scripts, `ELF` for executables, `PK` for ZIP).
@@ -145,7 +145,7 @@ Disk reads/writes are cached in memory (page cache).
 
 ## RAID
 
-Redundant Array of Independent Disks — combine multiple disks for performance and/or reliability.
+Redundant Array of Independent Disks. Combines multiple disks for performance and/or reliability.
 
 | Level | Description | Min Disks | Overhead |
 |-------|-------------|-----------|---------|
@@ -168,4 +168,4 @@ Allows a client to mount a remote filesystem over a network. Client VFS calls ar
 
 Replaced by journaling in modern filesystems (journal guarantees consistency without full scan).
 
-**Copy-on-Write filesystems (ZFS, Btrfs, APFS):** Never overwrite data in place. Write new version, then atomically update pointers. No need for journaling — always consistent.
+**Copy-on-Write filesystems (ZFS, Btrfs, APFS):** Never overwrite data in place. Write new version, then atomically update pointers. No need for journaling; always consistent.

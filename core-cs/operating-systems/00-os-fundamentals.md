@@ -5,9 +5,9 @@
 An OS is system software that acts as an intermediary between hardware and user applications. It manages hardware resources and provides services to programs.
 
 **Core roles:**
-- Resource allocator — manages CPU, memory, I/O devices
-- Control program — controls execution to prevent errors and misuse
-- Kernel — the one program always running on the computer
+- Resource allocator: manages CPU, memory, I/O devices
+- Control program: controls execution to prevent errors and misuse
+- Kernel: the one program always running on the computer
 
 ## OS Structure
 
@@ -26,7 +26,7 @@ Only essential services in kernel space (IPC, basic scheduling, memory). Everyth
 - Examples: Mach, QNX, MINIX
 
 ### Hybrid Kernel
-Combines monolithic and microkernel approaches — core services in kernel, others optionally in user space.
+Combines monolithic and microkernel approaches. Core services in kernel, others optionally in user space.
 - Examples: Windows NT, macOS (XNU)
 
 ### Exokernel
@@ -98,7 +98,7 @@ Allows multiple OS instances to run on a single physical machine.
 - **Type 1 (bare-metal):** Hypervisor runs directly on hardware. Examples: VMware ESXi, Xen, KVM
 - **Type 2 (hosted):** Hypervisor runs on top of a host OS. Examples: VirtualBox, VMware Workstation
 
-**Containers** (e.g., Docker) use OS-level virtualization — share the host kernel, isolate user space via namespaces and cgroups.
+**Containers** (e.g., Docker) use OS-level virtualization. They share the host kernel and isolate user space via namespaces and cgroups.
 
 ## Key OS Abstractions
 

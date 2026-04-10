@@ -2,7 +2,7 @@
 
 ## Concept
 
-Virtual memory separates the logical address space from physical memory. Processes can run even if their entire address space isn't in RAM — pages are brought in on demand.
+Virtual memory separates the logical address space from physical memory. Processes can run even if their entire address space isn't in RAM. Pages are brought in on demand.
 
 **Benefits:**
 - Programs can be larger than physical RAM
@@ -93,7 +93,7 @@ How many frames to give each process?
 
 ## Thrashing
 
-When a process doesn't have enough frames to hold its working set, it constantly page faults. The OS spends more time paging than executing — **thrashing**.
+When a process doesn't have enough frames to hold its working set, it constantly page faults. The OS spends more time paging than executing: **thrashing**.
 
 **Cause:** OS increases multiprogramming → each process has fewer frames → page faults increase → CPU utilization drops → OS admits more processes → even fewer frames → catastrophic.
 
@@ -149,8 +149,8 @@ Regular page size is 4KB. Modern systems support huge pages (2MB or 1GB on x86-6
 - Better TLB coverage for databases, JVMs, etc.
 
 **Linux:**
-- `hugepages` — explicitly allocated huge pages
-- `Transparent Huge Pages (THP)` — kernel automatically uses huge pages where beneficial
+- `hugepages`: explicitly allocated huge pages
+- `Transparent Huge Pages (THP)`: kernel automatically uses huge pages where beneficial
 
 ## NUMA and Memory Policy
 
