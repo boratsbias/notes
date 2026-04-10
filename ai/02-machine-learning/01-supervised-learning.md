@@ -1,7 +1,5 @@
 # Supervised Learning
 
-## Core Idea
-
 Supervised learning trains a model $f_\theta$ on labeled pairs $\{(x_i, y_i)\}_{i=1}^n$ to predict $y$ for unseen $x$. The label $y$ provides direct supervision about the correct output.
 
 $$\hat{\theta} = \arg\min_\theta \frac{1}{n} \sum_{i=1}^n \mathcal{L}(f_\theta(x_i), y_i)$$

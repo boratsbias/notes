@@ -1,7 +1,5 @@
 # Regularization
 
-## Core Idea
-
 Regularization refers to any technique that reduces overfitting (high variance) by adding constraints, noise, or implicit bias to the learning process. It improves generalization by preventing the model from memorizing training data idiosyncrasies.
 
 **Formal framing:** regularization modifies the objective:

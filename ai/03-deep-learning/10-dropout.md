@@ -1,7 +1,5 @@
 # Dropout
 
-## Core Idea
-
 **Dropout** randomly sets a fraction of neurons to zero during each forward pass of training. This prevents neurons from co-adapting (relying on specific other neurons) and forces the network to learn redundant, distributed representations. It acts as an approximate ensemble of exponentially many thinned networks.
 
 ## Mechanism

@@ -1,7 +1,5 @@
 # Loss Functions
 
-## Core Idea
-
 The loss function $\mathcal{L}(\hat{y}, y)$ measures the discrepancy between the model's prediction $\hat{y}$ and the true target $y$. It defines what the network is optimizing and must be chosen to match the task, output distribution, and desired error geometry.
 
 The **training objective** is:

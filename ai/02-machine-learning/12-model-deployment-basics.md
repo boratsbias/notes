@@ -1,6 +1,6 @@
 # Model Deployment Basics
 
-## Core Idea
+## What does it mean to deploy a model?
 
 Model deployment is the process of making a trained model available for use in production systems. A model that never serves real users has no impact. Deployment bridges the gap between offline experimentation and online value, and introduces challenges absent during research: latency, reliability, scalability, and distribution shift.
 

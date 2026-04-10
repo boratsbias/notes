@@ -1,7 +1,5 @@
 # Stochastic Gradient Descent
 
-## Core Idea
-
 **Stochastic Gradient Descent (SGD)** approximates the true gradient using a small random subset (**mini-batch**) of the training data at each step. The noise in the gradient estimate acts as implicit regularization and helps escape sharp minima, making SGD the workhorse optimizer for deep learning.
 
 $$\theta^{(t+1)} = \theta^{(t)} - \eta_t \hat{g}_t$$

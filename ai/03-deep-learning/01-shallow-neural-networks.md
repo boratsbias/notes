@@ -1,7 +1,5 @@
 # Shallow Neural Networks
 
-## Core Idea
-
 A **shallow neural network** has exactly one hidden layer between input and output. Despite their simplicity, shallow networks are the theoretical basis for the universal approximation theorem and serve as the building block for understanding deeper architectures.
 
 $$\hat{y} = W^{(2)} \sigma(W^{(1)} \mathbf{x} + \mathbf{b}^{(1)}) + \mathbf{b}^{(2)}$$

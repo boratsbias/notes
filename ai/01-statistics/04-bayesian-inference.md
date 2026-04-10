@@ -1,7 +1,5 @@
 # Bayesian Inference
 
-## Core Idea
-
 Bayesian inference treats parameters as random variables and updates beliefs using Bayes' theorem:
 
 $$P(\theta | D) = \frac{P(D | \theta) P(\theta)}{P(D)}$$

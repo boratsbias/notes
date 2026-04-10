@@ -1,7 +1,5 @@
 # Semi Supervised Learning
 
-## Core Idea
-
 Semi-supervised learning (SSL) leverages a small labeled dataset $\mathcal{D}_L = \{(x_i, y_i)\}_{i=1}^l$ together with a large unlabeled dataset $\mathcal{D}_U = \{x_j\}_{j=1}^u$ (where $u \gg l$) to learn a better model than supervised learning on $\mathcal{D}_L$ alone.
 
 The key insight: unlabeled data reveals the structure of $P(X)$, which often constrains $P(Y|X)$.

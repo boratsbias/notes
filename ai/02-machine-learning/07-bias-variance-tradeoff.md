@@ -1,6 +1,6 @@
 # Bias Variance Tradeoff
 
-## Core Idea
+## What is the Bias-Variance Tradeoff?
 
 The bias-variance tradeoff decomposes the expected generalization error of a learning algorithm into three terms: bias (systematic error), variance (sensitivity to training data), and irreducible noise. Minimizing total error requires balancing bias and variance.
 

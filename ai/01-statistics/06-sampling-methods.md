@@ -1,7 +1,5 @@
 # Sampling Methods
 
-## Core Idea
-
 Sampling methods generate random draws from a probability distribution. In ML, they are used for:
 - Approximating intractable integrals (Monte Carlo)
 - Generating synthetic data

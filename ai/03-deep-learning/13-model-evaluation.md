@@ -1,6 +1,6 @@
 # Model Evaluation (Deep Learning)
 
-## Core Idea
+## How do we evaluate Deep Learning models?
 
 Evaluating deep learning models requires the same statistical rigor as classical ML but adds concerns specific to neural networks: training curves, generalization gaps, calibration, and the gap between benchmark performance and real-world behavior.
 

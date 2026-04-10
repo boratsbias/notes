@@ -1,7 +1,5 @@
 # Information Theory
 
-## Core Idea
-
 Information theory quantifies **uncertainty**, **information content**, and **communication efficiency**. In ML, it provides the theoretical foundation for loss functions, compression, and learning bounds.
 
 ## Entropy

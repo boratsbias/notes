@@ -1,7 +1,5 @@
 # Unsupervised Learning
 
-## Core Idea
-
 Unsupervised learning discovers structure in data $\{x_i\}_{i=1}^n$ without any labels. The goal is to model the underlying distribution $P(X)$ or find meaningful groupings, representations, or lower-dimensional embeddings.
 
 ## Clustering

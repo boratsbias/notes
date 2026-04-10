@@ -1,7 +1,5 @@
 # Feature Engineering
 
-## Core Idea
-
 Feature engineering transforms raw input data into representations that are more informative for a learning algorithm. Even powerful models benefit from well-engineered features; poor representations can make a problem unlearnable regardless of model capacity.
 
 > "Applied machine learning is basically feature engineering." — Andrew Ng

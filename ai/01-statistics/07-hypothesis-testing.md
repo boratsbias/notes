@@ -1,7 +1,5 @@
 # Hypothesis Testing
 
-## Core Idea
-
 Hypothesis testing provides a framework for making decisions about population parameters based on sample data. It answers: "Is the observed effect real, or could it be due to random chance?"
 
 ## Basic Framework

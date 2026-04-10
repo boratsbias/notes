@@ -1,7 +1,5 @@
 # Probability Theory
 
-## Core Idea
-
 Probability theory provides the mathematical foundation for quantifying uncertainty. In ML, it underpins everything from model predictions to hypothesis testing and Bayesian inference.
 
 ## Basic Definitions

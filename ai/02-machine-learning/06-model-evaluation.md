@@ -1,6 +1,6 @@
 # Model Evaluation
 
-## Core Idea
+## How do we measure model performance?
 
 Model evaluation measures how well a learned model generalizes to unseen data. It guides model selection, debugging, and deployment decisions. The choice of metric must align with the real-world cost structure of errors.
 

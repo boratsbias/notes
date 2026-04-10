@@ -1,7 +1,5 @@
 # Self Supervised Learning
 
-## Core Idea
-
 Self-supervised learning (SSL) trains a model on a **pretext task** derived from unlabeled data, using the data itself to generate supervisory signals. The learned representations then transfer to downstream tasks with few or no labels.
 
 Unlike semi-supervised learning, there is no labeled set at pretraining time. Labels are created automatically from structure in the data.

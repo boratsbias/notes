@@ -1,6 +1,6 @@
 # Machine Learning Overview
 
-## Core Idea
+## What is Machine Learning?
 
 Machine learning is the study of algorithms that improve their performance on a task through experience. Instead of explicit programming, a model learns a mapping from inputs to outputs (or latent structure) directly from data.
 

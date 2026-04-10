@@ -1,7 +1,5 @@
 # Optimization Algorithms
 
-## Core Idea
-
 Optimization algorithms update neural network parameters to minimize the training loss. Beyond vanilla gradient descent, adaptive methods adjust the effective learning rate per parameter, enabling faster convergence and better handling of sparse gradients and ill-conditioned loss landscapes.
 
 ## Vanilla SGD with Momentum (Recap)

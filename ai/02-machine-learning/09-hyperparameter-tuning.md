@@ -1,7 +1,5 @@
 # Hyperparameter Tuning
 
-## Core Idea
-
 **Hyperparameters** are configuration choices that control the learning process but are not learned from data: learning rate, regularization strength, tree depth, number of layers. Tuning finds the configuration that maximizes validation performance.
 
 Distinguish from **model parameters** (learned during training, e.g., weights $\mathbf{w}$).

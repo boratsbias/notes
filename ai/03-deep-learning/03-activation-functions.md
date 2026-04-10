@@ -1,7 +1,5 @@
 # Activation Functions
 
-## Core Idea
-
 Activation functions introduce **nonlinearity** into neural networks. Without them, any depth of linear layers collapses to a single linear transformation. The choice of activation affects gradient flow, training speed, and representational capacity.
 
 ## Requirements for a Good Activation

@@ -1,6 +1,6 @@
 # Backpropagation
 
-## Core Idea
+## How does Backpropagation work?
 
 **Backpropagation** (backprop) is an efficient algorithm for computing the gradient of the loss $\mathcal{L}$ with respect to all network parameters $\theta$ by applying the **chain rule** in reverse order through the computational graph. It runs in $O(p)$ time (proportional to the number of parameters), the same cost as a single forward pass.
 

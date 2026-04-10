@@ -1,7 +1,5 @@
 # Maximum Likelihood Estimation
 
-## Core Idea
-
 **Maximum Likelihood Estimation (MLE)** finds the parameter values that make the observed data most probable.
 
 Given data $D = \{x_1, \ldots, x_n\}$ and a parametric model $P(x | \theta)$:

@@ -1,7 +1,5 @@
 # Neural Networks
 
-## Core Idea
-
 A neural network is a parametric function $f_\theta: \mathbb{R}^d \to \mathbb{R}^k$ composed of alternating linear transformations and element-wise nonlinearities. It is a **universal function approximator**: given sufficient width, a single hidden layer can approximate any continuous function on a compact domain to arbitrary precision.
 
 ## The Neuron (Perceptron)

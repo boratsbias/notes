@@ -1,6 +1,6 @@
 # Weight Initialization
 
-## Core Idea
+## Why does Weight Initialization matter?
 
 Weight initialization sets the starting values of network parameters before training. Poor initialization causes **vanishing or exploding activations** and gradients from the very first forward/backward pass, preventing learning. Good initialization preserves the variance of activations and gradients across layers.
 

@@ -1,6 +1,6 @@
 # Ensemble Learning
 
-## Core Idea
+## Why do Ensembles work?
 
 Ensemble learning combines predictions from multiple models (base learners) to produce a final prediction that is more accurate and robust than any individual model. The key insight: models make different errors; averaging reduces variance without increasing bias proportionally.
 

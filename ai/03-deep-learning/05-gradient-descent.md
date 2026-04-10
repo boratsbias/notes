@@ -1,7 +1,5 @@
 # Gradient Descent
 
-## Core Idea
-
 Gradient descent minimizes a differentiable loss $\mathcal{J}(\theta)$ by iteratively moving parameters in the direction of the negative gradient. The gradient $\nabla_\theta \mathcal{J}$ points in the direction of steepest ascent; moving opposite to it decreases the loss.
 
 $$\theta \leftarrow \theta - \eta \nabla_\theta \mathcal{J}(\theta)$$

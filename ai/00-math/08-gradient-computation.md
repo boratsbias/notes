@@ -1,7 +1,5 @@
 # Gradient Computation
 
-## What is a Gradient?
-
 The gradient $\nabla_\theta \mathcal{L}$ gives the direction and rate of steepest increase of the loss $\mathcal{L}$ w.r.t. parameters $\theta$. Gradient descent moves in the opposite direction.
 
 ## Four Ways to Compute Gradients

@@ -1,6 +1,6 @@
 # Deep Neural Networks
 
-## Core Idea
+## What makes a Neural Network deep?
 
 A **deep neural network (DNN)** has multiple hidden layers. Depth enables **hierarchical feature learning**: early layers detect low-level patterns; later layers compose them into abstract representations. This is the key advantage over shallow networks for structured data such as images, text, and audio.
 

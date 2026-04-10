@@ -1,7 +1,5 @@
 # Tensor Operations
 
-## What is a Tensor?
-
 A tensor is a multi-dimensional array generalizing scalars, vectors, and matrices:
 
 | Rank | Name | Shape | Example |

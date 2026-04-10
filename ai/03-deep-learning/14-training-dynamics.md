@@ -1,7 +1,5 @@
 # Training Dynamics
 
-## Core Idea
-
 **Training dynamics** refers to how neural network parameters, activations, gradients, and loss evolve during the training process. Understanding these dynamics is essential for diagnosing training failures, choosing hyperparameters, and designing architectures that are stable and efficient to train.
 
 ## The Training Loop

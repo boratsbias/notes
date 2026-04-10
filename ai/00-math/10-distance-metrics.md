@@ -1,7 +1,5 @@
 # Distance Metrics
 
-## What is a Distance Metric?
-
 A **metric** $d: X \times X \to \mathbb{R}$ satisfies:
 1. Non-negativity: $d(x, y) \geq 0$
 2. Identity of indiscernibles: $d(x, y) = 0 \iff x = y$

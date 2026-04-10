@@ -1,7 +1,5 @@
 # Statistical Modeling
 
-## Core Idea
-
 Statistical modeling uses probability distributions to describe data-generating processes and make inferences or predictions.
 
 ## General Framework

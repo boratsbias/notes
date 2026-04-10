@@ -1,7 +1,5 @@
 # Model Interpretability
 
-## Core Idea
-
 Model interpretability (also called explainability or XAI) is the degree to which a human can understand the cause of a model's prediction. It is essential for debugging, building trust, satisfying regulatory requirements, and detecting bias.
 
 **Interpretability vs. accuracy:** complex models (neural nets, gradient boosting) are often more accurate but harder to interpret. Interpretable models (linear regression, decision trees) trade some accuracy for transparency.

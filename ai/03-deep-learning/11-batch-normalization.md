@@ -1,7 +1,5 @@
 # Batch Normalization
 
-## Core Idea
-
 **Batch Normalization (BN)** normalizes the pre-activations (or post-activations) of each layer to have zero mean and unit variance within a mini-batch, then applies a learned affine transformation. It accelerates training, reduces sensitivity to initialization, and acts as a mild regularizer.
 
 ## Forward Pass

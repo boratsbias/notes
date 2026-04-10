@@ -1,7 +1,5 @@
 # Cross Validation
 
-## Core Idea
-
 Cross validation (CV) is a resampling technique that estimates a model's generalization performance by repeatedly training on subsets of the data and evaluating on the held-out portion. It provides a more reliable estimate than a single train/test split, especially when data is limited.
 
 ## Why CV Is Needed
