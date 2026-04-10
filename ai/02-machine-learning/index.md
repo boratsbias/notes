@@ -1,15 +1,15 @@
-# Machine Learning
-
-- [Machine Learning Overview](00-machine-learning-overview)
-- [Supervised Learning](01-supervised-learning)
-- [Unsupervised Learning](02-unsupervised-learning)
-- [Semi Supervised Learning](03-semi-supervised-learning)
-- [Self Supervised Learning](04-self-supervised-learning)
-- [Feature Engineering](05-feature-engineering)
-- [Model Evaluation](06-model-evaluation)
-- [Bias Variance Tradeoff](07-bias-variance-tradeoff)
-- [Cross Validation](08-cross-validation)
-- [Hyperparameter Tuning](09-hyperparameter-tuning)
-- [Ensemble Learning](10-ensemble-learning)
-- [Model Interpretability](11-model-interpretability)
-- [Model Deployment Basics](12-model-deployment-basics)
+# Machine Learning  
+  
+- Machine Learning Overview  
+- Supervised Learning  
+- Unsupervised Learning  
+- Semi Supervised Learning  
+- Self Supervised Learning  
+- Feature Engineering  
+- Model Evaluation  
+- Bias Variance Tradeoff  
+- Cross Validation  
+- Hyperparameter Tuning  
+- Ensemble Learning  
+- Model Interpretability  
+- Model Deployment Basics
