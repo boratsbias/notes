@@ -2,10 +2,10 @@
 
 ## Topics
 
-- Compilers
-- Computer Architecture
-- Computer Networking
-- Data Structures and Algorithms
-- Databases
-- Distributed Systems
+- [Compilers](compilers/)
+- [Computer Architecture](computer-architecture/)
+- [Computer Networking](computer-networks/)
+- [Data Structures and Algorithms](data-structures-and-algorithms/)
+- [Databases](databases/)
+- [Distributed Systems](distributed-systems/)
 - [Operating Systems](operating-systems/)
