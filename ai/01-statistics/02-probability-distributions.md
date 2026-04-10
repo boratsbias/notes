@@ -62,8 +62,6 @@ where $\sum_i n_i = n$ and $\sum_i p_i = 1$.
 
 - Used for: multi-class classification, word counts in documents
 
----
-
 ## Continuous Distributions
 
 ### Uniform Distribution
@@ -172,8 +170,6 @@ If $Z_1, \ldots, Z_k \sim \mathcal{N}(0, 1)$, then $X = \sum_i Z_i^2 \sim \chi^2
 - Variance: $2k$
 - Used for: hypothesis testing, confidence intervals
 
----
-
 ## Summary Table
 
 | Distribution | Parameters | Support | Mean | Variance | Typical Use |
@@ -187,8 +183,6 @@ If $Z_1, \ldots, Z_k \sim \mathcal{N}(0, 1)$, then $X = \sum_i Z_i^2 \sim \chi^2
 | Gamma | $\alpha, \beta$ | $(0,\infty)$ | $\alpha/\beta$ | $\alpha/\beta^2$ | Bayesian priors |
 | Beta | $\alpha, \beta$ | $[0,1]$ | $\frac{\alpha}{\alpha+\beta}$ | complex | Probability priors |
 | Student's t | $\nu$ | $\mathbb{R}$ | $0$ | $\frac{\nu}{\nu-2}$ | Robust statistics |
-
----
 
 ## Key AI/ML Applications
 
