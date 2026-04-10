@@ -5,66 +5,44 @@
 Supervised learning fits mapping from inputs to labeled targets
 
 Dataset
-$$
-D = \{(x_i, y_i)\}_{i=1}^n
-$$
+$$D = \{(x_i, y_i)\}_{i=1}^n$$
 
 Tasks
-$$
-y_i \in \mathbb{R} \quad \text{regression}, \qquad y_i \in \{1,\dots,K\} \quad \text{classification}
-$$
+$$y_i \in \mathbb{R} \quad \text{regression}, \qquad y_i \in \{1,\dots,K\} \quad \text{classification}$$
 
 ## Mathematical Formulation
 
 Empirical risk minimization
-$$
-\hat{\theta} = \arg\min_\theta \frac{1}{n} \sum_{i=1}^n \ell(f_\theta(x_i), y_i) + \lambda \Omega(\theta)
-$$
+$$\hat{\theta} = \arg\min_\theta \frac{1}{n} \sum_{i=1}^n \ell(f_\theta(x_i), y_i) + \lambda \Omega(\theta)$$
 
 Regression with squared loss
-$$
-\ell(\hat{y}, y) = (\hat{y} - y)^2
-$$
+$$\ell(\hat{y}, y) = (\hat{y} - y)^2$$
 
 Binary classification with logistic model
-$$
-p_\theta(y=1 \mid x) = \sigma(\theta^\top x), \qquad \sigma(z) = \frac{1}{1+e^{-z}}
-$$
+$$p_\theta(y=1 \mid x) = \sigma(\theta^\top x), \qquad \sigma(z) = \frac{1}{1+e^{-z}}$$
 
 Cross-entropy loss
-$$
-\ell(\hat{p}, y) = - y \log \hat{p} - (1-y)\log(1-\hat{p})
-$$
+$$\ell(\hat{p}, y) = - y \log \hat{p} - (1-y)\log(1-\hat{p})$$
 
 Bayes classifier
-$$
-f^\ast(x) = \arg\max_{k} P(Y=k \mid X=x)
-$$
+$$f^\ast(x) = \arg\max_{k} P(Y=k \mid X=x)$$
 
 ## Conditions / Properties
 
 First-order optimality for differentiable objective
-$$
-\nabla_\theta J(\hat{\theta}) = 0
-$$
+$$\nabla_\theta J(\hat{\theta}) = 0$$
 
 Second-order sufficient condition
-$$
-\nabla_\theta^2 J(\hat{\theta}) \succ 0
-$$
+$$\nabla_\theta^2 J(\hat{\theta}) \succ 0$$
 for strict local minimum
 
 Excess risk
-$$
-R(\hat{\theta}) - R(\theta^\ast)
-$$
+$$R(\hat{\theta}) - R(\theta^\ast)$$
 
 Classification calibration: minimizing cross-entropy recovers posterior probabilities under correct specification
 
 Overfitting appears when
-$$
-\hat{R}_{\text{train}} \ll \hat{R}_{\text{test}}
-$$
+$$\hat{R}_{\text{train}} \ll \hat{R}_{\text{test}}$$
 
 ## Algorithms / Methods
 
@@ -78,14 +56,10 @@ $$
 </table>
 
 Gradient update
-$$
-\theta_{t+1} = \theta_t - \eta_t \nabla_\theta J(\theta_t)
-$$
+$$\theta_{t+1} = \theta_t - \eta_t \nabla_\theta J(\theta_t)$$
 
 Normal equation for linear regression
-$$
-\hat{w} = (X^\top X)^{-1} X^\top y
-$$
+$$\hat{w} = (X^\top X)^{-1} X^\top y$$
 when $X^\top X$ invertible
 
 ## Variants / Extensions
@@ -102,17 +76,13 @@ when $X^\top X$ invertible
 ## Practical Notes
 
 Feature scaling changes conditioning of
-$$
-X^\top X
-$$
+$$X^\top X$$
 and speeds optimization
 
 Class imbalance makes accuracy unreliable
 
 Probability threshold for binary prediction
-$$
-\hat{y} = \mathbb{1}[\hat{p} \ge \tau]
-$$
+$$\hat{y} = \mathbb{1}[\hat{p} \ge \tau]$$
 should depend on precision-recall cost
 
 Leakage examples: target encoding fit on full data, normalization using test set statistics

@@ -5,40 +5,27 @@
 Unsupervised learning extracts structure from unlabeled samples
 
 Dataset
-$$
-D = \{x_i\}_{i=1}^n, \qquad x_i \in \mathbb{R}^d
-$$
+$$D = \{x_i\}_{i=1}^n, \qquad x_i \in \mathbb{R}^d$$
 
 Goals: clustering, density estimation, dimensionality reduction, latent factor discovery
 
 ## Mathematical Formulation
 
 Density estimation
-$$
-\hat{\theta} = \arg\max_\theta \sum_{i=1}^n \log p_\theta(x_i)
-$$
+$$\hat{\theta} = \arg\max_\theta \sum_{i=1}^n \log p_\theta(x_i)$$
 
 Clustering as within-cluster distortion minimization
-$$
-\min_{\{C_k,\mu_k\}_{k=1}^K} \sum_{k=1}^K \sum_{x_i \in C_k} \|x_i - \mu_k\|_2^2
-$$
+$$\min_{\{C_k,\mu_k\}_{k=1}^K} \sum_{k=1}^K \sum_{x_i \in C_k} \|x_i - \mu_k\|_2^2$$
 
 PCA as variance maximization
-$$
-\max_{W \in \mathbb{R}^{d \times m}} \operatorname{tr}(W^\top S W)
-\quad \text{s.t.} \quad W^\top W = I
-$$
+$$\max_{W \in \mathbb{R}^{d \times m}} \operatorname{tr}(W^\top S W) \quad \text{s.t.} \quad W^\top W = I$$
 where
-$$
-S = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})(x_i - \bar{x})^\top
-$$
+$$S = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})(x_i - \bar{x})^\top$$
 
 ## Conditions / Properties
 
 PCA stationarity from eigenvalue problem
-$$
-S w = \lambda w
-$$
+$$S w = \lambda w$$
 
 k-means decreases objective monotonically under alternating minimization
 
@@ -58,19 +45,13 @@ Clustering quality without labels needs internal criteria such as silhouette or 
 </table>
 
 k-means assignment
-$$
-c_i = \arg\min_{k} \|x_i - \mu_k\|_2^2
-$$
+$$c_i = \arg\min_{k} \|x_i - \mu_k\|_2^2$$
 
 k-means centroid update
-$$
-\mu_k = \frac{1}{|C_k|} \sum_{x_i \in C_k} x_i
-$$
+$$\mu_k = \frac{1}{|C_k|} \sum_{x_i \in C_k} x_i$$
 
 GMM responsibility
-$$
-\gamma_{ik} = \frac{\pi_k \mathcal{N}(x_i \mid \mu_k, \Sigma_k)}{\sum_{j=1}^K \pi_j \mathcal{N}(x_i \mid \mu_j, \Sigma_j)}
-$$
+$$\gamma_{ik} = \frac{\pi_k \mathcal{N}(x_i \mid \mu_k, \Sigma_k)}{\sum_{j=1}^K \pi_j \mathcal{N}(x_i \mid \mu_j, \Sigma_j)}$$
 
 ## Variants / Extensions
 
@@ -88,9 +69,7 @@ $$
 Distance-based methods depend strongly on scaling
 
 For high dimension
-$$
-\|x_i - x_j\|_2
-$$
+$$\|x_i - x_j\|_2$$
 may concentrate, weakening nearest-neighbor intuition
 
 Choice of $K$ in clustering can use elbow, BIC, AIC, or silhouette, but no universal optimum exists

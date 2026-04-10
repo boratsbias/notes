@@ -5,67 +5,45 @@
 Machine learning learns predictor $f_\theta : \mathcal{X} \to \mathcal{Y}$ from data
 
 Given dataset
-$$
-D = \{(x_i, y_i)\}_{i=1}^n
-$$
+$$D = \{(x_i, y_i)\}_{i=1}^n$$
 where $x_i \in \mathcal{X}$ are inputs and $y_i \in \mathcal{Y}$ are targets
 
 Learning objective
-$$
-\theta^\ast = \arg\min_{\theta \in \Theta} \hat{R}(\theta)
-$$
+$$\theta^\ast = \arg\min_{\theta \in \Theta} \hat{R}(\theta)$$
 where $\hat{R}$ is empirical risk
 
 ## Mathematical Formulation
 
 Population risk
-$$
-R(\theta) = \mathbb{E}_{(X,Y) \sim P}[\ell(f_\theta(X), Y)]
-$$
+$$R(\theta) = \mathbb{E}_{(X,Y) \sim P}[\ell(f_\theta(X), Y)]$$
 
 Empirical risk
-$$
-\hat{R}(\theta) = \frac{1}{n} \sum_{i=1}^n \ell(f_\theta(x_i), y_i)
-$$
+$$\hat{R}(\theta) = \frac{1}{n} \sum_{i=1}^n \ell(f_\theta(x_i), y_i)$$
 
 Regularized objective
-$$
-J(\theta) = \hat{R}(\theta) + \lambda \Omega(\theta)
-$$
+$$J(\theta) = \hat{R}(\theta) + \lambda \Omega(\theta)$$
 where $\Omega(\theta)$ is complexity penalty and $\lambda \ge 0$
 
 Prediction rule
-$$
-\hat{y} = f_{\hat{\theta}}(x)
-$$
+$$\hat{y} = f_{\hat{\theta}}(x)$$
 
 Generalization gap
-$$
-R(\hat{\theta}) - \hat{R}(\hat{\theta})
-$$
+$$R(\hat{\theta}) - \hat{R}(\hat{\theta})$$
 
 ## Conditions / Properties
 
 First-order stationarity
-$$
-\nabla_\theta J(\theta^\ast) = 0
-$$
+$$\nabla_\theta J(\theta^\ast) = 0$$
 
 Second-order local minimum condition
-$$
-\nabla_\theta^2 J(\theta^\ast) \succeq 0
-$$
+$$\nabla_\theta^2 J(\theta^\ast) \succeq 0$$
 
 Bias-variance decomposition for squared loss
-$$
-\mathbb{E}\big[(Y - \hat{f}(X))^2\big] = \sigma^2 + \operatorname{Bias}[\hat{f}(X)]^2 + \operatorname{Var}[\hat{f}(X)]
-$$
+$$\mathbb{E}\big[(Y - \hat{f}(X))^2\big] = \sigma^2 + \operatorname{Bias}[\hat{f}(X)]^2 + \operatorname{Var}[\hat{f}(X)]$$
 where $\sigma^2 = \operatorname{Var}(Y \mid X)$ is irreducible noise
 
 IID assumption in standard setting
-$$
-(x_i, y_i) \overset{\text{iid}}{\sim} P(X,Y)
-$$
+$$(x_i, y_i) \overset{\text{iid}}{\sim} P(X,Y)$$
 
 Core property: success criterion is low test risk, not low training loss
 
@@ -81,9 +59,7 @@ Core property: success criterion is low test risk, not low training loss
 </table>
 
 Pipeline
-$$
-\text{data} \to \text{features} \to \text{train} \to \text{validate} \to \text{test} \to \text{deploy}
-$$
+$$\text{data} \to \text{features} \to \text{train} \to \text{validate} \to \text{test} \to \text{deploy}$$
 
 ## Variants / Extensions
 
@@ -100,19 +76,13 @@ $$
 ## Practical Notes
 
 Choice of loss defines statistical model
-$$
-\ell_{\text{MSE}} \leftrightarrow Y \mid X \sim \mathcal{N}(f_\theta(X), \sigma^2)
-$$
+$$\ell_{\text{MSE}} \leftrightarrow Y \mid X \sim \mathcal{N}(f_\theta(X), \sigma^2)$$
 
 Model capacity controls approximation-estimation tradeoff
 
 Data leakage invalidates estimate of
-$$
-R(\hat{\theta})
-$$
+$$R(\hat{\theta})$$
 
 Training, validation, test distributions should satisfy
-$$
-P_{\text{train}}(X,Y) \approx P_{\text{test}}(X,Y)
-$$
+$$P_{\text{train}}(X,Y) \approx P_{\text{test}}(X,Y)$$
 else covariate shift or concept drift appears
