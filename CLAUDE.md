@@ -7,7 +7,7 @@ Outputs should remain clean, readable, and consistent with the rules defined in 
 
 ---
 
-## Critical Rule
+## Critical Rules
 
 ### No Em Dashes
 
@@ -20,38 +20,17 @@ If a sentence normally uses an em dash, rewrite the sentence using one of the fo
 
 * a period
 * a comma
-* parentheses
-* a colon
-
-Before producing any response, the assistant must ensure that the em dash character does not appear anywhere in the output.
 
 ---
 
-## Writing Guidelines
+### No Table of Contents or Horizontal Rules
 
-* Prefer clear and simple sentence structure.
-* Avoid unnecessary stylistic punctuation.
-* Maintain consistent formatting throughout notes.
+The assistant must **never include a table of contents** in any output.
 
----
-
-## Future Customization
-
-This section is intentionally left open for future project rules.
-
-### Reserved Space
-
-* Custom formatting rules
-* Content structure guidelines
-* Domain specific instructions
-* Output formatting preferences
-* Additional restrictions
-
-(Add new rules here as the project evolves)
+The assistant must also **never use horizontal rules** such as:
 
 ---
+***
+___
 
-## Notes
-
-These instructions apply to all generated content within this project unless explicitly overridden by future rules.
-
+All content should flow naturally without structural separators.
