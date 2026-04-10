@@ -10,6 +10,6 @@
 - [Natural Language Processing](05-nlp/index)
 - [Computer Vision](06-computer-vision/index)
 - [Reinforcement Learning](07-reinforcement-learning/index)
-- [Graph Machine Learning](08-graph-machine-learning/index)
+- [Graph Machine Learning](08-graph-ml/index)
 - [AI Systems](09-ai-systems/index)
 - [Generative AI](10-generative-ai/index)

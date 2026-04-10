@@ -1,15 +1,16 @@
-# Natural Language Processing  
-  
-- Text Preprocessing  
-- Tokenization  
-- Word Embeddings  
-- Language Modeling  
-- Sequence Models  
-- Attention Mechanisms  
-- Transformers  
-- Machine Translation  
-- Question Answering  
-- Text Summarization  
-- Information Extraction  
-- Dialogue Systems  
+# Natural Language Processing
+
+- [NLP Foundations](00-nlp-foundations)
+- Text Preprocessing
+- Tokenization
+- Word Embeddings
+- Language Modeling
+- Sequence Models
+- Attention Mechanisms
+- Transformers
+- Machine Translation
+- Question Answering
+- Text Summarization
+- Information Extraction
+- Dialogue Systems
 - Large Language Models

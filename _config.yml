@@ -3,7 +3,7 @@ plugins:
   - jekyll-remote-theme
   - jekyll-feed
 title: CS Notes 📚
-description: Anubrat Bora
+description: Anubrat's personal notes
 markdown: kramdown
 kramdown:
   math_engine: null
