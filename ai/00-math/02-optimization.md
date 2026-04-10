@@ -136,14 +136,3 @@ Minimize $f(\mathbf{x})$ subject to $g_i(\mathbf{x}) = 0$ and $h_j(\mathbf{x}) \
 **KKT conditions** generalize this to inequality constraints.
 
 Used in SVMs, RLHF, and constrained policy optimization.
-
-## Key AI/ML Applications
-
-| Concept | Where Used |
-|---------|------------|
-| SGD / Adam | Training all neural networks |
-| Gradient descent | Loss minimization |
-| Convexity | Proofs of convergence for linear models |
-| Momentum | Faster training, escaping flat regions |
-| LR schedules | Training stability and final performance |
-| Constrained opt. | SVMs, RL policy optimization, safety |

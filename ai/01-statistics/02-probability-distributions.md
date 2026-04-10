@@ -183,16 +183,3 @@ If $Z_1, \ldots, Z_k \sim \mathcal{N}(0, 1)$, then $X = \sum_i Z_i^2 \sim \chi^2
 | Gamma | $\alpha, \beta$ | $(0,\infty)$ | $\alpha/\beta$ | $\alpha/\beta^2$ | Bayesian priors |
 | Beta | $\alpha, \beta$ | $[0,1]$ | $\frac{\alpha}{\alpha+\beta}$ | complex | Probability priors |
 | Student's t | $\nu$ | $\mathbb{R}$ | $0$ | $\frac{\nu}{\nu-2}$ | Robust statistics |
-
-## Key AI/ML Applications
-
-| Distribution | Where Used |
-|--------------|------------|
-| Bernoulli/Binomial | Binary classification, A/B testing |
-| Multinomial | Multi-class classification, NLP |
-| Poisson | Count regression, event modeling |
-| Normal | Linear regression, neural net initialization |
-| Multivariate Normal | Gaussian processes, VAEs, Kalman filters |
-| Beta/Dirichlet | Bayesian inference, topic models |
-| Student's t | Robust regression, heavy-tailed data |
-| Exponential/Gamma | Survival analysis, reliability |

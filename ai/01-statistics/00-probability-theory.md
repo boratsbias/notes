@@ -92,13 +92,3 @@ $$\binom{n}{k} = \frac{n!}{k!(n-k)!}$$
 | Normal | Continuous | $\frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$ | $\mu$ | $\sigma^2$ |
 
 See [Probability Distributions](02-probability-distributions.md) for full details.
-
-## Key AI/ML Applications
-
-| Concept | Where Used |
-|---------|------------|
-| Bayes' theorem | Naive Bayes, Bayesian inference, spam filtering |
-| Conditional independence | Graphical models, HMMs, Bayesian networks |
-| Chain rule | Sequence modeling, language models |
-| Combinatorics | Feature selection, model counting |
-| Probability axioms | Foundation of all probabilistic ML |

@@ -128,15 +128,3 @@ $$\kappa(A) = \|A\| \cdot \|A^{-1}\| = \frac{\sigma_{\max}}{\sigma_{\min}}$$
 - $\kappa \gg 1$: ill-conditioned, small changes in $\mathbf{b}$ cause large changes in $\mathbf{x}$
 
 **In ML:** ill-conditioned Gram matrices ($X^T X$) make training unstable → addressed via regularization or batch normalization.
-
-## Key AI/ML Applications
-
-| Concept | Where Used |
-|---------|------------|
-| Float precision | Mixed-precision training, quantization |
-| Log-sum-exp, softmax stability | Classification, attention |
-| Cholesky | Gaussian processes, covariance ops |
-| Autograd | All deep learning frameworks |
-| Monte Carlo integration | Variational inference, MCMC sampling |
-| Condition number | Training stability, matrix ops |
-| Gradient checking | Verifying custom autograd implementations |

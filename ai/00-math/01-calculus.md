@@ -107,15 +107,3 @@ Used extensively in probability distributions and variational inference.
 
 - **Change of variables:** introduces the Jacobian determinant $\lvert \det J \rvert$
 - **Monte Carlo integration:** approximate $\int f(x) p(x) dx \approx \frac{1}{N}\sum_i f(x_i)$ where $x_i \sim p$
-
-## Key AI/ML Applications
-
-| Concept | Where Used |
-|---------|------------|
-| Gradient | Gradient descent, backprop |
-| Chain rule | Backpropagation through layers |
-| Jacobian | Layer-wise gradients in neural nets |
-| Hessian | Newton's method, curvature in loss landscape |
-| Taylor expansion | Optimizer analysis, perturbation methods |
-| Integration | Probabilistic inference, normalizing constants |
-| Sigmoid/tanh derivatives | Activation function gradients |

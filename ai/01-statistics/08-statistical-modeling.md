@@ -210,15 +210,3 @@ Used for: model selection, hyperparameter tuning, estimating generalization erro
 **Multiple imputation:** Create multiple imputed datasets, combine results.
 
 **Model-based:** Use models that handle missing data (e.g., XGBoost).
-
-## Key AI/ML Applications
-
-| Model/Method | Where Used |
-|--------------|------------|
-| Linear regression | Baseline models, interpretability |
-| Logistic regression | Binary classification, calibration |
-| GLMs | Count data, rates, non-normal responses |
-| Ridge/Lasso | Regularized learning, feature selection |
-| Cross-validation | Model selection, hyperparameter tuning |
-| AIC/BIC | Model comparison, structure learning |
-| Residual analysis | Model diagnostics, debugging |

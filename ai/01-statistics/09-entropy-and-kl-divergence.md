@@ -231,15 +231,3 @@ InfoNCE loss estimates mutual information:
 $$\mathcal{L} = -\log \frac{\exp(\text{sim}(x, x^+)/\tau)}{\sum_{x^-} \exp(\text{sim}(x, x^-)/\tau)}$$
 
 Lower bound on mutual information between representations.
-
-## Key AI/ML Applications
-
-| Concept | Where Used |
-|---------|------------|
-| Entropy | Decision trees, exploration in RL |
-| Mutual information | Feature selection, representation learning |
-| KL divergence | VAEs, variational inference, EM algorithm |
-| Cross-entropy | Classification loss functions |
-| JSD | GANs (original formulation), distribution comparison |
-| Information bottleneck | Deep learning theory, compression |
-| Conditional entropy | Graphical models, Bayesian networks |

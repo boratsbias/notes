@@ -119,14 +119,3 @@ $$\text{vec}(A) \in \mathbb{R}^{mn}$$
 **Kronecker product** $A \otimes B$: used to express matrix derivatives as standard vector Jacobians:
 
 $$\text{vec}(AXB) = (B^T \otimes A)\text{vec}(X)$$
-
-## Key AI/ML Applications
-
-| Concept | Where Used |
-|---------|------------|
-| Gradient of $W$ in linear layer | Backprop weight update |
-| Jacobian of activations | Backprop through nonlinearities |
-| Softmax Jacobian | Classification output layer gradient |
-| $\log\det$ gradient | Normalizing flows, Gaussian log-likelihood |
-| Trace identities | Deriving gradients analytically |
-| Chain rule in matrix form | The entire backpropagation algorithm |

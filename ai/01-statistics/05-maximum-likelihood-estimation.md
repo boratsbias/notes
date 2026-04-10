@@ -203,14 +203,3 @@ Multiple parameter values may give the same likelihood.
 MLE can give degenerate solutions (e.g., zero variance, perfect separation).
 
 **Solution:** Add prior / regularization.
-
-## Key AI/ML Applications
-
-| Concept | Where Used |
-|---------|------------|
-| MLE principle | Training almost all ML models |
-| Logistic regression MLE | Binary classification |
-| Gaussian MLE | Linear regression, density estimation |
-| Multinomial MLE | Language models, softmax outputs |
-| EM algorithm | GMMs, HMMs, latent variable models |
-| Fisher information | Natural gradient descent, active learning |

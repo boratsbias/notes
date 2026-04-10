@@ -113,15 +113,3 @@ If $A$ represents a linear map in the standard basis, the same map in basis $B$ 
 $$A_B = P^{-1} A P$$
 
 This is why **eigendecomposition** is a change of basis to the eigenvector basis (where the transformation is diagonal).
-
-## Key AI/ML Applications
-
-| Concept | Where Used |
-|---------|------------|
-| Column/null space | Understanding linear layers, rank of weight matrices |
-| Orthonormal basis | QR decomposition, Gram-Schmidt in training |
-| Inner product | Attention (dot product), cosine similarity |
-| Projection | Least squares, PCA |
-| Hilbert space / RKHS | Kernel methods, SVMs, Gaussian processes |
-| Linear maps | Every neural network layer |
-| Change of basis | Interpreting PCA, eigendecomposition |

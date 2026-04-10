@@ -113,15 +113,3 @@ Project $\mathbf{b}$ onto the column space of $A$:
 $$\mathbf{p} = A(A^T A)^{-1} A^T \mathbf{b}$$
 
 The projection matrix $P = A(A^T A)^{-1} A^T$ satisfies $P^2 = P$ (idempotent) and $P^T = P$.
-
-## Key AI/ML Applications
-
-| Concept | Where Used |
-|---------|------------|
-| Matrix multiply | Forward/backward pass in neural nets |
-| SVD | PCA, recommendation systems, NLP (LSA) |
-| Dot product | Attention scores, cosine similarity |
-| Orthogonality | Weight initialization, QR in optimization |
-| Norms | Regularization ($L^1$, $L^2$), gradient clipping |
-| Determinant | Change of variables in normalizing flows |
-| Positive definiteness | Covariance matrices, kernels |

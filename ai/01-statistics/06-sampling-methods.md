@@ -193,15 +193,3 @@ $$E[f(X)] = E[f(X) - c(g(X) - E[g(X)))]$$
 ### Stratified Sampling
 
 Divide domain into strata, sample from each proportionally.
-
-## Key AI/ML Applications
-
-| Method | Where Used |
-|--------|------------|
-| MCMC | Bayesian inference, probabilistic programming |
-| Gibbs sampling | Topic models (LDA), HMMs |
-| HMC / NUTS | Stan, PyMC, Bayesian neural networks |
-| Importance sampling | Policy gradients in RL, variational inference |
-| Particle filters | Tracking, SLAM, time series |
-| Monte Carlo integration | Expected value estimation, model evidence |
-| Rejection sampling | Generating constrained samples |

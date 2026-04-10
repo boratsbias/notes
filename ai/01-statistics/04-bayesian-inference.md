@@ -174,15 +174,3 @@ $$q^*(\theta) = \arg\min_q D_{\text{KL}}(q(\theta) \Vert P(\theta | D))$$
 | Prior information | Not incorporated | Explicitly modeled |
 | Computation | Optimization | Integration / sampling |
 | Interpretation | Long-run frequency | Degree of belief |
-
-## Key AI/ML Applications
-
-| Concept | Where Used |
-|---------|------------|
-| Bayesian inference | Bayesian neural networks, probabilistic programming |
-| Conjugate priors | Topic models (LDA), Dirichlet processes |
-| MAP estimation | Regularized learning (L2 = Gaussian prior) |
-| Hierarchical models | Multi-task learning, meta-learning |
-| MCMC | Posterior sampling, Bayesian deep learning |
-| Variational inference | VAEs, scalable Bayesian methods |
-| Credible intervals | Uncertainty quantification, active learning |

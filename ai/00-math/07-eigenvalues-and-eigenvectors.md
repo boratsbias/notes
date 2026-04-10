@@ -131,15 +131,3 @@ repeat:
 Converges to the eigenvector for $\lambda_{\max}$. Rate depends on $\lvert \lambda_1 / \lambda_2 \rvert$.
 
 Used in: PageRank, spectral clustering initialization.
-
-## Key AI/ML Applications
-
-| Concept | Where Used |
-|---------|------------|
-| Eigendecomposition | PCA, spectral clustering, matrix functions |
-| Positive definiteness | Covariance matrices, kernels, Hessian |
-| SVD relationship | Low-rank approximation, PCA via SVD |
-| Graph Laplacian spectrum | Spectral GNNs, graph embeddings |
-| Hessian eigenvalues | Loss landscape, gradient descent convergence |
-| Power iteration | PageRank, dominant directions |
-| Spectral theorem | Diagonalizing covariance/kernel matrices |

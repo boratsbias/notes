@@ -159,15 +159,3 @@ For i.i.d. variables $X_1, \ldots, X_n$ with mean $\mu$ and variance $\sigma^2$:
 $$\frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} \mathcal{N}(0, 1)$$
 
 As $n \to \infty$, the sample mean approaches a Normal distribution regardless of the original distribution.
-
-## Key AI/ML Applications
-
-| Concept | Where Used |
-|---------|------------|
-| Expectation | Loss functions, policy gradients in RL |
-| Variance | Model uncertainty, regularization |
-| Covariance/Correlation | Feature selection, PCA, covariance matrices |
-| Sample statistics | Empirical risk, batch normalization |
-| LLN | Monte Carlo estimation, SGD convergence |
-| CLT | Confidence intervals, hypothesis testing |
-| MGF | Deriving distribution properties, proofs |

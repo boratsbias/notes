@@ -217,15 +217,3 @@ Non-parametric alternative to paired t-test.
 ### Kruskal-Wallis Test
 
 Non-parametric alternative to one-way ANOVA.
-
-## Key AI/ML Applications
-
-| Test/Concept | Where Used |
-|--------------|------------|
-| A/B testing | Comparing model versions, UI experiments |
-| Chi-squared test | Feature selection, independence testing |
-| ANOVA | Comparing multiple models/algorithms |
-| Multiple testing correction | Genomics, feature screening |
-| Power analysis | Experimental design, sample size determination |
-| Confidence intervals | Reporting model performance with uncertainty |
-| Non-parametric tests | When normality assumptions violated |

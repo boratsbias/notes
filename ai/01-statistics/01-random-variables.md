@@ -117,13 +117,3 @@ $X$ and $Y$ are independent if:
 $$p(x, y) = p_X(x) p_Y(y)$$
 
 Equivalently: $p(y|x) = p_Y(y)$ (knowing $X$ gives no information about $Y$).
-
-## Key AI/ML Applications
-
-| Concept | Where Used |
-|---------|------------|
-| PMF/PDF | Modeling data distributions, likelihood functions |
-| CDF | Computing p-values, quantile regression |
-| Transformations | Normalizing flows, change of variables in VAEs |
-| Joint/marginal | Graphical models, EM algorithm |
-| Indicator variables | Expected value proofs, loss functions |

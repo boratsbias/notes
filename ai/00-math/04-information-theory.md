@@ -121,15 +121,3 @@ Greedy split criterion: choose the feature that maximizes information gain. Used
 **Gini impurity** is an alternative to entropy for CART:
 
 $$G = 1 - \sum_k p_k^2$$
-
-## Key AI/ML Applications
-
-| Concept | Where Used |
-|---------|------------|
-| Cross-entropy loss | Classification training objective |
-| KL divergence | VAE regularization (ELBO), RL (PPO, KL penalty) |
-| Mutual information | Representation learning (SimCLR, MINE), feature selection |
-| Entropy | Decision trees, RL exploration bonuses |
-| Jensen's inequality | ELBO derivation, EM algorithm |
-| Data processing inequality | Information bottleneck theory |
-| Max entropy | Language model distributions, MaxEnt RL |
