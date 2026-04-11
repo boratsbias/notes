@@ -5,4 +5,27 @@ layout: base
   <div class="post-content">
     {{ content }}
   </div>
+
+  {% assign url_parts = page.url | split: "/" | compact %}
+  {% assign current_slug = url_parts | last %}
+  {% assign backlinks = "" | split: "" %}
+  {% for p in site.pages %}
+    {% unless p.url == page.url %}
+      {% assign search_term = "](" | append: current_slug %}
+      {% if p.content contains search_term %}
+        {% assign backlinks = backlinks | push: p %}
+      {% endif %}
+    {% endunless %}
+  {% endfor %}
+
+  {% if backlinks.size > 0 %}
+  <div class="backlinks">
+    <h4 class="backlinks-heading">Pages that link here</h4>
+    <ul class="backlinks-list">
+      {% for bp in backlinks %}
+        <li><a href="{{ bp.url | relative_url }}">{{ bp.title | default: bp.url }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
 </article>
