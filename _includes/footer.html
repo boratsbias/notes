@@ -1,0 +1,21 @@
+<footer class="site-footer">
+  <div class="wrapper">
+    <h2 class="footer-heading">{{ site.title | escape }}</h2>
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        {%- if site.author -%}
+        <p>{{ site.author | escape }}</p>
+        {%- endif -%}
+        {%- if site.email -%}
+        <p><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+        {%- endif -%}
+      </div>
+      <div class="footer-col footer-col-2">
+        {%- include social.html -%}
+      </div>
+      <div class="footer-col footer-col-3">
+        <p>{{ site.description | escape }}</p>
+      </div>
+    </div>
+  </div>
+</footer>
