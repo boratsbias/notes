@@ -1,4 +1,11 @@
 remote_theme: jekyll/minima
+
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
 plugins:
   - jekyll-remote-theme
   - jekyll-feed

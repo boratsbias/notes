@@ -1,0 +1,48 @@
+<nav id="breadcrumbs" class="breadcrumbs"></nav>
+<script>
+(function () {
+  function formatSegment(seg) {
+    return seg
+      .replace(/\.html$/, '')
+      .replace(/^\d+-/, '')
+      .replace(/-/g, ' ')
+      .replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+  }
+
+  function buildBreadcrumbs() {
+    var nav = document.getElementById('breadcrumbs');
+    if (!nav) return;
+
+    var parts = window.location.pathname
+      .split('/')
+      .filter(function (p) { return p !== '' && p !== 'index.html'; });
+
+    if (parts.length === 0) {
+      nav.style.display = 'none';
+      return;
+    }
+
+    var items = [{ label: 'Home', href: '/', isLast: false }];
+    var cumPath = '';
+
+    parts.forEach(function (part, i) {
+      cumPath += '/' + part;
+      items.push({
+        label: formatSegment(part),
+        href: cumPath,
+        isLast: i === parts.length - 1
+      });
+    });
+
+    nav.innerHTML = items.map(function (item, i) {
+      var sep = i > 0 ? ' <span class="breadcrumb-sep">/</span> ' : '';
+      if (item.isLast) {
+        return sep + '<span class="breadcrumb-current">' + item.label + '</span>';
+      }
+      return sep + '<a href="' + item.href + '">' + item.label + '</a>';
+    }).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', buildBreadcrumbs);
+})();
+</script>
