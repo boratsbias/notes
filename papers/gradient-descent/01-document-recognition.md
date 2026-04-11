@@ -1,138 +1,39 @@
 # Gradient-Based Learning Applied to Document Recognition (1998)
 
-**Authors:** Yann LeCun, Leon Bottou, Yoshua Bengio, Patrick Haffner  
-**Area:** Computer Vision, Deep Learning, OCR  
+**Authors:** Yann LeCun, Leon Bottou, Yoshua Bengio, Patrick Haffner
+**Area:** Computer Vision, Deep Learning, OCR
 **Link:** [IEEE Paper](https://ieeexplore.ieee.org/document/726791)
 
-## Overview
+## What the paper argues
 
-This paper introduced **Convolutional Neural Networks (CNNs)** and showed that neural networks trained with **gradient-based learning** can outperform traditional handcrafted pattern recognition systems.
+Traditional pattern recognition separated a handcrafted feature extractor from a trainable classifier. This required expert knowledge, was hard to generalize, and bottlenecked performance on the quality of the manual features. The paper argues for replacing the entire pipeline with end-to-end learning: neural networks trained with gradient descent and backpropagation can learn both feature representations and decision boundaries directly from raw pixels.
 
-The central idea is to **learn features directly from raw images** instead of manually designing feature extractors.
+## Why fully connected networks fail for images
 
-## Problem
+Fully connected layers ignore spatial structure, scale poorly with image size, and cannot generalize across translations. CNNs fix this with three principles applied together:
 
-Traditional pattern recognition systems were built with two separate components:
+**Local receptive fields:** each neuron connects to a small spatial region, allowing detection of local features (edges, corners, strokes).
 
-1. Feature extractor (handcrafted)
-2. Trainable classifier
+**Weight sharing:** the same filter is convolved across the entire image, which dramatically reduces parameters and allows pattern detection regardless of position.
 
-![Figure 1](../../images/papers/gradient-descent/fig-1-1.png)
+**Subsampling (pooling):** reduces spatial resolution after each convolution, giving translation invariance, robustness to noise, and lower computation cost.
 
-*Source: Figure adapted from LeCun et al., "Gradient-Based Learning Applied to Document Recognition", Proceedings of the IEEE, 1998.*
+## LeNet-5
 
-The feature extractor converted images into engineered representations before classification.
+The paper's concrete architecture for handwritten digit recognition on 32x32 grayscale input:
 
-Limitations of this approach:
+```
+Input -> C1 (conv) -> S2 (pool) -> C3 (conv) -> S4 (pool) -> C5 (conv) -> F6 (FC) -> Output
+```
 
-- required expert feature engineering
-- difficult to generalize across tasks
-- performance depended heavily on manually designed features
-
-The paper proposes replacing this pipeline with **end-to-end learning using neural networks**.
-
-## Core Idea
-
-Neural networks trained using **gradient descent and backpropagation** can learn both:
-
-- feature representations
-- classification boundaries
-
-directly from raw pixel data.
-
-This allows systems to automatically discover useful patterns without manual feature design.
-
-## Convolutional Neural Networks
-
-Fully connected neural networks are inefficient for image data because:
-
-- images contain large numbers of pixels
-- spatial relationships between pixels are ignored
-- translation variations are difficult to learn
-
-CNNs solve these issues using three architectural principles.
-
-### Local Receptive Fields
-
-Neurons connect only to a small region of the input.
-
-This allows the network to detect local features such as:
-
-- edges
-- corners
-- strokes
-
-### Weight Sharing
-
-The same filter is applied across the entire image.
-
-Benefits:
-
-- greatly reduces the number of parameters
-- enables detection of patterns anywhere in the image
-
-### Subsampling (Pooling)
-
-Pooling layers reduce spatial resolution.
-
-Advantages:
-
-- translation invariance
-- noise robustness
-- lower computation
-
-## LeNet-5 Architecture
-
-![Figure 2](../../images/papers/gradient-descent/fig-1-2.png)
-
-*Source: Figure adapted from LeCun et al., "Gradient-Based Learning Applied to Document Recognition", Proceedings of the IEEE, 1998.*
-
-The paper presents **LeNet-5**, one of the earliest successful CNN architectures for handwritten digit recognition.
-
-Input size: **32 × 32 grayscale image**
-
-Architecture:
-
-Input  
-→ Convolution layer (C1)  
-→ Subsampling layer (S2)  
-→ Convolution layer (C3)  
-→ Subsampling layer (S4)  
-→ Convolution layer (C5)  
-→ Fully connected layer (F6)  
-→ Output layer
-
-The network learns hierarchical representations:
-
-edges → strokes → shapes → digits
+Each stage builds a more abstract representation: edges at C1, strokes at C3, digit parts at C5. This hierarchical composition of features from raw pixels is the central architectural idea.
 
 ## Graph Transformer Networks (GTN)
 
-![Figure 3](../../images/papers/gradient-descent/fig-1-3.png)
+Real document systems are pipelines of modules: segmentor, character recognizer, language model, grammar. Trained independently, each module is optimized locally and errors compound. GTNs allow the entire pipeline to be trained jointly end-to-end with gradient descent, propagating the loss signal back through all modules simultaneously.
 
-*Source: Figure adapted from LeCun et al., "Gradient-Based Learning Applied to Document Recognition", Proceedings of the IEEE, 1998.*
+## Results and impact
 
-Real document recognition systems consist of multiple modules such as:
+LeNet-5 achieved state-of-the-art on the NIST handwritten digit benchmark, outperforming k-NN, SVMs, and hand-engineered systems. The system was deployed in production for reading handwritten bank checks at scale.
 
-- segmentation
-- character recognition
-- language models
-- grammar constraints
-
-Traditionally these modules were trained independently.
-
-Graph Transformer Networks allow **global training of the entire system using gradient descent**, enabling optimization of the full recognition pipeline.
-
-## Experiments
-
-CNNs were evaluated on handwritten digit recognition tasks using the **NIST handwritten digit dataset**.
-
-The models achieved **state-of-the-art performance**, outperforming traditional approaches such as:
-
-- k-nearest neighbors
-- support vector machines
-- manually engineered feature systems
-
-## Real-World Deployment and Impact 
-
-The methods in this paper were deployed in a bank check recognition system that processed millions of checks daily, proving neural networks could work at real-world scale. The work introduced key ideas such as Convolutional Neural Networks, weight sharing, pooling, and end-to-end learning, which later became the foundation for modern computer vision, OCR systems, and deep learning vision models.
+The paper established the ideas that became the foundation of modern computer vision: convolutional layers, weight sharing, pooling, hierarchical features, and end-to-end gradient learning. These same principles power every major vision model today.
