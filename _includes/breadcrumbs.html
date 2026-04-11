@@ -1,12 +1,28 @@
 <nav id="breadcrumbs" class="breadcrumbs"></nav>
 <script>
 (function () {
+  var LABELS = {
+    'ai': 'AI',
+    'nlp': 'NLP',
+    'ml': 'ML',
+    'cs': 'CS',
+    'sql': 'SQL',
+    'nosql': 'NoSQL',
+    'api': 'API',
+    'os': 'OS',
+    'dsa': 'DSA'
+  };
+
   function formatSegment(seg) {
-    return seg
+    var clean = seg
       .replace(/\.html$/, '')
       .replace(/^\d+-/, '')
-      .replace(/-/g, ' ')
-      .replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+      .replace(/-/g, ' ');
+
+    return clean.split(' ').map(function (word) {
+      var lower = word.toLowerCase();
+      return LABELS[lower] || word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(' ');
   }
 
   function buildBreadcrumbs() {
