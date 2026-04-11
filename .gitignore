@@ -1,5 +1,7 @@
 .DS_Store
+_site/
+.jekyll-cache/
 .obsidian/workspace*
-.obsidian/cach
+.obsidian/cache
 .obsidian/plugins/
-.obsidian/workspace.jsone
+.obsidian/workspace.json
