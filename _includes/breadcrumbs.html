@@ -31,7 +31,7 @@
 
     var parts = window.location.pathname
       .split('/')
-      .filter(function (p) { return p !== '' && p !== 'index.html'; });
+      .filter(function (p) { return p !== '' && p !== 'index.html' && p !== 'index' && p !== 'index.md'; });
 
     if (parts.length === 0) {
       nav.style.display = 'none';
