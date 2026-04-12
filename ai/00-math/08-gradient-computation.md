@@ -91,6 +91,7 @@ $$\bar{x} = \bar{z} \cdot y, \quad \bar{y} = \bar{z} \cdot x$$
 ### Max $z = \max(x, y)$
 
 Gradient flows only through the larger input:
+
 $$\bar{x} = \bar{z} \cdot \mathbf{1}[x > y], \quad \bar{y} = \bar{z} \cdot \mathbf{1}[y > x]$$
 
 ### Reshape / Transpose
@@ -102,7 +103,7 @@ Gradients are reshaped back to the original shape (no arithmetic, just indexing)
 ### Vanishing Gradients
 Gradients shrink as they propagate back through many layers.
 
-Cause: sigmoid/tanh saturate → $|\sigma'(x)| < 0.25$ everywhere.
+Cause: sigmoid/tanh saturate → $\lvert\sigma'(x)\rvert < 0.25$ everywhere.
 
 Solutions:
 - ReLU activations (gradient = 1 when active)
