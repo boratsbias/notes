@@ -1,6 +1,6 @@
 # CS Notes 📚
 
-A collection of personal notes while studying computer science, artificial intelligence, and related areas. Organized to revisit concepts later.
+Personal notes on computer science, artificial intelligence, and related areas. Organized for later reference.
 
 📌 Still a work in progress. A few sections or links may not be available yet.
 

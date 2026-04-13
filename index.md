@@ -4,7 +4,7 @@ title: CS Notes 📚
 ---
 # CS Notes 📚
 
-A collection of personal notes while studying computer science, artificial intelligence, and related areas. Organized to revisit concepts and build a structured knowledge base over time.
+Personal notes on computer science, artificial intelligence, and related areas. Organized for later reference.
 
 📌 Still a work in progress. A few sections or links may not be available yet.
 
@@ -12,7 +12,7 @@ A collection of personal notes while studying computer science, artificial intel
 
 ### [AI](ai/)
 
-Notes on artificial intelligence, machine learning, deep learning, and the mathematical and statistical foundations behind them.
+Notes on artificial intelligence, machine learning, deep learning, and their mathematical and statistical foundations.
 
 ### [Core CS](core-cs/)
 
