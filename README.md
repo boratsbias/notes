@@ -25,15 +25,7 @@ Notes and explanations for algorithmic problems and problem solving patterns.
 ## References
 
 - [teachyourselfcs.com](https://teachyourselfcs.com)
-- [roadmap.sh](https://roadmap.sh)
-- [OSSU Computer Science](https://github.com/ossu/computer-science)
-- [Coding Interview University](https://github.com/jwasham/coding-interview-university)
-- [System Design Primer](https://github.com/donnemartin/system-design-primer)
-- [nn-zero-to-hero](https://github.com/karpathy/nn-zero-to-hero)
-- [deeplearningbook.org](https://www.deeplearningbook.org)
-- [neetcode.io](https://neetcode.io)
-- [CS50](https://cs50.harvard.edu)
-- [Missing Semester](https://missing.csail.mit.edu)
-- [Papers With Code](https://paperswithcode.com)
 - [Andrej Karpathy's Blog](https://karpathy.github.io)
-- [Mathematics for Machine Learning](https://mml-book.github.io)
+- [deeplearningbook.org](https://www.deeplearningbook.org)
+- [System Design Primer](https://github.com/donnemartin/system-design-primer)
+- [Coding Interview University](https://github.com/jwasham/coding-interview-university)
