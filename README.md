@@ -32,3 +32,8 @@ Notes and explanations for algorithmic problems and problem solving patterns.
 - [nn-zero-to-hero](https://github.com/karpathy/nn-zero-to-hero)
 - [deeplearningbook.org](https://www.deeplearningbook.org)
 - [neetcode.io](https://neetcode.io)
+- [CS50](https://cs50.harvard.edu)
+- [Missing Semester](https://missing.csail.mit.edu)
+- [Papers With Code](https://paperswithcode.com)
+- [Andrej Karpathy's Blog](https://karpathy.github.io)
+- [Mathematics for Machine Learning](https://mml-book.github.io)
