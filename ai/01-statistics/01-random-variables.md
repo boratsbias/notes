@@ -88,7 +88,7 @@ If $Y = g(X)$, the distribution of $Y$ can be derived from $X$.
 
 $$f_Y(y) = f_X(g^{-1}(y)) \left| \frac{d}{dy} g^{-1}(y) \right|$$
 
-The term $\left| \frac{d}{dy} g^{-1}(y) \right|$ is the **Jacobian** of the transformation.
+The term $\lvert \frac{d}{dy} g^{-1}(y) \rvert$ is the **Jacobian** of the transformation.
 
 ## Joint Distributions
 
@@ -116,4 +116,4 @@ $X$ and $Y$ are independent if:
 
 $$p(x, y) = p_X(x) p_Y(y)$$
 
-Equivalently: $p(y|x) = p_Y(y)$ (knowing $X$ gives no information about $Y$).
+Equivalently: $p(y \mid x) = p_Y(y)$ (knowing $X$ gives no information about $Y$).
