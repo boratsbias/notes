@@ -28,11 +28,11 @@ Both are necessary. Offline evaluation gates deployment; online evaluation measu
 
 ### Regression
 
-**MAE:** $\frac{1}{n}\sum |y_i - \hat{y}_i|$. Robust to outliers.
+**MAE:** $\frac{1}{n}\sum \lvert y_i - \hat{y}_i \rvert$. Robust to outliers.
 
 **RMSE:** $\sqrt{\frac{1}{n}\sum (y_i - \hat{y}_i)^2}$. Penalizes large errors more.
 
-**MAPE:** $\frac{1}{n}\sum |\frac{y_i - \hat{y}_i}{y_i}| \times 100\%$. Percentage error; undefined when $y_i = 0$.
+**MAPE:** $\frac{1}{n}\sum \lvert\frac{y_i - \hat{y}_i}{y_i}\rvert \times 100\%$. Percentage error; undefined when $y_i = 0$.
 
 **$R^2$ (coefficient of determination):** fraction of variance explained.
 

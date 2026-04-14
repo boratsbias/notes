@@ -48,6 +48,7 @@ Given a pair of entities $(e_1, e_2)$ in a text, determine the relation $r$ betw
 3. Classify the relation with a softmax head.
 
 **Entity marker encoding:**
+
 $$\text{[E1] Steve Jobs [/E1] founded [E2] Apple [/E2] in 1976.}$$
 
 The representation of the `[E1]` token (or a span pooling of the entity) is used for classification.

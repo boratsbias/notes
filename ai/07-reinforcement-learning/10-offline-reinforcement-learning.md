@@ -38,7 +38,7 @@ Kostrikov et al. (2021). Avoids evaluating Q at OOD actions entirely.
 
 $$\mathcal{L}_V(\phi) = \mathbb{E}_{(s,a) \sim \mathcal{D}}\left[L_2^\tau(Q_{\bar\psi}(s,a) - V_\phi(s))\right]$$
 
-where $L_2^\tau(u) = |\tau - \mathbf{1}[u < 0]| u^2$. With $\tau > 0.5$, this upweights positive errors, effectively estimating a high quantile of $Q$ without querying actions outside $\mathcal{D}$.
+where $L_2^\tau(u) = \lvert\tau - \mathbf{1}[u < 0]\rvert u^2$. With $\tau > 0.5$, this upweights positive errors, effectively estimating a high quantile of $Q$ without querying actions outside $\mathcal{D}$.
 
 **Policy extraction:** advantage-weighted regression (AWR):
 
