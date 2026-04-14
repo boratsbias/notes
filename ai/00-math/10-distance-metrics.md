@@ -34,11 +34,12 @@ $$d_p(\mathbf{x}, \mathbf{y}) = \left(\sum_i |x_i - y_i|^p\right)^{1/p}$$
 
 - $p=1$: Manhattan
 - $p=2$: Euclidean
-- $p \to \infty$: Chebyshev ($\max_i |x_i - y_i|$)
+- $p \to \infty$: Chebyshev ($\max_i \lvert x_i - y_i \rvert$)
 
 ## Cosine Similarity and Distance
 
 **Similarity:**
+
 $$\cos(\mathbf{x}, \mathbf{y}) = \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \|\mathbf{y}\|}$$
 
 Range: $[-1, 1]$. Measures the **angle** between vectors, ignoring magnitude.

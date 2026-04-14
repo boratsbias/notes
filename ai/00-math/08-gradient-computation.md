@@ -14,6 +14,7 @@ The gradient $\nabla_\theta \mathcal{L}$ gives the direction and rate of steepes
 ## Numerical Differentiation
 
 **Finite difference:**
+
 $$\frac{\partial f}{\partial x_i} \approx \frac{f(\mathbf{x} + h\mathbf{e}_i) - f(\mathbf{x} - h\mathbf{e}_i)}{2h}$$
 
 - Requires 2 function evaluations per parameter
