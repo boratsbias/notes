@@ -29,7 +29,7 @@ Events $A$ and $B$ are **independent** if:
 
 $$P(A \cap B) = P(A) P(B)$$
 
-Equivalently: $P(A|B) = P(A)$ (knowing $B$ gives no information about $A$).
+Equivalently: $P(A \mid B) = P(A)$ (knowing $B$ gives no information about $A$).
 
 **Conditional independence:** $A$ and $B$ are independent given $C$ if:
 
@@ -51,8 +51,8 @@ $$P(H_i | D) = \frac{P(D | H_i) P(H_i)}{\sum_j P(D | H_j) P(H_j)}$$
 
 **Terms:**
 - $P(H_i)$: prior (belief before seeing data)
-- $P(D | H_i)$: likelihood (probability of data under hypothesis)
-- $P(H_i | D)$: posterior (updated belief after seeing data)
+- $P(D \mid H_i)$: likelihood (probability of data under hypothesis)
+- $P(H_i \mid D)$: posterior (updated belief after seeing data)
 - $P(D)$: evidence (normalizing constant)
 
 ## Law of Total Probability
