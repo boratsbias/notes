@@ -30,7 +30,7 @@ $$P(X = k) = (1-p)^{k-1} p, \quad k = 1, 2, \ldots$$
 
 - Mean: $1/p$
 - Variance: $(1-p)/p^2$
-- **Memoryless property:** $P(X > m+n | X > m) = P(X > n)$
+- **Memoryless property:** $P(X > m+n \mid X > m) = P(X > n)$
 
 ### Negative Binomial Distribution
 
@@ -111,7 +111,7 @@ $$f(x) = \lambda e^{-\lambda x}, \quad x \geq 0$$
 
 - Mean: $1/\lambda$
 - Variance: $1/\lambda^2$
-- **Memoryless property:** $P(X > s+t | X > s) = P(X > t)$
+- **Memoryless property:** $P(X > s+t \mid X > s) = P(X > t)$
 - Used for: survival analysis, queueing theory
 
 ### Gamma Distribution
