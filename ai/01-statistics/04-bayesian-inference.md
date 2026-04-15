@@ -7,8 +7,8 @@ $$P(\theta | D) = \frac{P(D | \theta) P(\theta)}{P(D)}$$
 - $\theta$: unknown parameter(s)
 - $D$: observed data
 - $P(\theta)$: prior (belief before seeing data)
-- $P(D | \theta)$: likelihood (probability of data given parameters)
-- $P(\theta | D)$: posterior (updated belief after seeing data)
+- $P(D \mid \theta)$: likelihood (probability of data given parameters)
+- $P(\theta \mid D)$: posterior (updated belief after seeing data)
 - $P(D)$: marginal likelihood / evidence (normalizing constant)
 
 ## The Evidence (Marginal Likelihood)
@@ -135,15 +135,15 @@ Approximate posterior with a Normal centered at the MAP:
 
 $$P(\theta | D) \approx \mathcal{N}(\hat{\theta}_{\text{MAP}}, H^{-1})$$
 
-where $H$ is the Hessian of $\log P(\theta | D)$ at the mode.
+where $H$ is the Hessian of $\log P(\theta \mid D)$ at the mode.
 
 ### Markov Chain Monte Carlo (MCMC)
 
 Generate samples from the posterior using a Markov chain.
 
 **Metropolis-Hastings:**
-1. Propose $\theta' \sim q(\theta' | \theta_t)$
-2. Accept with probability $\alpha = \min\left(1, \frac{P(\theta' | D) q(\theta_t | \theta')}{P(\theta_t | D) q(\theta' | \theta_t)}\right)$
+1. Propose $\theta' \sim q(\theta' \mid \theta_t)$
+2. Accept with probability $\alpha = \min\left(1, \frac{P(\theta' \mid D) q(\theta_t \mid \theta')}{P(\theta_t \mid D) q(\theta' \mid \theta_t)}\right)$
 
 **Gibbs Sampling:**
 - Sample each parameter from its conditional distribution given others

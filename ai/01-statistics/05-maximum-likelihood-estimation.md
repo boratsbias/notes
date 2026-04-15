@@ -144,7 +144,7 @@ $$\text{Var}(\hat{\theta}) \geq \frac{1}{n I(\theta)}$$
 
 | Aspect | MLE | MAP |
 |--------|-----|-----|
-| Formula | $\arg\max_\theta P(D | \theta)$ | $\arg\max_\theta P(D | \theta) P(\theta)$ |
+| Formula | $\arg\max_\theta P(D \mid \theta)$ | $\arg\max_\theta P(D \mid \theta) P(\theta)$ |
 | Prior | None (implicit uniform) | Explicit |
 | Result | Point estimate | Point estimate |
 | Regularization | None | Prior acts as regularizer |

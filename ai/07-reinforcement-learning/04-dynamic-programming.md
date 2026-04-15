@@ -63,9 +63,9 @@ No explicit policy is maintained; the policy is implicit (greedy w.r.t. current 
 
 | Algorithm | Per-iteration cost | Iterations to converge |
 |-----------|------------------|----------------------|
-| Policy evaluation | $O(|\mathcal{S}|^2 |\mathcal{A}|)$ | $O(\log(1/\epsilon))$ |
-| Policy iteration | $O(|\mathcal{S}|^2 |\mathcal{A}|)$ per eval | $O(|\mathcal{A}|^{|\mathcal{S}|})$ worst case; often polynomial |
-| Value iteration | $O(|\mathcal{S}|^2 |\mathcal{A}|)$ | $O(\log(1/\epsilon) / (1-\gamma))$ |
+| Policy evaluation | $O(\lvert\mathcal{S}\rvert^2 \lvert\mathcal{A}\rvert)$ | $O(\log(1/\epsilon))$ |
+| Policy iteration | $O(\lvert\mathcal{S}\rvert^2 \lvert\mathcal{A}\rvert)$ per eval | $O(\lvert\mathcal{A}\rvert^{\lvert\mathcal{S}\rvert})$ worst case; often polynomial |
+| Value iteration | $O(\lvert\mathcal{S}\rvert^2 \lvert\mathcal{A}\rvert)$ | $O(\log(1/\epsilon) / (1-\gamma))$ |
 
 Policy iteration converges in far fewer iterations than value iteration but each iteration is more expensive. For large $|\mathcal{S}|$, both are infeasible (curse of dimensionality).
 
