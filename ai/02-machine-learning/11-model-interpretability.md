@@ -115,7 +115,7 @@ One line per sample: shows how prediction changes as a single feature varies, ho
 
 ### Accumulated Local Effects (ALE)
 
-Resolves the feature independence assumption of PDP. Uses conditional distribution $P(X_{-j} | X_j)$ rather than marginal:
+Resolves the feature independence assumption of PDP. Uses conditional distribution $P(X_{-j} \mid X_j)$ rather than marginal:
 
 $$\hat{f}_{j,\text{ALE}}(x_j) = \int_{z_0}^{x_j} \mathbb{E}_{X_{-j}|X_j=z}\!\left[\frac{\partial \hat{f}}{\partial X_j}(z, X_{-j})\right] dz$$
 
@@ -125,7 +125,7 @@ Unbiased even with correlated features.
 
 | Method | Approach |
 |--------|---------|
-| Gradient (Saliency map) | $|\partial \hat{y} / \partial x_j|$; highlights input features by gradient magnitude |
+| Gradient (Saliency map) | $\lvert\partial \hat{y} / \partial x_j\rvert$; highlights input features by gradient magnitude |
 | Integrated Gradients | Integrates gradients from baseline to input; satisfies completeness axiom |
 | GradCAM | Class-weighted activation maps; localizes image regions driving predictions |
 | LIME for images | Superpixel perturbations; identifies key image regions |
@@ -142,7 +142,7 @@ High $R^2$ means the surrogate is faithful to the original.
 
 Interpretability enables fairness auditing:
 - Inspect SHAP values or PDP for sensitive attributes (age, race, gender).
-- **Disparate impact:** $\frac{P(\hat{y}=1 | A=0)}{P(\hat{y}=1 | A=1)}$ should be $\geq 0.8$ (four-fifths rule).
+- **Disparate impact:** $\frac{P(\hat{y}=1 \mid A=0)}{P(\hat{y}=1 \mid A=1)}$ should be $\geq 0.8$ (four-fifths rule).
 - **Equalized odds:** equalize TPR and FPR across groups.
 
 ## Choosing an Explanation Method
