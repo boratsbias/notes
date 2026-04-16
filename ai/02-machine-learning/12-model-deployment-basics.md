@@ -130,7 +130,7 @@ $$\text{PSI} = \sum_{i=1}^k (A_i - E_i) \ln\frac{A_i}{E_i}$$
 
 PSI $< 0.1$: no drift; $0.1$-$0.2$: moderate; $> 0.2$: significant.
 
-**Concept drift:** relationship $P(Y|X)$ changes. Harder to detect without ground truth labels. Proxy: monitor prediction distribution shifts.
+**Concept drift:** relationship $P(Y \mid X)$ changes. Harder to detect without ground truth labels. Proxy: monitor prediction distribution shifts.
 
 **Performance monitoring:** track live metrics (accuracy, AUC, F1) using delayed ground truth labels. Set up alerts on degradation thresholds.
 
