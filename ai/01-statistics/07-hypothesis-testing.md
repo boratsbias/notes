@@ -188,7 +188,7 @@ Conservative but simple.
 
 ## Power Analysis
 
-**Statistical power:** $P(\text{reject } H_0 | H_1 \text{ is true}) = 1 - \beta$
+**Statistical power:** $P(\text{reject } H_0 \mid H_1 \text{ is true}) = 1 - \beta$
 
 **Factors affecting power:**
 - Sample size ($n$): larger $n$ → higher power
