@@ -82,4 +82,4 @@ for any $\epsilon, \delta > 0$. The sample complexity is:
 
 $$n \geq \frac{1}{\epsilon}\left(\ln |\mathcal{H}| + \ln \frac{1}{\delta}\right)$$
 
-For infinite hypothesis classes, VC dimension replaces $\ln |\mathcal{H}|$.
+For infinite hypothesis classes, VC dimension replaces $\ln \lvert\mathcal{H}\rvert$.
