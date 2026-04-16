@@ -66,7 +66,7 @@ Used when hyperparameter tuning is performed inside CV, to avoid optimistic bias
 - **Outer loop:** $k_\text{out}$ folds for unbiased performance estimation.
 - **Inner loop:** $k_\text{in}$ folds for hyperparameter selection on each outer training set.
 
-Total model fits: $k_\text{out} \times k_\text{in} \times |\text{hyperparameter configs}|$.
+Total model fits: $k_\text{out} \times k_\text{in} \times \lvert\text{hyperparameter configs}\rvert$.
 
 Computationally expensive but statistically correct.
 
