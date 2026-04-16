@@ -60,7 +60,7 @@ Assumes data is generated from a mixture of $K$ Gaussians:
 $$P(x) = \sum_{k=1}^K \pi_k \mathcal{N}(x; \mu_k, \Sigma_k)$$
 
 Fit via **EM algorithm:**
-- **E-step:** compute soft cluster assignments $\gamma_{ik} = P(z_i = k | x_i)$
+- **E-step:** compute soft cluster assignments $\gamma_{ik} = P(z_i = k \mid x_i)$
 - **M-step:** update $\pi_k$, $\mu_k$, $\Sigma_k$ using weighted MLEs
 
 Generalizes k-Means (which is GMM with spherical, equal-variance clusters and hard assignments).
