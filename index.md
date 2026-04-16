@@ -6,7 +6,7 @@ title: CS Notes 📚
 
 Personal notes on computer science, artificial intelligence, and related areas. Organized for later reference. Yes, I have a [personal site](https://anubratbora.com) too.
 
-📌 The notes are still a work in progress. A few sections or links may not be available yet.
+📌 The notes are still a work in progress. A few sections or links may not be available yet. If you find any issues, feel free to report them via [email](mailto:anubratbora25@gmail.com).
 
 ## Topics
 
