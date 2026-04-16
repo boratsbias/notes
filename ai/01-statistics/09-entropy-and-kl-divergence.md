@@ -13,7 +13,7 @@ $$H(X) = -\sum_x P(x) \log P(x)$$
 **Properties:**
 - $H(X) \geq 0$ (non-negative)
 - $H(X) = 0$ iff $X$ is deterministic
-- Maximized when $X$ is uniform: $H_{\text{max}} = \log |\mathcal{X}|$
+- Maximized when $X$ is uniform: $H_{\text{max}} = \log \lvert\mathcal{X}\rvert$
 - Base of logarithm: $\log_2$ gives bits, $\ln$ gives nats
 
 ### Differential Entropy
@@ -54,7 +54,7 @@ $$H(Y|X) = -\sum_{x,y} P(x, y) \log P(y|x)$$
 
 $$H(X, Y) = H(X) + H(Y|X)$$
 
-**Property:** $H(Y|X) \leq H(Y)$ (conditioning reduces entropy)
+**Property:** $H(Y \mid X) \leq H(Y)$ (conditioning reduces entropy)
 
 Equality holds iff $X$ and $Y$ are independent.
 
@@ -195,7 +195,7 @@ $$R(D) = \min_{P(\hat{X}|X) : E[d(X, \hat{X})] \leq D} I(X; \hat{X})$$
 
 ### Variational Inference
 
-Approximate intractable posterior $P(\theta | D)$ with variational distribution $q(\theta)$:
+Approximate intractable posterior $P(\theta \mid D)$ with variational distribution $q(\theta)$:
 
 $$q^*(\theta) = \arg\min_q D_{\text{KL}}(q(\theta) \Vert P(\theta | D))$$
 
