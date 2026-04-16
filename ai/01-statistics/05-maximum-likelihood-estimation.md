@@ -2,16 +2,16 @@
 
 **Maximum Likelihood Estimation (MLE)** finds the parameter values that make the observed data most probable.
 
-Given data $D = \{x_1, \ldots, x_n\}$ and a parametric model $P(x | \theta)$:
+Given data $D = \{x_1, \ldots, x_n\}$ and a parametric model $P(x \mid \theta)$:
 
 $$\hat{\theta}_{\text{MLE}} = \arg\max_\theta P(D | \theta) = \arg\max_\theta \prod_{i=1}^n P(x_i | \theta)$$
 
 ## The Likelihood Function
 
-**Likelihood:** $L(\theta) = P(D | \theta)$ viewed as a function of $\theta$.
+**Likelihood:** $L(\theta) = P(D \mid \theta)$ viewed as a function of $\theta$.
 
 **Important distinction:**
-- $P(D | \theta)$ as a function of $D$: probability of data
+- $P(D \mid \theta)$ as a function of $D$: probability of data
 - $L(\theta)$ as a function of $\theta$: likelihood of parameters
 
 **Note:** Likelihood is NOT a probability distribution over $\theta$ (doesn't sum/integrate to 1).
@@ -48,7 +48,7 @@ When no closed-form exists:
 
 ### Bernoulli / Binomial
 
-Data: $x_1, \ldots, x_n \in \{0, 1\}$, $P(x | \theta) = \theta^x (1-\theta)^{1-x}$
+Data: $x_1, \ldots, x_n \in \{0, 1\}$, $P(x \mid \theta) = \theta^x (1-\theta)^{1-x}$
 
 **Log-likelihood:**
 
@@ -164,7 +164,7 @@ MLE under Gaussian noise = least squares.
 
 ### Logistic Regression
 
-For binary classification with $P(y=1 | \mathbf{x}, \mathbf{w}) = \sigma(\mathbf{w}^T \mathbf{x})$:
+For binary classification with $P(y=1 \mid \mathbf{x}, \mathbf{w}) = \sigma(\mathbf{w}^T \mathbf{x})$:
 
 $$\hat{\mathbf{w}}_{\text{MLE}} = \arg\max_{\mathbf{w}} \sum_{i=1}^n [y_i \log \sigma(\mathbf{w}^T \mathbf{x}_i) + (1-y_i) \log(1 - \sigma(\mathbf{w}^T \mathbf{x}_i))]$$
 
