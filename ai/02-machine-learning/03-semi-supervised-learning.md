@@ -2,7 +2,7 @@
 
 Semi-supervised learning (SSL) leverages a small labeled dataset $\mathcal{D}_L = \{(x_i, y_i)\}_{i=1}^l$ together with a large unlabeled dataset $\mathcal{D}_U = \{x_j\}_{j=1}^u$ (where $u \gg l$) to learn a better model than supervised learning on $\mathcal{D}_L$ alone.
 
-The key insight: unlabeled data reveals the structure of $P(X)$, which often constrains $P(Y|X)$.
+The key insight: unlabeled data reveals the structure of $P(X)$, which often constrains $P(Y \mid X)$.
 
 ## Assumptions
 
@@ -26,7 +26,7 @@ Iteratively extends the labeled set using the model's own predictions on unlabel
 3. Retrain $f$ on the expanded labeled set.
 4. Repeat until convergence.
 
-**Threshold:** only add predictions with confidence $\max_k P(y = k | x) \geq \tau$ (typically $\tau = 0.95$).
+**Threshold:** only add predictions with confidence $\max_k P(y = k \mid x) \geq \tau$ (typically $\tau = 0.95$).
 
 **Risk:** confirmation bias. If early predictions are wrong, errors compound. Addressed by sharpening, temperature scaling, or consistency regularization.
 
@@ -44,10 +44,10 @@ where $\alpha \in (0, 1)$ controls the balance between propagated labels and ini
 
 ### Generative Models
 
-Fit $P(x, y) = P(y) P(x | y)$ using both labeled and unlabeled data. The unlabeled data contributes to estimating $P(x)$.
+Fit $P(x, y) = P(y) P(x \mid y)$ using both labeled and unlabeled data. The unlabeled data contributes to estimating $P(x)$.
 
 **EM approach:**
-- E-step: infer soft labels $P(y | x_j, \theta)$ for unlabeled $x_j$.
+- E-step: infer soft labels $P(y \mid x_j, \theta)$ for unlabeled $x_j$.
 - M-step: update model parameters using both hard labeled and soft unlabeled assignments.
 
 Generative SSL is theoretically grounded but sensitive to model misspecification.
