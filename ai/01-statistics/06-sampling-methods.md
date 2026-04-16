@@ -69,7 +69,7 @@ Generate samples using a Markov chain whose stationary distribution is the targe
 **Algorithm:**
 1. Initialize $\theta_0$
 2. For $t = 0, 1, 2, \ldots$:
-   - Sample proposal $\theta' \sim q(\theta' | \theta_t)$
+   - Sample proposal $\theta' \sim q(\theta' \mid \theta_t)$
    - Compute acceptance ratio:
      $$\alpha = \min\left(1, \frac{P(\theta' | D) q(\theta_t | \theta')}{P(\theta_t | D) q(\theta' | \theta_t)}\right)$$
    - Accept $\theta_{t+1} = \theta'$ with probability $\alpha$
@@ -77,7 +77,7 @@ Generate samples using a Markov chain whose stationary distribution is the targe
 
 **Key insight:** Only need ratios of posteriors, so normalizing constant $P(D)$ cancels out.
 
-**Special case: Symmetric proposal** ($q(\theta' | \theta) = q(\theta | \theta')$):
+**Special case: Symmetric proposal** ($q(\theta' \mid \theta) = q(\theta \mid \theta')$):
 
 $$\alpha = \min\left(1, \frac{P(\theta' | D)}{P(\theta_t | D)}\right)$$
 
@@ -88,8 +88,8 @@ Special case of Metropolis-Hastings where proposals are from conditional distrib
 **Algorithm:**
 1. Initialize $(\theta_1^{(0)}, \ldots, \theta_k^{(0)})$
 2. For $t = 0, 1, 2, \ldots$:
-   - Sample $\theta_1^{(t+1)} \sim P(\theta_1 | \theta_2^{(t)}, \ldots, \theta_k^{(t)}, D)$
-   - Sample $\theta_2^{(t+1)} \sim P(\theta_2 | \theta_1^{(t+1)}, \theta_3^{(t)}, \ldots, D)$
+   - Sample $\theta_1^{(t+1)} \sim P(\theta_1 \mid \theta_2^{(t)}, \ldots, \theta_k^{(t)}, D)$
+   - Sample $\theta_2^{(t+1)} \sim P(\theta_2 \mid \theta_1^{(t+1)}, \theta_3^{(t)}, \ldots, D)$
    - Continue for all variables
 
 **Acceptance rate:** Always 1 (no rejections).
