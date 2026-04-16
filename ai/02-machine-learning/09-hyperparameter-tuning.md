@@ -12,7 +12,7 @@ Exhaustively evaluates all combinations of a discrete hyperparameter grid.
 
 **Algorithm:** for each $(h_1, h_2, \ldots, h_k) \in \mathcal{H}_1 \times \mathcal{H}_2 \times \cdots \times \mathcal{H}_k$, train and evaluate via CV.
 
-**Complexity:** $O(|\mathcal{H}_1| \times \cdots \times |\mathcal{H}_k| \times k\text{-fold cost})$.
+**Complexity:** $O(\lvert\mathcal{H}_1\rvert \times \cdots \times \lvert\mathcal{H}_k\rvert \times k\text{-fold cost})$.
 
 **Advantage:** systematic, reproducible.
 
@@ -50,7 +50,7 @@ Builds a **surrogate model** of the objective function $f: \mathcal{H} \to \math
 
 **Surrogate models:**
 - **Gaussian Process (GP):** provides uncertainty estimates; exact but scales $O(n^3)$ with evaluations.
-- **Tree Parzen Estimator (TPE):** models $P(h|f(h) < \text{threshold})$ and its complement; scales better.
+- **Tree Parzen Estimator (TPE):** models $P(h \mid f(h) < \text{threshold})$ and its complement; scales better.
 - **Random Forest:** used in SMAC; handles categorical hyperparameters well.
 
 Bayesian optimization is most effective when function evaluations are expensive.
