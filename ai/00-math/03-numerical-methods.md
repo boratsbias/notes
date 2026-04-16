@@ -28,6 +28,7 @@ An algorithm is **numerically stable** if errors do not amplify through computat
 - Stable: Welford's online algorithm
 
 **Softmax stability:** avoid overflow by subtracting max:
+
 $$\text{softmax}(x_i) = \frac{e^{x_i - \max(\mathbf{x})}}{\sum_j e^{x_j - \max(\mathbf{x})}}$$
 
 **Log-sum-exp trick:** $\log \sum_i e^{x_i} = \max(\mathbf{x}) + \log \sum_i e^{x_i - \max(\mathbf{x})}$
