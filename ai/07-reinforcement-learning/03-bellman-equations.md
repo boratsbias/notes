@@ -26,19 +26,19 @@ $\mathcal{T}^\pi$ is a contraction mapping with modulus $\gamma$ under the $\ell
 
 The optimal value function satisfies a nonlinear equation: the agent takes the best action:
 
-**For $V^*$:**
+**For $V^{\ast}$:**
 
 $$V^*(s) = \max_a \sum_{s'} P(s'|s,a)\left[R(s,a) + \gamma V^*(s')\right]$$
 
-**For $Q^*$:**
+**For $Q^{\ast}$:**
 
 $$Q^*(s,a) = R(s,a) + \gamma \sum_{s'} P(s'|s,a) \max_{a'} Q^*(s',a')$$
 
-The Bellman optimality operator $\mathcal{T}^*$:
+The Bellman optimality operator $\mathcal{T}^{\ast}$:
 
 $$(\mathcal{T}^* V)(s) = \max_a \sum_{s'} P(s'|s,a)[R(s,a) + \gamma V(s')]$$
 
-$V^*$ is the unique fixed point of $\mathcal{T}^*$. Contraction with modulus $\gamma$. Value iteration applies $\mathcal{T}^*$ repeatedly to converge to $V^*$.
+$V^{\ast}$ is the unique fixed point of $\mathcal{T}^{\ast}$. Contraction with modulus $\gamma$. Value iteration applies $\mathcal{T}^{\ast}$ repeatedly to converge to $V^{\ast}$.
 
 ## TD Error
 
@@ -80,15 +80,15 @@ Multi-step returns are used in A2C, PPO, and Rainbow DQN.
 
 ## Bellman Equations in Matrix Form
 
-For a finite MDP with $|\mathcal{S}|$ states under a fixed policy $\pi$:
+For a finite MDP with $\lvert\mathcal{S}\rvert$ states under a fixed policy $\pi$:
 
 $$\mathbf{v}^\pi = \mathbf{r}^\pi + \gamma P^\pi \mathbf{v}^\pi$$
 
 $$\mathbf{v}^\pi = (I - \gamma P^\pi)^{-1} \mathbf{r}^\pi$$
 
-where $P^\pi_{ss'} = \sum_a \pi(a|s) P(s'|s,a)$ and $r^\pi_s = \sum_a \pi(a|s) R(s,a)$.
+where $P^\pi_{ss'} = \sum_a \pi(a \mid s) P(s' \mid s,a)$ and $r^\pi_s = \sum_a \pi(a \mid s) R(s,a)$.
 
-Direct solution is $O(|\mathcal{S}|^3)$; feasible only for small state spaces. Dynamic programming uses iterative methods instead.
+Direct solution is $O(\lvert\mathcal{S}\rvert^3)$; feasible only for small state spaces. Dynamic programming uses iterative methods instead.
 
 ## Contraction and Convergence
 
