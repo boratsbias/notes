@@ -10,7 +10,7 @@ Deep Q-Networks (DQN) extend Q-learning to high-dimensional state spaces (e.g., 
 
 **Network:** 3 convolutional layers + 2 fully connected layers. Output: one Q-value per action.
 
-**Key innovation:** instead of outputting a single $Q(s,a)$ for a given $(s,a)$ pair, output all $|\mathcal{A}|$ Q-values simultaneously. Single forward pass covers all actions.
+**Key innovation:** instead of outputting a single $Q(s,a)$ for a given $(s,a)$ pair, output all $\lvert\mathcal{A}\rvert$ Q-values simultaneously. Single forward pass covers all actions.
 
 ## Instability of Naive Deep Q-Learning
 
@@ -75,11 +75,11 @@ $$Q(s, a; \theta) = V(s; \theta_V) + \left(A(s, a; \theta_A) - \frac{1}{|\mathca
 
 $V(s)$ captures the state value; $A(s,a)$ captures action-relative advantage. Better generalization when many actions are equally good.
 
-**Prioritized Experience Replay (PER):** sample transitions with priority proportional to their TD error magnitude $|\delta|^\omega$. Transitions with large errors are revisited more; compensate with importance sampling weights.
+**Prioritized Experience Replay (PER):** sample transitions with priority proportional to their TD error magnitude $\lvert\delta\rvert^\omega$. Transitions with large errors are revisited more; compensate with importance sampling weights.
 
 **Multi-step returns:** use $n$-step Bellman targets instead of one-step. Reduces bootstrap bias.
 
-**Distributional RL (C51):** instead of learning the expected return $\mathbb{E}[G]$, learn the full return distribution $P(G|s,a)$ parameterized as a categorical distribution over $N$ atoms. Minimizes KL divergence.
+**Distributional RL (C51):** instead of learning the expected return $\mathbb{E}[G]$, learn the full return distribution $P(G \mid s,a)$ parameterized as a categorical distribution over $N$ atoms. Minimizes KL divergence.
 
 **Noisy Nets:** replace $\epsilon$-greedy with learned stochastic weights in the network. Exploration is state-dependent and learnable.
 
