@@ -7,8 +7,8 @@ Multi-agent reinforcement learning (MARL) studies settings where multiple agents
 $N$ agents interact in a shared environment. At each step $t$:
 
 1. Each agent $i$ observes $o_t^i$ (may be partial or full state).
-2. Each agent selects action $a_t^i \sim \pi^i(\cdot|o_t^i)$.
-3. The environment transitions to $s_{t+1} \sim P(s_{t+1} | s_t, \mathbf{a}_t)$.
+2. Each agent selects action $a_t^i \sim \pi^i(\cdot \mid o_t^i)$.
+3. The environment transitions to $s_{t+1} \sim P(s_{t+1} \mid s_t, \mathbf{a}_t)$.
 4. Each agent receives reward $r_t^i = R^i(s_t, \mathbf{a}_t)$.
 
 The joint action $\mathbf{a}_t = (a_t^1, \ldots, a_t^N)$ affects the transition and rewards of all agents.
