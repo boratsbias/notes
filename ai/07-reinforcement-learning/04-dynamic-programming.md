@@ -41,7 +41,7 @@ repeat:
     π ← π'
 ```
 
-**Convergence:** since there are finitely many deterministic policies ($|\mathcal{A}|^{|\mathcal{S}|}$) and each iteration strictly improves the policy (or terminates), policy iteration converges in finite steps.
+**Convergence:** since there are finitely many deterministic policies ($\lvert\mathcal{A}\rvert^{\lvert\mathcal{S}\rvert}$) and each iteration strictly improves the policy (or terminates), policy iteration converges in finite steps.
 
 **In practice:** policy evaluation can be stopped early (truncated policy iteration). Even one step of policy evaluation followed by improvement works (which leads to value iteration).
 
@@ -53,7 +53,7 @@ $$V_{k+1}(s) \leftarrow \max_a \sum_{s'} P(s'|s,a)\left[R(s,a) + \gamma V_k(s')\
 
 No explicit policy is maintained; the policy is implicit (greedy w.r.t. current $V$).
 
-**Convergence:** $\|V_k - V^*\|_\infty \leq \gamma^k \|V_0 - V^*\|_\infty$.
+**Convergence:** $\|V_k - V^{\ast}\|_\infty \leq \gamma^k \|V_0 - V^{\ast}\|_\infty$.
 
 **Termination:** stop when $\|V_{k+1} - V_k\|_\infty < \theta(1-\gamma) / \gamma$ to guarantee the final greedy policy is within $\theta$ of optimal.
 
@@ -67,11 +67,11 @@ No explicit policy is maintained; the policy is implicit (greedy w.r.t. current 
 | Policy iteration | $O(\lvert\mathcal{S}\rvert^2 \lvert\mathcal{A}\rvert)$ per eval | $O(\lvert\mathcal{A}\rvert^{\lvert\mathcal{S}\rvert})$ worst case; often polynomial |
 | Value iteration | $O(\lvert\mathcal{S}\rvert^2 \lvert\mathcal{A}\rvert)$ | $O(\log(1/\epsilon) / (1-\gamma))$ |
 
-Policy iteration converges in far fewer iterations than value iteration but each iteration is more expensive. For large $|\mathcal{S}|$, both are infeasible (curse of dimensionality).
+Policy iteration converges in far fewer iterations than value iteration but each iteration is more expensive. For large $\lvert\mathcal{S}\rvert$, both are infeasible (curse of dimensionality).
 
 ## Generalized Policy Iteration (GPI)
 
-The general framework: any interleaving of partial policy evaluation and policy improvement converges to $V^*$ and $\pi^*$.
+The general framework: any interleaving of partial policy evaluation and policy improvement converges to $V^{\ast}$ and $\pi^{\ast}$.
 
 Policy iteration and value iteration are special cases. Most RL algorithms (Q-learning, actor-critic, etc.) implement GPI approximately with function approximation.
 
