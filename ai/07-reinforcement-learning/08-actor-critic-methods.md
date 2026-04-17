@@ -4,7 +4,7 @@ Actor-critic methods combine the strengths of policy gradient methods (actor) an
 
 ## Architecture
 
-**Actor:** the policy $\pi_\theta(a|s)$. Takes actions and is updated to maximize expected return.
+**Actor:** the policy $\pi_\theta(a \mid s)$. Takes actions and is updated to maximize expected return.
 
 **Critic:** a value function $V_\phi(s)$ or $Q_\phi(s,a)$. Evaluates the actor's actions and is updated by TD learning.
 
@@ -51,7 +51,7 @@ $$V^*(s) = \mathbb{E}_{a \sim \pi^*}[Q^*(s,a) - \alpha \log \pi^*(a|s)]$$
 - **Target networks** $\bar{\phi}_1$, $\bar{\phi}_2$: exponential moving average of Q-network weights.
 - **Automatic entropy tuning:** adjust $\alpha$ so that the policy entropy matches a target entropy $\mathcal{H}_\text{target}$.
 
-**Actor loss:** maximize $\mathbb{E}_{a \sim \pi_\theta}[\min(Q_1, Q_2)(s,a) - \alpha \log \pi_\theta(a|s)]$.
+**Actor loss:** maximize $\mathbb{E}_{a \sim \pi_\theta}[\min(Q_1, Q_2)(s,a) - \alpha \log \pi_\theta(a \mid s)]$.
 
 **Q-network loss:** MSE to Bellman target using min-double-Q and target networks.
 
