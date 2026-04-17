@@ -8,7 +8,7 @@ The interaction between agent and environment proceeds in discrete time steps:
 
 1. At time $t$, the agent observes state $s_t \in \mathcal{S}$.
 2. The agent selects action $a_t \in \mathcal{A}$ according to its policy $\pi$.
-3. The environment transitions to $s_{t+1} \sim P(s_{t+1} | s_t, a_t)$.
+3. The environment transitions to $s_{t+1} \sim P(s_{t+1} \mid s_t, a_t)$.
 4. The agent receives reward $r_t = R(s_t, a_t)$.
 
 The agent's goal is to maximize the expected cumulative discounted reward:
@@ -27,11 +27,11 @@ where $\gamma \in [0, 1)$ is the discount factor. $\gamma$ close to 1 values fut
 
 **Reward $r = R(s, a)$:** scalar feedback signal. The only learning signal; must be carefully designed.
 
-**Policy $\pi(a|s)$:** the agent's behavior. Stochastic: a distribution over actions; deterministic: $a = \pi(s)$.
+**Policy $\pi(a \mid s)$:** the agent's behavior. Stochastic: a distribution over actions; deterministic: $a = \pi(s)$.
 
 **Value function:** expected cumulative reward from a state; see [Policies and Value Functions](02-policies-and-value-functions).
 
-**Model (optional):** the agent's internal estimate of $P(s'|s,a)$ and $R(s,a)$. Model-free RL does not use a model; model-based RL learns or is given one.
+**Model (optional):** the agent's internal estimate of $P(s' \mid s,a)$ and $R(s,a)$. Model-free RL does not use a model; model-based RL learns or is given one.
 
 ## RL vs. Supervised and Unsupervised Learning
 
