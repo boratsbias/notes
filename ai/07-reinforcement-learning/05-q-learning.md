@@ -28,7 +28,7 @@ $$Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha \left[r_t + \gamma Q(s_{t+1}, a_{t
 
 The target uses the actual next action $a_{t+1}$ taken under the current policy, not the greedy action.
 
-**SARSA converges to $Q^{\pi_\epsilon}$** (the Q-function of the $\epsilon$-greedy policy), not $Q^*$. As $\epsilon \to 0$, $Q^{\pi_\epsilon} \to Q^*$.
+**SARSA** converges to $Q^{\pi_{\epsilon}}$ (the Q-function of the $\epsilon$-greedy policy), not $Q^*$. As $\epsilon \to 0$, $Q^{\pi_{\epsilon}} \to Q^*$.
 
 **Cliff Walking:** a standard example where SARSA is safer than Q-learning. Q-learning learns the optimal path along the cliff (risky); SARSA learns a safer path away from the cliff because it accounts for exploratory actions.
 
@@ -75,7 +75,7 @@ for each episode:
         s ← s'
 ```
 
-**Tabular Q-table:** $|\mathcal{S}| \times |\mathcal{A}|$ matrix. Feasible only for small state spaces.
+**Tabular Q-table:** $\lvert\mathcal{S}\rvert \times \lvert\mathcal{A}\rvert$ matrix. Feasible only for small state spaces.
 
 ## Limitations and the Need for Function Approximation
 
