@@ -51,7 +51,9 @@ $$V^*(s) = \mathbb{E}_{a \sim \pi^*}[Q^*(s,a) - \alpha \log \pi^*(a|s)]$$
 - **Target networks** $\bar{\phi}_1$, $\bar{\phi}_2$: exponential moving average of Q-network weights.
 - **Automatic entropy tuning:** adjust $\alpha$ so that the policy entropy matches a target entropy $\mathcal{H}_\text{target}$.
 
-**Actor loss:** maximize $\mathbb{E}_{a \sim \pi_\theta}[\min(Q_1, Q_2)(s,a) - \alpha \log \pi_\theta(a \mid s)]$.
+**Actor loss:** maximize
+
+$$\mathbb{E}_{a \sim \pi_\theta}[\min(Q_1, Q_2)(s,a) - \alpha \log \pi_\theta(a \mid s)]$$
 
 **Q-network loss:** MSE to Bellman target using min-double-Q and target networks.
 
