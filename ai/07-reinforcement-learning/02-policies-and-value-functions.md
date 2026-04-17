@@ -97,7 +97,7 @@ Off-policy learning enables:
 
 $$V^\pi(s) = \mathbb{E}_b\left[\frac{\pi(A_t|S_t)}{b(A_t|S_t)} G_t \;\Big|\; S_t = s\right]$$
 
-The ratio $\rho_t = \pi(A_t|S_t)/b(A_t|S_t)$ is the importance weight.
+The ratio $\rho_t = \pi(A_t \mid S_t)/b(A_t \mid S_t)$ is the importance weight.
 
 ## Eligibility Traces and $\text{TD}(\lambda)$
 
