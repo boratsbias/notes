@@ -4,7 +4,7 @@ Policy gradient methods directly optimize the policy $\pi_\theta$ by gradient as
 
 ## Policy Gradient Theorem
 
-Parameterize the policy as $\pi_\theta(a|s)$. The objective is:
+Parameterize the policy as $\pi_\theta(a \mid s)$. The objective is:
 
 $$J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta}\left[\sum_{t=0}^T r_t\right] = \mathbb{E}_{\tau \sim \pi_\theta}[G(\tau)]$$
 
@@ -18,7 +18,7 @@ The gradient is an expectation over trajectories; no model of $P$ or $R$ is requ
 
 $$\nabla_\theta J = \int \nabla_\theta p_\theta(\tau) G(\tau) d\tau = \int p_\theta(\tau) \frac{\nabla_\theta p_\theta(\tau)}{p_\theta(\tau)} G(\tau) d\tau = \mathbb{E}_\tau[\nabla_\theta \log p_\theta(\tau) \cdot G(\tau)]$$
 
-Since $\log p_\theta(\tau) = \sum_t \log \pi_\theta(a_t|s_t) + \text{const}$ (transition probabilities cancel), only the policy log-probs remain.
+Since $\log p_\theta(\tau) = \sum_t \log \pi_\theta(a_t \mid s_t) + \text{const}$ (transition probabilities cancel), only the policy log-probs remain.
 
 ## REINFORCE (Monte Carlo Policy Gradient)
 
@@ -42,7 +42,7 @@ Adding a baseline $b(s_t)$ to the return does not bias the gradient but reduces 
 
 $$\nabla_\theta J = \mathbb{E}\left[\sum_t \nabla_\theta \log \pi_\theta(a_t|s_t) (G_t - b(s_t))\right]$$
 
-**Proof that baseline doesn't bias:** $\mathbb{E}[\nabla_\theta \log \pi_\theta(a|s) b(s)] = b(s) \mathbb{E}[\nabla_\theta \log \pi_\theta(a|s)] = 0$ (since $\sum_a \pi(a|s) = 1$, its gradient is 0).
+**Proof that baseline doesn't bias:** $\mathbb{E}[\nabla_\theta \log \pi_\theta(a \mid s) b(s)] = b(s) \mathbb{E}[\nabla_\theta \log \pi_\theta(a \mid s)] = 0$ (since $\sum_a \pi(a \mid s) = 1$, its gradient is 0).
 
 **Optimal baseline:** $b^*(s) = V^\pi(s)$ (the state value function). Makes the gradient signal the advantage function $A(s,a) = Q(s,a) - V(s)$.
 
@@ -54,7 +54,7 @@ $$\max_\theta \mathbb{E}\left[\frac{\pi_\theta(a|s)}{\pi_{\theta_\text{old}}(a|s
 
 $$\text{subject to} \quad \mathbb{E}\left[D_\text{KL}(\pi_{\theta_\text{old}}(\cdot|s) \| \pi_\theta(\cdot|s))\right] \leq \delta$$
 
-The ratio $\rho_t(\theta) = \pi_\theta(a_t|s_t) / \pi_{\theta_\text{old}}(a_t|s_t)$ is the importance weight; allows off-policy data reuse.
+The ratio $\rho_t(\theta) = \pi_\theta(a_t \mid s_t) / \pi_{\theta_\text{old}}(a_t \mid s_t)$ is the importance weight; allows off-policy data reuse.
 
 TRPO uses a conjugate gradient method + line search. Complex and expensive but stable.
 
