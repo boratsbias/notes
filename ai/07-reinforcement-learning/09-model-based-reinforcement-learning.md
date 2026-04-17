@@ -14,11 +14,11 @@ Model-based RL (MBRL) algorithms learn or are given an explicit model of the env
 
 A world model consists of:
 
-**Dynamics model:** $P_\psi(s_{t+1} | s_t, a_t)$ (or $s_{t+1} = f_\psi(s_t, a_t) + \epsilon$).
+**Dynamics model:** $P_\psi(s_{t+1} \mid s_t, a_t)$ (or $s_{t+1} = f_\psi(s_t, a_t) + \epsilon$).
 
 **Reward model:** $R_\psi(s_t, a_t)$.
 
-**Termination model:** $P(\text{done}|s_t, a_t)$ (for episodic tasks).
+**Termination model:** $P(\text{done} \mid s_t, a_t)$ (for episodic tasks).
 
 **Uncertainty:** dynamics models should quantify prediction uncertainty, especially out-of-distribution.
 
