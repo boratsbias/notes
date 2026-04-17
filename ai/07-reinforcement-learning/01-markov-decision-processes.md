@@ -8,11 +8,11 @@ An MDP is a tuple $(\mathcal{S}, \mathcal{A}, P, R, \gamma)$:
 
 - $\mathcal{S}$: state space (finite, countably infinite, or continuous).
 - $\mathcal{A}$: action space.
-- $P: \mathcal{S} \times \mathcal{A} \times \mathcal{S} \to [0,1]$: transition probability function. $P(s'|s,a)$ is the probability of reaching $s'$ from $s$ via action $a$.
+- $P: \mathcal{S} \times \mathcal{A} \times \mathcal{S} \to [0,1]$: transition probability function. $P(s' \mid s,a)$ is the probability of reaching $s'$ from $s$ via action $a$.
 - $R: \mathcal{S} \times \mathcal{A} \to \mathbb{R}$: reward function. $R(s,a)$ is the expected immediate reward.
 - $\gamma \in [0,1)$: discount factor.
 
-**Markov property:** $P(s_{t+1}|s_t, a_t, s_{t-1}, a_{t-1}, \ldots) = P(s_{t+1}|s_t, a_t)$. The future is independent of the past given the present state.
+**Markov property:** $P(s_{t+1} \mid s_t, a_t, s_{t-1}, a_{t-1}, \ldots) = P(s_{t+1} \mid s_t, a_t)$. The future is independent of the past given the present state.
 
 ## Finite vs. Infinite Horizon
 
@@ -28,7 +28,7 @@ An MDP is a tuple $(\mathcal{S}, \mathcal{A}, P, R, \gamma)$:
 
 A **policy** $\pi$ specifies the agent's behavior.
 
-**Stochastic policy:** $\pi(a|s) = P(A_t = a | S_t = s)$. The probability of taking action $a$ in state $s$.
+**Stochastic policy:** $\pi(a \mid s) = P(A_t = a \mid S_t = s)$. The probability of taking action $a$ in state $s$.
 
 **Deterministic policy:** $\pi: \mathcal{S} \to \mathcal{A}$.
 
@@ -50,7 +50,7 @@ $$V^\pi(s) = \mathbb{E}_\pi[G_t | S_t = s]$$
 
 $$Q^\pi(s, a) = \mathbb{E}_\pi[G_t | S_t = s, A_t = a]$$
 
-Relationship: $V^\pi(s) = \sum_a \pi(a|s) Q^\pi(s,a)$
+Relationship: $V^\pi(s) = \sum_a \pi(a \mid s) Q^\pi(s,a)$
 
 ## Partially Observable MDPs (POMDPs)
 
@@ -58,9 +58,9 @@ When the agent cannot directly observe the full state, the process is a POMDP:
 
 $(\mathcal{S}, \mathcal{A}, \mathcal{O}, P, R, Z, \gamma)$
 
-where $\mathcal{O}$ is the observation space and $Z(o|s',a)$ is the observation emission probability.
+where $\mathcal{O}$ is the observation space and $Z(o \mid s',a)$ is the observation emission probability.
 
-The agent maintains a **belief state** $b(s) = P(S_t = s | o_1, a_1, \ldots, o_t)$, updated by Bayes' rule after each observation.
+The agent maintains a **belief state** $b(s) = P(S_t = s \mid o_1, a_1, \ldots, o_t)$, updated by Bayes' rule after each observation.
 
 Exact POMDP solution is PSPACE-hard. Practical approaches:
 
@@ -82,7 +82,7 @@ The reward function fully specifies the agent's objective. Poor design leads to 
 
 ## Absorbing States and Termination
 
-**Terminal (absorbing) state $s_\text{term}$:** $P(s_\text{term} | s_\text{term}, a) = 1$ for all $a$; $R(s_\text{term}, a) = 0$.
+**Terminal (absorbing) state $s_\text{term}$:** $P(s_\text{term} \mid s_\text{term}, a) = 1$ for all $a$; $R(s_\text{term}, a) = 0$.
 
 Once reached, the episode ends. Modeling termination as an absorbing state with zero reward preserves the standard MDP framework.
 
