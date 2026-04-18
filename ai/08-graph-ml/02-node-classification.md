@@ -71,7 +71,7 @@ $h \approx 1$: strong homophily. $h \approx 0$: strong heterophily.
 
 ## Scalability
 
-Standard GNNs face a neighbor explosion problem: the computation graph of a node grows exponentially with depth ($|\mathcal{N}^K(v)| = O(d_\text{avg}^K)$).
+Standard GNNs face a neighbor explosion problem: the computation graph of a node grows exponentially with depth ($\lvert\mathcal{N}^K(v)\rvert = O(d_\text{avg}^K)$).
 
 **GraphSAGE sampling:** sample a fixed number of neighbors at each hop. Enables minibatch training.
 

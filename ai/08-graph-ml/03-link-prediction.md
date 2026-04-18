@@ -100,6 +100,6 @@ SEAL significantly outperforms embedding-based methods on citation and social ne
 
 **Hits@K:** fraction of positive edges ranked in the top-$K$ among all negatives.
 
-**MRR (Mean Reciprocal Rank):** $\frac{1}{|E_\text{test}|} \sum_{(u,v) \in E_\text{test}} \frac{1}{\text{rank}(v)}$ where rank is computed among all candidate nodes for a given source $u$.
+**MRR (Mean Reciprocal Rank):** $\frac{1}{\lvert E_\text{test} \rvert} \sum_{(u,v) \in E_\text{test}} \frac{1}{\text{rank}(v)}$ where rank is computed among all candidate nodes for a given source $u$.
 
 OGB (Open Graph Benchmark) uses ranking-based metrics with hard negative sampling to avoid trivially easy random negatives.

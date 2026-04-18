@@ -36,7 +36,7 @@ Split the model across GPUs.
 
 Partition individual operations (matrices) across GPUs.
 
-**Column parallel linear:** split weight matrix $W \in \mathbb{R}^{d \times 4d}$ column-wise: $[W_1 | W_2]$ on GPU 1 and 2. Both GPUs receive the same input $x$; outputs $[W_1^T x, W_2^T x]$ are concatenated.
+**Column parallel linear:** split weight matrix $W \in \mathbb{R}^{d \times 4d}$ column-wise: $[W_1 \mid W_2]$ on GPU 1 and 2. Both GPUs receive the same input $x$; outputs $[W_1^T x, W_2^T x]$ are concatenated.
 
 **Row parallel linear:** split input activation column-wise; each GPU computes part of the output; results are summed (AllReduce).
 

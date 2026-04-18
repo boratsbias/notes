@@ -18,7 +18,7 @@ $$K = \begin{pmatrix} f_x & 0 & c_x \\ 0 & f_y & c_y \\ 0 & 0 & 1 \end{pmatrix}$
 
 where $f_x, f_y$ are focal lengths in pixels and $(c_x, c_y)$ is the principal point.
 
-**Extrinsic matrix $[R|t]$:** rotation and translation from world to camera coordinates.
+**Extrinsic matrix $[R \mid t]$:** rotation and translation from world to camera coordinates.
 
 **Homogeneous coordinates:** use $\sim$ to denote equality up to scale.
 

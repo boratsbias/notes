@@ -35,7 +35,7 @@ StyleGAN2 eliminates blob artifacts via revised normalization (demodulation).
 
 ## Variational Autoencoders for Images
 
-VAE encodes an image to a latent distribution $q(z|x)$ and decodes back to pixel space. See [Variational Autoencoders](../04-generative-models/02-variational-autoencoders) for details. Image VAEs tend to produce blurry outputs due to the pixel-level reconstruction loss.
+VAE encodes an image to a latent distribution $q(z \mid x)$ and decodes back to pixel space. See [Variational Autoencoders](../04-generative-models/02-variational-autoencoders) for details. Image VAEs tend to produce blurry outputs due to the pixel-level reconstruction loss.
 
 ## Diffusion Models for Images
 

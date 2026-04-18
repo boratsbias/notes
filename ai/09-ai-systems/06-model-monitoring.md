@@ -6,7 +6,7 @@ Model monitoring tracks the health of deployed models over time. Production mode
 
 **Data drift:** the distribution of input features $P(X)$ changes over time. The model was trained on past data; present data looks different.
 
-**Concept drift:** the relationship between inputs and outputs $P(Y|X)$ changes. For example, spam patterns change as spammers adapt; consumer behavior shifts seasonally.
+**Concept drift:** the relationship between inputs and outputs $P(Y \mid X)$ changes. For example, spam patterns change as spammers adapt; consumer behavior shifts seasonally.
 
 **Label distribution shift:** the frequency of target classes changes ($P(Y)$ changes). A fraud model trained on 1% fraud rate may encounter 3% fraud during a fraud campaign.
 
