@@ -77,7 +77,7 @@ $$E(x) = -x^T W x - b^T x$$
 
 $$E(v, h) = -v^T W h - b^T v - c^T h$$
 
-$$p(v) = \sum_h p(v, h), \quad p(h|v) = \sigma(Wv + c), \quad p(v|h) = \sigma(W^T h + b)$$
+$$p(v) = \sum_h p(v, h), \quad p(h \mid v) = \sigma(Wv + c), \quad p(v \mid h) = \sigma(W^T h + b)$$
 
 Alternating Gibbs sampling between $v$ and $h$ is efficient. Trained with CD-1. Building block of Deep Belief Networks.
 
@@ -87,15 +87,15 @@ Combines a classifier $f_\theta(x)[y]$ (logit for class $y$) with an EBM over in
 
 $$p_\theta(x) \propto \sum_y \exp(f_\theta(x)[y])$$
 
-$$p_\theta(y|x) = \text{softmax}(f_\theta(x))$$
+$$p_\theta(y \mid x) = \text{softmax}(f_\theta(x))$$
 
-Joint MLE: maximize $\log p_\theta(x) + \log p_\theta(y|x)$.
+Joint MLE: maximize $\log p_\theta(x) + \log p_\theta(y \mid x)$.
 
 A single network simultaneously classifies and generates. Improves OOD detection and adversarial robustness.
 
 ## EBMs for Structured Prediction
 
-In NLP and vision, model $p(y|x) \propto \exp(-E_\theta(x, y))$ where $y$ is a structured output (parse tree, segmentation map).
+In NLP and vision, model $p(y \mid x) \propto \exp(-E_\theta(x, y))$ where $y$ is a structured output (parse tree, segmentation map).
 
 - **CRF (Conditional Random Field):** shallow EBM with pairwise potentials. Exact inference via dynamic programming for linear chains.
 - **Structured SVM:** margin-based training that avoids partition function via a surrogate loss.
@@ -104,7 +104,7 @@ In NLP and vision, model $p(y|x) \propto \exp(-E_\theta(x, y))$ where $y$ is a s
 
 EBMs compose cleanly via addition:
 
-$$\log p(x|c) \propto -E_\text{model}(x) - E_\text{condition}(x, c)$$
+$$\log p(x \mid c) \propto -E_\text{model}(x) - E_\text{condition}(x, c)$$
 
 This enables **test-time composition** of multiple constraints without retraining. E.g., combine a generative model with a physics constraint or a classifier.
 

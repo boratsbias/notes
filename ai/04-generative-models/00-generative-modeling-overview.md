@@ -2,7 +2,7 @@
 
 ## What is Generative Modeling?
 
-A generative model learns the underlying data distribution $p(x)$ (or joint $p(x, y)$) so it can produce new samples that look like they came from that distribution. This contrasts with discriminative models, which only learn $p(y|x)$.
+A generative model learns the underlying data distribution $p(x)$ (or joint $p(x, y)$) so it can produce new samples that look like they came from that distribution. This contrasts with discriminative models, which only learn $p(y \mid x)$.
 
 **Formal objective:** given samples $\{x_i\}_{i=1}^n \sim p_\text{data}(x)$, learn a model $p_\theta(x)$ such that $p_\theta \approx p_\text{data}$.
 
@@ -44,9 +44,9 @@ $$\text{FID} = \|\mu_r - \mu_g\|^2 + \text{Tr}\!\left(\Sigma_r + \Sigma_g - 2(\S
 
 Lower is better. Most widely used metric for images.
 
-**IS (Inception Score):** measures sharpness (low $H(y|x)$) and diversity (high $H(y)$):
+**IS (Inception Score):** measures sharpness (low $H(y \mid x)$) and diversity (high $H(y)$):
 
-$$\text{IS} = \exp(\mathbb{E}_x[D_\text{KL}(p(y|x) \| p(y))])$$
+$$\text{IS} = \exp(\mathbb{E}_x[D_\text{KL}(p(y \mid x) \| p(y))])$$
 
 Higher is better, but does not compare to real data.
 

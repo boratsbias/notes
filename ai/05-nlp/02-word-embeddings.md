@@ -1,10 +1,10 @@
 # Word Embeddings
 
-Word embeddings map discrete tokens to dense vectors in $\mathbb{R}^d$ such that semantically similar words are close in the embedding space. They replace sparse one-hot representations ($\mathbb{R}^{|V|}$) with compact, information-rich vectors.
+Word embeddings map discrete tokens to dense vectors in $\mathbb{R}^d$ such that semantically similar words are close in the embedding space. They replace sparse one-hot representations ($\mathbb{R}^{\lvert V \rvert}$) with compact, information-rich vectors.
 
 ## Why Dense Embeddings?
 
-**One-hot vectors:** $|V|$-dimensional, all zeros except one. No notion of similarity; "cat" and "dog" are orthogonal. Dot product of any two distinct words is zero.
+**One-hot vectors:** $\lvert V \rvert$-dimensional, all zeros except one. No notion of similarity; "cat" and "dog" are orthogonal. Dot product of any two distinct words is zero.
 
 **Dense embeddings:** similar words have high cosine similarity. Enable generalization across semantically related words. Pretrained embeddings transfer knowledge across tasks.
 

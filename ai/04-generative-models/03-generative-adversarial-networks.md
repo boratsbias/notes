@@ -56,7 +56,7 @@ The critic $f$ (unbounded, replaces $D$) must satisfy the 1-Lipschitz constraint
 
 $$\min_G \max_{\|f\|_L \leq 1} \mathbb{E}_{x \sim p_\text{data}}[f(x)] - \mathbb{E}_{z}[f(G(z))]$$
 
-**Gradient penalty (WGAN-GP):** enforce Lipschitz by penalizing $|\nabla_{\hat{x}} f(\hat{x})| \neq 1$, where $\hat{x}$ is sampled along straight lines between real and fake:
+**Gradient penalty (WGAN-GP):** enforce Lipschitz by penalizing $\lvert\nabla_{\hat{x}} f(\hat{x})\rvert \neq 1$, where $\hat{x}$ is sampled along straight lines between real and fake:
 
 $$\mathcal{L}_\text{GP} = \lambda \, \mathbb{E}_{\hat{x}}[(\|\nabla_{\hat{x}} f(\hat{x})\|_2 - 1)^2]$$
 

@@ -52,8 +52,10 @@ $$\text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^T}{\sqrt{d_k}}\righ
 
 Rather than a single attention function, run $h$ attention heads in parallel, each with its own learned projections:
 
-$$\text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)$$
-$$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) W^O$$
+$$\begin{aligned}
+\text{head}_i &= \text{Attention}(QW_i^Q, KW_i^K, VW_i^V) \\
+\text{MultiHead}(Q, K, V) &= \text{Concat}(\text{head}_1, \ldots, \text{head}_h) W^O
+\end{aligned}$$
 
 Where $W_i^Q \in \mathbb{R}^{d_\text{model} \times d_k}$, $W_i^K \in \mathbb{R}^{d_\text{model} \times d_k}$, $W_i^V \in \mathbb{R}^{d_\text{model} \times d_v}$, with $d_k = d_v = d_\text{model}/h$.
 
@@ -88,8 +90,10 @@ Standard attention is permutation-equivariant (no position information). Positio
 
 **Absolute sinusoidal (original Transformer):**
 
-$$PE_{(pos, 2i)} = \sin(pos / 10000^{2i/d})$$
-$$PE_{(pos, 2i+1)} = \cos(pos / 10000^{2i/d})$$
+$$\begin{aligned}
+PE_{(pos, 2i)} &= \sin(pos / 10000^{2i/d}) \\
+PE_{(pos, 2i+1)} &= \cos(pos / 10000^{2i/d})
+\end{aligned}$$
 
 Added to token embeddings before the first layer.
 

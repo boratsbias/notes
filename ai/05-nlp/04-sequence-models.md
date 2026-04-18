@@ -6,8 +6,10 @@ Sequence models process variable-length ordered inputs, maintaining state across
 
 At each time step $t$, the hidden state $h_t$ summarizes all past inputs:
 
-$$h_t = \tanh(W_h h_{t-1} + W_x x_t + b)$$
-$$y_t = W_o h_t + b_o$$
+$$\begin{aligned}
+h_t &= \tanh(W_h h_{t-1} + W_x x_t + b) \\
+y_t &= W_o h_t + b_o
+\end{aligned}$$
 
 Parameters $W_h$, $W_x$ are shared across all time steps (weight tying).
 
@@ -21,12 +23,14 @@ Parameters $W_h$, $W_x$ are shared across all time steps (weight tying).
 
 Hochreiter & Schmidhuber (1997). Introduces a cell state $c_t$ as a linear memory bus, controlled by learned gates.
 
-$$f_t = \sigma(W_f [h_{t-1}, x_t] + b_f) \quad \text{(forget gate)}$$
-$$i_t = \sigma(W_i [h_{t-1}, x_t] + b_i) \quad \text{(input gate)}$$
-$$\tilde{c}_t = \tanh(W_c [h_{t-1}, x_t] + b_c) \quad \text{(candidate)}$$
-$$c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t \quad \text{(cell update)}$$
-$$o_t = \sigma(W_o [h_{t-1}, x_t] + b_o) \quad \text{(output gate)}$$
-$$h_t = o_t \odot \tanh(c_t)$$
+$$\begin{aligned}
+f_t &= \sigma(W_f [h_{t-1}, x_t] + b_f) \quad \text{(forget gate)} \\
+i_t &= \sigma(W_i [h_{t-1}, x_t] + b_i) \quad \text{(input gate)} \\
+\tilde{c}_t &= \tanh(W_c [h_{t-1}, x_t] + b_c) \quad \text{(candidate)} \\
+c_t &= f_t \odot c_{t-1} + i_t \odot \tilde{c}_t \quad \text{(cell update)} \\
+o_t &= \sigma(W_o [h_{t-1}, x_t] + b_o) \quad \text{(output gate)} \\
+h_t &= o_t \odot \tanh(c_t)
+\end{aligned}$$
 
 **Forget gate:** how much of the previous cell state to retain.
 
@@ -40,10 +44,12 @@ The additive cell update $c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t$ allow
 
 Cho et al. (2014). Simplification of LSTM with two gates; no separate cell state.
 
-$$z_t = \sigma(W_z [h_{t-1}, x_t]) \quad \text{(update gate)}$$
-$$r_t = \sigma(W_r [h_{t-1}, x_t]) \quad \text{(reset gate)}$$
-$$\tilde{h}_t = \tanh(W [r_t \odot h_{t-1}, x_t]) \quad \text{(candidate)}$$
-$$h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t$$
+$$\begin{aligned}
+z_t &= \sigma(W_z [h_{t-1}, x_t]) \quad \text{(update gate)} \\
+r_t &= \sigma(W_r [h_{t-1}, x_t]) \quad \text{(reset gate)} \\
+\tilde{h}_t &= \tanh(W [r_t \odot h_{t-1}, x_t]) \quad \text{(candidate)} \\
+h_t &= (1 - z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t
+\end{aligned}$$
 
 Fewer parameters than LSTM; comparable performance on most tasks. More amenable to efficient hardware implementation.
 
@@ -57,9 +63,11 @@ Fewer parameters than LSTM; comparable performance on most tasks. More amenable 
 
 Standard RNNs process sequences left to right. For tasks requiring full context (classification, NER, parsing), process the sequence in both directions and concatenate hidden states:
 
-$$\overrightarrow{h}_t = \text{RNN}(x_t, \overrightarrow{h}_{t-1})$$
-$$\overleftarrow{h}_t = \text{RNN}(x_t, \overleftarrow{h}_{t+1})$$
-$$h_t = [\overrightarrow{h}_t; \overleftarrow{h}_t]$$
+$$\begin{aligned}
+\overrightarrow{h}_t &= \text{RNN}(x_t, \overrightarrow{h}_{t-1}) \\
+\overleftarrow{h}_t &= \text{RNN}(x_t, \overleftarrow{h}_{t+1}) \\
+h_t &= [\overrightarrow{h}_t; \overleftarrow{h}_t]
+\end{aligned}$$
 
 Cannot be used for autoregressive generation (left-to-right only).
 
@@ -73,8 +81,10 @@ $$c = h_T^{\text{enc}}$$
 
 **Decoder:** generates the target token by token, conditioned on $c$:
 
-$$h_t^{\text{dec}} = \text{LSTM}(y_{t-1}, h_{t-1}^{\text{dec}}, c)$$
-$$p(y_t | y_{<t}, x) = \text{softmax}(W h_t^{\text{dec}})$$
+$$\begin{aligned}
+h_t^{\text{dec}} &= \text{LSTM}(y_{t-1}, h_{t-1}^{\text{dec}}, c) \\
+p(y_t \mid y_{<t}, x) &= \text{softmax}(W h_t^{\text{dec}})
+\end{aligned}$$
 
 **Bottleneck problem:** the entire source must compress into a single vector $c$. For long sequences, this is insufficient. Solved by attention (see [Attention Mechanisms](05-attention-mechanisms)).
 

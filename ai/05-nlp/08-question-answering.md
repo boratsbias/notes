@@ -23,7 +23,9 @@ Given a passage (context) $p$ and a question $q$, find the answer span $(s, e)$ 
 1. Concatenate `[CLS] question [SEP] context [SEP]`.
 2. Run through BERT; get token representations $H \in \mathbb{R}^{n \times d}$.
 3. Predict start and end positions:
-   $$P_s = \text{softmax}(H \cdot w_s), \quad P_e = \text{softmax}(H \cdot w_e)$$
+
+$$P_s = \text{softmax}(H \cdot w_s), \quad P_e = \text{softmax}(H \cdot w_e)$$
+
 4. Extract span $p[\hat{s}:\hat{e}]$ where $\hat{s} = \arg\max P_s$, $\hat{e} = \arg\max P_e$.
 
 **SQuAD 1.1:** 100k questions over Wikipedia; every question has an answer span. EM (exact match) and F1 (token overlap) are standard metrics.

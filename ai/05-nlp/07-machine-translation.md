@@ -6,13 +6,13 @@ Machine translation (MT) is the task of automatically translating text from a so
 
 Given a source sentence $x = (x_1, \ldots, x_m)$, find the target sentence $y = (y_1, \ldots, y_n)$ that maximizes:
 
-$$\hat{y} = \arg\max_y p(y | x)$$
+$$\hat{y} = \arg\max_y p(y \mid x)$$
 
 By Bayes' rule (noisy channel model, historical):
 
-$$p(y | x) \propto p(x | y) \cdot p(y)$$
+$$p(y \mid x) \propto p(x \mid y) \cdot p(y)$$
 
-Modern neural MT directly models $p(y | x)$ with an encoder-decoder network.
+Modern neural MT directly models $p(y \mid x)$ with an encoder-decoder network.
 
 ## Evaluation: BLEU Score
 
@@ -51,7 +51,7 @@ Typically $N = 4$, $w_n = 1/4$.
 Pre-neural approach. Decomposes translation into:
 
 **Phrase-based SMT:**
-- **Translation model:** $p(x | y)$ learned from parallel corpora via phrase tables.
+- **Translation model:** $p(x \mid y)$ learned from parallel corpora via phrase tables.
 - **Language model:** $p(y)$ trained on monolingual target data.
 - **Decoding:** beam search over the lattice of possible phrase translations.
 
@@ -69,17 +69,17 @@ Moses was the standard SMT toolkit. SMT was superseded by neural MT around 2016 
 
 **Objective:** maximize log-likelihood:
 
-$$\mathcal{L} = \sum_{(x,y)} \sum_{t=1}^{|y|} \log p(y_t | y_{<t}, x)$$
+$$\mathcal{L} = \sum_{(x,y)} \sum_{t=1}^{\lvert y \rvert} \log p(y_t \mid y_{<t}, x)$$
 
 **Teacher forcing:** during training, feed the reference target tokens as decoder input (rather than model predictions). Faster convergence but exposes the discrepancy between train and inference (exposure bias).
 
-**Label smoothing:** instead of one-hot targets, use $(1-\epsilon)$ for the correct token and $\epsilon / (|V|-1)$ for others. Prevents overconfident predictions; improves BLEU.
+**Label smoothing:** instead of one-hot targets, use $(1-\epsilon)$ for the correct token and $\epsilon / (\lvert V \rvert - 1)$ for others. Prevents overconfident predictions; improves BLEU.
 
 ## Decoding
 
-**Greedy:** select $\arg\max p(y_t | y_{<t}, x)$ at each step. Fast; suboptimal.
+**Greedy:** select $\arg\max p(y_t \mid y_{<t}, x)$ at each step. Fast; suboptimal.
 
-**Beam search:** maintain top-$k$ hypotheses at each step. Standard for MT; $k = 4$-$8$ typical. Longer output tends to score lower (length bias); compensate with length penalty $(|y|)^\alpha$, $\alpha \approx 0.6$-$1.0$.
+**Beam search:** maintain top-$k$ hypotheses at each step. Standard for MT; $k = 4$-$8$ typical. Longer output tends to score lower (length bias); compensate with length penalty $(\lvert y \rvert)^\alpha$, $\alpha \approx 0.6$-$1.0$.
 
 **Minimum Bayes Risk (MBR) decoding:** instead of maximizing probability, select the hypothesis that minimizes expected loss under the model distribution. Produces higher quality translations at the cost of generating multiple candidates.
 

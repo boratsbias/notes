@@ -74,7 +74,7 @@ Provides exact likelihood for images; competitive with PixelCNN on density estim
 
 Extension of Real NVP with:
 - **Actnorm:** per-channel affine transform initialized via data-dependent statistics (replaces batch norm).
-- **Invertible 1×1 convolution:** a learnable permutation of channels (generalizes fixed checkerboard masking). Jacobian determinant: $\log |\det W|$ computed via LU decomposition.
+- **Invertible 1×1 convolution:** a learnable permutation of channels (generalizes fixed checkerboard masking). Jacobian determinant: $\log \lvert\det W\rvert$ computed via LU decomposition.
 - **Affine coupling layers.**
 
 Architecture: $L$ levels, each with $K$ steps of (Actnorm → 1×1 Conv → Affine Coupling).

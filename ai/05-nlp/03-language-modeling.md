@@ -6,31 +6,31 @@ A language model assigns a probability to a sequence of tokens. It is the founda
 
 Given a sequence $w_1, w_2, \ldots, w_T$, the joint probability is:
 
-$$p(w_1, \ldots, w_T) = \prod_{t=1}^T p(w_t | w_1, \ldots, w_{t-1})$$
+$$p(w_1, \ldots, w_T) = \prod_{t=1}^T p(w_t \mid w_1, \ldots, w_{t-1})$$
 
-by the chain rule. A language model learns to estimate each conditional $p(w_t | w_{<t})$.
+by the chain rule. A language model learns to estimate each conditional $p(w_t \mid w_{<t})$.
 
 **Training:** maximize log-likelihood (minimize cross-entropy) over a large corpus:
 
-$$\mathcal{L} = -\frac{1}{T}\sum_{t=1}^T \log p_\theta(w_t | w_{<t})$$
+$$\mathcal{L} = -\frac{1}{T}\sum_{t=1}^T \log p_\theta(w_t \mid w_{<t})$$
 
 ## Perplexity
 
 The standard evaluation metric. Lower is better.
 
-$$\text{PPL} = \exp\!\left(-\frac{1}{T}\sum_{t=1}^T \log p(w_t | w_{<t})\right) = \exp(\mathcal{L})$$
+$$\text{PPL} = \exp\!\left(-\frac{1}{T}\sum_{t=1}^T \log p(w_t \mid w_{<t})\right) = \exp(\mathcal{L})$$
 
 **Interpretation:** the effective vocabulary size the model is "choosing from" at each step. PPL = 10 means the model is as uncertain as choosing uniformly among 10 options.
 
-**Baseline:** uniform over vocabulary: $\text{PPL} = |V|$.
+**Baseline:** uniform over vocabulary: $\text{PPL} = \lvert V \rvert$.
 
 ## N-gram Language Models
 
 Approximate the conditional with a fixed context window of $n-1$ words:
 
-$$p(w_t | w_{<t}) \approx p(w_t | w_{t-n+1}, \ldots, w_{t-1})$$
+$$p(w_t \mid w_{<t}) \approx p(w_t \mid w_{t-n+1}, \ldots, w_{t-1})$$
 
-**Bigram:** $p(w_t | w_{t-1}) = \frac{c(w_{t-1}, w_t)}{c(w_{t-1})}$
+**Bigram:** $p(w_t \mid w_{t-1}) = \frac{c(w_{t-1}, w_t)}{c(w_{t-1})}$
 
 **Sparsity problem:** most $n$-grams never appear in training data. Requires smoothing.
 
@@ -53,7 +53,7 @@ Replace the n-gram table with a neural network that can capture longer dependenc
 
 Concatenate embeddings of $n-1$ context words; pass through MLP to predict next word.
 
-$$p(w_t | w_{t-n+1:t-1}) = \text{softmax}(W_2 \tanh(W_1 [e_{t-n+1}; \ldots; e_{t-1}] + b_1) + b_2)$$
+$$p(w_t \mid w_{t-n+1:t-1}) = \text{softmax}(W_2 \tanh(W_1 [e_{t-n+1}; \ldots; e_{t-1}] + b_1) + b_2)$$
 
 Limitation: fixed context window; no weight sharing across positions.
 
@@ -62,7 +62,7 @@ Limitation: fixed context window; no weight sharing across positions.
 Process sequences recurrently:
 
 $$h_t = f(W_h h_{t-1} + W_x e_t + b)$$
-$$p(w_{t+1} | w_{\leq t}) = \text{softmax}(W_o h_t + b_o)$$
+$$p(w_{t+1} \mid w_{\leq t}) = \text{softmax}(W_o h_t + b_o)$$
 
 Theoretically unbounded context; in practice, vanishing gradients limit effective context. LSTMs extend this. See [Sequence Models](04-sequence-models).
 
@@ -72,9 +72,9 @@ Decoder-only Transformer with causal self-attention. Full parallel training; exc
 
 ## Bidirectional vs. Causal LMs
 
-**Causal (autoregressive) LM:** $p(w_t | w_{<t})$. Conditions only on past context. Can generate text. GPT family.
+**Causal (autoregressive) LM:** $p(w_t \mid w_{<t})$. Conditions only on past context. Can generate text. GPT family.
 
-**Masked LM (MLM):** $p(w_t | w_{\neq t})$. Conditions on both left and right context. Cannot directly generate; excellent representations. BERT.
+**Masked LM (MLM):** $p(w_t \mid w_{\neq t})$. Conditions on both left and right context. Cannot directly generate; excellent representations. BERT.
 
 **Prefix LM:** causal on the generated tokens, bidirectional on the prefix. T5 in text-to-text framework.
 
@@ -100,7 +100,7 @@ $$L(N) \propto N^{-\alpha_N}, \quad L(D) \propto D^{-\alpha_D}$$
 
 ## Decoding Strategies
 
-At inference, generating text requires choosing tokens from $p(w_t | w_{<t})$.
+At inference, generating text requires choosing tokens from $p(w_t \mid w_{<t})$.
 
 **Greedy decoding:** always pick $\arg\max$. Fast; repetitive and degenerate.
 

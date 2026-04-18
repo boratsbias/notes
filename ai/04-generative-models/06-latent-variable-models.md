@@ -2,9 +2,9 @@
 
 Latent variable models (LVMs) explain observed data $x$ by positing unobserved (latent) variables $z$ that generate or cause $x$. The joint distribution factorizes as:
 
-$$p_\theta(x, z) = p_\theta(x|z) \cdot p(z)$$
+$$p_\theta(x, z) = p_\theta(x \mid z) \cdot p(z)$$
 
-The marginal likelihood $p_\theta(x) = \int p_\theta(x|z) p(z) \, dz$ is the quantity of interest for generative modeling, but this integral is typically intractable.
+The marginal likelihood $p_\theta(x) = \int p_\theta(x \mid z) p(z) \, dz$ is the quantity of interest for generative modeling, but this integral is typically intractable.
 
 ## Why Latent Variables?
 
@@ -17,7 +17,7 @@ The marginal likelihood $p_\theta(x) = \int p_\theta(x|z) p(z) \, dz$ is the qua
 
 The simplest latent variable model. $z$ is a discrete categorical variable:
 
-$$p(x) = \sum_{k=1}^K p(z=k) \cdot p(x|z=k) = \sum_{k=1}^K \pi_k \cdot p_k(x)$$
+$$p(x) = \sum_{k=1}^K p(z=k) \cdot p(x \mid z=k) = \sum_{k=1}^K \pi_k \cdot p_k(x)$$
 
 **Gaussian Mixture Model (GMM):**
 
@@ -29,18 +29,18 @@ Parameters $\{\pi_k, \mu_k, \Sigma_k\}$ are estimated via the **EM algorithm** (
 
 **Expectation-Maximization** is a general method for MLE in latent variable models. It alternates between:
 
-**E-step:** compute the expected complete-data log-likelihood under the posterior $p(z|x, \theta_\text{old})$:
+**E-step:** compute the expected complete-data log-likelihood under the posterior $p(z \mid x, \theta_\text{old})$:
 
-$$Q(\theta | \theta_\text{old}) = \mathbb{E}_{z \sim p(z|x, \theta_\text{old})}[\log p_\theta(x, z)]$$
+$$Q(\theta \mid \theta_\text{old}) = \mathbb{E}_{z \sim p(z \mid x, \theta_\text{old})}[\log p_\theta(x, z)]$$
 
 **M-step:** maximize $Q$ w.r.t. $\theta$:
 
-$$\theta_\text{new} = \arg\max_\theta Q(\theta | \theta_\text{old})$$
+$$\theta_\text{new} = \arg\max_\theta Q(\theta \mid \theta_\text{old})$$
 
 **Convergence:** EM guarantees non-decreasing log-likelihood at each step. Converges to a local maximum.
 
 **For GMMs:**
-- E-step: compute responsibilities $r_{ik} = p(z_i = k | x_i, \theta) \propto \pi_k \mathcal{N}(x_i; \mu_k, \Sigma_k)$.
+- E-step: compute responsibilities $r_{ik} = p(z_i = k \mid x_i, \theta) \propto \pi_k \mathcal{N}(x_i; \mu_k, \Sigma_k)$.
 - M-step: update $\pi_k$, $\mu_k$, $\Sigma_k$ using weighted sample statistics.
 
 ## Factor Analysis
@@ -59,7 +59,7 @@ Marginal: $p(x) = \mathcal{N}(x; \mu, WW^T + \Psi)$.
 
 Explicit probabilistic model for PCA. Marginal and posterior have closed forms:
 
-$$p(z|x) = \mathcal{N}(z; M^{-1}W^T(x-\mu), \sigma^2 M^{-1})$$
+$$p(z \mid x) = \mathcal{N}(z; M^{-1}W^T(x-\mu), \sigma^2 M^{-1})$$
 
 where $M = W^T W + \sigma^2 I$. The MAP estimate of $z$ corresponds to the PCA projection.
 
@@ -67,11 +67,11 @@ Provides principled handling of missing data and model selection via marginal li
 
 ## Variational Inference
 
-When the posterior $p(z|x, \theta)$ is intractable (nonlinear decoder, deep networks), use a variational approximation $q_\phi(z|x) \approx p_\theta(z|x)$.
+When the posterior $p(z \mid x, \theta)$ is intractable (nonlinear decoder, deep networks), use a variational approximation $q_\phi(z \mid x) \approx p_\theta(z \mid x)$.
 
 **Variational lower bound (ELBO):**
 
-$$\log p_\theta(x) \geq \mathbb{E}_{q_\phi(z|x)}[\log p_\theta(x|z)] - D_\text{KL}(q_\phi(z|x) \| p(z))$$
+$$\log p_\theta(x) \geq \mathbb{E}_{q_\phi(z \mid x)}[\log p_\theta(x \mid z)] - D_\text{KL}(q_\phi(z \mid x) \| p(z))$$
 
 This is the objective optimized by VAEs. See [Variational Autoencoders](02-variational-autoencoders).
 
@@ -79,13 +79,13 @@ This is the objective optimized by VAEs. See [Variational Autoencoders](02-varia
 
 Stack multiple layers of latent variables:
 
-$$p_\theta(x) = \int p_\theta(x|z_1) p_\theta(z_1|z_2) \cdots p(z_L) \, dz_{1:L}$$
+$$p_\theta(x) = \int p_\theta(x \mid z_1) p_\theta(z_1 \mid z_2) \cdots p(z_L) \, dz_{1:L}$$
 
 **Motivation:** a single Gaussian posterior cannot capture complex, multi-modal posteriors. Hierarchy allows richer representations at different levels of abstraction.
 
-**Inference network:** a hierarchical encoder $q_\phi(z_{1:L}|x)$ factorized as:
+**Inference network:** a hierarchical encoder $q_\phi(z_{1:L} \mid x)$ factorized as:
 
-$$q_\phi(z_{1:L}|x) = q_\phi(z_1|x) \prod_{l=2}^L q_\phi(z_l|z_{l-1}, x)$$
+$$q_\phi(z_{1:L} \mid x) = q_\phi(z_1 \mid x) \prod_{l=2}^L q_\phi(z_l \mid z_{l-1}, x)$$
 
 **NVAE / VDVAE:** state-of-the-art hierarchical VAEs with 30+ latent groups, achieving high-quality image generation.
 

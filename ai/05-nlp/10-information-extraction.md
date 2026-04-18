@@ -23,7 +23,7 @@ B = beginning of entity, I = inside entity, O = outside any entity. Extensions: 
 
 **Models:**
 
-- **CRF (Conditional Random Field):** discriminative sequence model over handcrafted features. $p(y|x) \propto \exp(\sum_t \sum_k \lambda_k f_k(y_t, y_{t-1}, x, t))$. Viterbi decoding finds the globally optimal tag sequence.
+- **CRF (Conditional Random Field):** discriminative sequence model over handcrafted features. $p(y \mid x) \propto \exp(\sum_t \sum_k \lambda_k f_k(y_t, y_{t-1}, x, t))$. Viterbi decoding finds the globally optimal tag sequence.
 
 - **BiLSTM-CRF:** BiLSTM produces contextual token representations; CRF decodes the optimal tag sequence. Strong pre-Transformer baseline.
 
