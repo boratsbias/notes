@@ -18,7 +18,7 @@ $$\sigma(z) = \frac{1}{1 + e^{-z}} \in (0, 1)$$
 **Maximum derivative:** $0.25$ at $z = 0$.
 
 **Problems:**
-- **Saturates** at both tails: $\sigma'(z) \approx 0$ for $|z| \gg 0$. Gradients vanish in deep networks.
+- **Saturates** at both tails: $\sigma'(z) \approx 0$ for $\lvert z \rvert \gg 0$. Gradients vanish in deep networks.
 - **Output not zero-centered:** all outputs positive; leads to zig-zagging gradient updates.
 - **Expensive:** requires exponential.
 

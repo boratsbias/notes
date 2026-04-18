@@ -16,7 +16,7 @@ For $y \in \{0, 1\}$ and predicted probability $\hat{p} = \sigma(z) \in (0,1)$:
 
 $$\mathcal{L} = -[y \log \hat{p} + (1-y) \log(1 - \hat{p})]$$
 
-**Derivation:** MLE under a Bernoulli likelihood $P(y|\hat{p}) = \hat{p}^y (1-\hat{p})^{1-y}$.
+**Derivation:** MLE under a Bernoulli likelihood $P(y \mid \hat{p}) = \hat{p}^y (1-\hat{p})^{1-y}$.
 
 **Gradient:** $\frac{\partial \mathcal{L}}{\partial z} = \hat{p} - y$. Clean and bounded; no vanishing gradient at output.
 
@@ -64,7 +64,7 @@ Does not produce calibrated probabilities. Used in SVMs; occasionally in neural 
 
 $$\mathcal{L} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2$$
 
-**Derivation:** MLE under a Gaussian likelihood $P(y|\hat{y}) = \mathcal{N}(y; \hat{y}, \sigma^2)$.
+**Derivation:** MLE under a Gaussian likelihood $P(y \mid \hat{y}) = \mathcal{N}(y; \hat{y}, \sigma^2)$.
 
 **Gradient:** $\frac{\partial \mathcal{L}}{\partial \hat{y}_i} = 2(\hat{y}_i - y_i)$. Amplifies large errors.
 

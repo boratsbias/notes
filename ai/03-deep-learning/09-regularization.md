@@ -32,13 +32,13 @@ The factor $(1 - \eta\lambda)$ shrinks (decays) the weights at each step, hence 
 
 Penalizes the $\ell^1$ norm:
 
-$$\Omega(\theta) = \|\theta\|_1 = \sum_j |\theta_j|$$
+$$\Omega(\theta) = \|\theta\|_1 = \sum_j \lvert\theta_j\rvert$$
 
 **Modified gradient:** $\nabla_\theta \mathcal{J} = \nabla_\theta \mathcal{L} + \lambda \cdot \text{sign}(\theta)$
 
 **Effect:** drives some weights to exactly zero (sparse solutions). Performs implicit feature selection.
 
-**Bayesian interpretation:** MAP estimation with a Laplace prior $p(\theta) \propto e^{-\lambda|\theta|}$.
+**Bayesian interpretation:** MAP estimation with a Laplace prior $p(\theta) \propto e^{-\lambda\lvert\theta\rvert}$.
 
 Less common in deep learning than L2 due to non-differentiability at zero and lack of scale invariance.
 

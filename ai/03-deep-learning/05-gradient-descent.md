@@ -8,7 +8,7 @@ $$\theta \leftarrow \theta - \eta \nabla_\theta \mathcal{J}(\theta)$$
 
 **Objective:** $\min_\theta \mathcal{J}(\theta) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}(f_\theta(x_i), y_i)$
 
-**Gradient:** $\nabla_\theta \mathcal{J}(\theta) \in \mathbb{R}^p$ where $p = |\theta|$
+**Gradient:** $\nabla_\theta \mathcal{J}(\theta) \in \mathbb{R}^p$ where $p = \lvert\theta\rvert$
 
 **Learning rate (step size):** $\eta > 0$
 
