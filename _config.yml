@@ -9,8 +9,8 @@ defaults:
 plugins:
   - jekyll-remote-theme
   - jekyll-feed
-title: CS Notes 📚
-description: Anubrat's personal notes
+title: CS Notes
+description: Anubrat Bora
 markdown: kramdown
 kramdown:
   math_engine: null
