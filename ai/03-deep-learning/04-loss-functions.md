@@ -122,7 +122,7 @@ Anchor $a$, positive $p$, negative $n$ with margin $\alpha$. Learns embeddings w
 
 ### NT-Xent (Normalized Temperature-scaled Cross-Entropy)
 
-Used in contrastive SSL (SimCLR). See [Self Supervised Learning](../../02-machine-learning/04-self-supervised-learning).
+Used in contrastive SSL (SimCLR). See [Self Supervised Learning](../02-machine-learning/04-self-supervised-learning).
 
 ## Choosing a Loss Function
 
