@@ -14,7 +14,7 @@ The key insight is that a single forward pass over k tokens in parallel costs on
 
 The expected number of tokens generated per large-model forward pass depends on the average acceptance rate alpha and the number of draft tokens k:
 
-\[ \mathbb{E}[\text{tokens per step}] = \frac{1 - \alpha^k}{1 - \alpha} \]
+$$ \mathbb{E}[\text{tokens per step}] = \frac{1 - \alpha^k}{1 - \alpha} $$
 
 At alpha = 0.8 and k = 5, this yields roughly 3.4 tokens per step instead of 1.
 

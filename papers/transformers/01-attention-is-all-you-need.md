@@ -14,11 +14,11 @@ Sequence models before 2017 were almost exclusively RNN-based. The fundamental p
 
 The core operation is:
 
-\[
+$$
 \text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right)V
-\]
+$$
 
-Q, K, and V are projections of the input into query, key, and value spaces. The dot product of Q and K measures compatibility between each query and every key, producing a score matrix. Dividing by \(\sqrt{d_k}\) prevents large dot products from pushing the softmax into regions of near-zero gradient, which becomes critical at larger embedding dimensions. The softmax converts scores into a probability distribution over positions, and these weights are used to compute a weighted sum over the value vectors. The result is a context-sensitive representation for every position that directly reflects the relevance of every other position, regardless of distance.
+Q, K, and V are projections of the input into query, key, and value spaces. The dot product of Q and K measures compatibility between each query and every key, producing a score matrix. Dividing by $\sqrt{d_k}$ prevents large dot products from pushing the softmax into regions of near-zero gradient, which becomes critical at larger embedding dimensions. The softmax converts scores into a probability distribution over positions, and these weights are used to compute a weighted sum over the value vectors. The result is a context-sensitive representation for every position that directly reflects the relevance of every other position, regardless of distance.
 
 ## Multi-head attention and architecture
 

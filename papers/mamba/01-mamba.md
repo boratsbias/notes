@@ -10,13 +10,13 @@ link: https://arxiv.org/abs/2312.00752
 
 Attention is O(n²) in sequence length. At 100k tokens a single attention layer requires roughly 10 billion operations, and memory usage grows quadratically as well. This makes transformers impractical for genomics, audio, and long-document tasks where sequences routinely exceed tens of thousands of tokens. State-space models like S4 offer linear-time alternatives, but prior SSMs apply a fixed linear recurrence to every input:
 
-\[h_t = \bar{A} h_{t-1} + \bar{B} x_t, \quad y_t = C h_t\]
+$$h_t = \bar{A} h_{t-1} + \bar{B} x_t, \quad y_t = C h_t$$
 
-When \(\bar{A}\), \(\bar{B}\), and \(C\) are time-invariant the model cannot choose to ignore irrelevant tokens. It writes everything into hidden state with equal weight, which causes it to underperform transformers on tasks requiring selective recall of specific past information.
+When $\bar{A}$, $\bar{B}$, and $C$ are time-invariant the model cannot choose to ignore irrelevant tokens. It writes everything into hidden state with equal weight, which causes it to underperform transformers on tasks requiring selective recall of specific past information.
 
 ## Selective state spaces
 
-Mamba's core innovation is making \(B\) and \(C\) input-dependent: \(B_t = \text{Linear}(x_t)\), \(C_t = \text{Linear}(x_t)\). This selectivity lets the model gate what information to write into state and what to read from state at each step, based on the content of the current input. The mechanism resembles a continuous relaxation of LSTM gating but without the quadratic attention cost. For a factual recall task, the model needs to remember relevant tokens and suppress filler. A time-invariant SSM cannot do this. A selective SSM can set \(B_t \approx 0\) for irrelevant tokens, effectively skipping them, while retaining salient information across arbitrarily long contexts.
+Mamba's core innovation is making $B$ and $C$ input-dependent: $B_t = \text{Linear}(x_t)$, $C_t = \text{Linear}(x_t)$. This selectivity lets the model gate what information to write into state and what to read from state at each step, based on the content of the current input. The mechanism resembles a continuous relaxation of LSTM gating but without the quadratic attention cost. For a factual recall task, the model needs to remember relevant tokens and suppress filler. A time-invariant SSM cannot do this. A selective SSM can set $B_t \approx 0$ for irrelevant tokens, effectively skipping them, while retaining salient information across arbitrarily long contexts.
 
 ## Hardware-aware parallel scan
 

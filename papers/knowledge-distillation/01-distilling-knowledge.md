@@ -12,7 +12,7 @@ Large ensemble models achieve the best accuracy but are too expensive to deploy.
 
 The mechanism for transferring dark knowledge is temperature scaling applied before the softmax:
 
-\[ p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)} \]
+$$ p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)} $$
 
 At T = 1 this is the standard softmax. At T > 1 the distribution becomes softer, amplifying the small probabilities assigned to wrong classes and making the similarity structure more visible to the student. The student is trained at high temperature to match the teacher's high-temperature output distribution. At inference time, T returns to 1. The combined training loss mixes a soft target term (KL divergence between student and teacher at high T) with a hard label term (cross-entropy against ground truth). The soft target loss is scaled by T² to compensate for the reduction in gradient magnitude caused by the softened distribution.
 

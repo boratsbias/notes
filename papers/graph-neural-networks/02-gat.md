@@ -14,13 +14,13 @@ GCN aggregates each node's neighborhood using weights fixed by the graph's degre
 
 GAT introduces learned attention weights over each node's neighborhood. For a node i and a neighbor j, the unnormalized attention coefficient is computed as:
 
-\[e_{ij} = \text{LeakyReLU}\!\left(\mathbf{a}^\top \cdot \left[W\mathbf{h}_i \,\|\, W\mathbf{h}_j\right]\right)\]
+$$e_{ij} = \text{LeakyReLU}\!\left(\mathbf{a}^\top \cdot \left[W\mathbf{h}_i \,\|\, W\mathbf{h}_j\right]\right)$$
 
-where W is a shared linear transformation, a is a learnable attention vector, and || denotes concatenation. These are then normalized across the neighborhood using softmax:
+where $W$ is a shared linear transformation, $\mathbf{a}$ is a learnable attention vector, and $\|$ denotes concatenation. These are then normalized across the neighborhood using softmax:
 
-\[\alpha_{ij} = \frac{\exp(e_{ij})}{\sum_{k \in \mathcal{N}(i)} \exp(e_{ik})}\]
+$$\alpha_{ij} = \frac{\exp(e_{ij})}{\sum_{k \in \mathcal{N}(i)} \exp(e_{ik})}$$
 
-The updated node representation is \(\mathbf{h}_i' = \sigma\!\left(\sum_{j \in \mathcal{N}(i)} \alpha_{ij} W\mathbf{h}_j\right)\). The attention weights are computed entirely from node features, requiring no knowledge of the global graph structure beyond the adjacency.
+The updated node representation is $\mathbf{h}_i' = \sigma\!\left(\sum_{j \in \mathcal{N}(i)} \alpha_{ij} W\mathbf{h}_j\right)$. The attention weights are computed entirely from node features, requiring no knowledge of the global graph structure beyond the adjacency.
 
 ## Multi-head attention and specialization
 

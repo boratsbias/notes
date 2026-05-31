@@ -12,13 +12,13 @@ Vanilla policy gradient is brittle because the data collection and the optimizat
 
 TRPO constrains each update to a region where the new policy is not too different from the old one, then optimizes as aggressively as possible within that region. The surrogate objective and its constraint are the paper's core contribution:
 
-\[
+$$
 \text{maximize} \quad L(\theta) = \mathbb{E}\left[\frac{\pi_\theta(a|s)}{\pi_\text{old}(a|s)} \cdot A^\pi(s,a)\right]
-\]
+$$
 
-\[
+$$
 \text{subject to} \quad \mathbb{E}_s\left[\text{KL}\left(\pi_\text{old}(\cdot|s) \,\|\, \pi_\theta(\cdot|s)\right)\right] \leq \delta
-\]
+$$
 
 The importance ratio π_θ / π_old corrects for the fact that the data was collected under the old policy, allowing the objective to be evaluated without additional rollouts. The KL constraint limits how far the new distribution can move from the old one in any single update. A typical value of δ is 0.01. This is small enough to keep the importance ratio well-conditioned and the surrogate objective a faithful proxy for the true objective.
 

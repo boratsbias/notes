@@ -14,7 +14,7 @@ SentenceBERT fine-tunes BERT with a siamese network structure. Both sentences pa
 
 For datasets where graded similarity scores are available rather than NLI labels, SentenceBERT is trained with a triplet loss that directly optimizes distances in the embedding space:
 
-\[ L = \max(\|s_a - s_p\| - \|s_a - s_n\| + \varepsilon,\ 0) \]
+$$ L = \max(\|s_a - s_p\| - \|s_a - s_n\| + \varepsilon,\ 0) $$
 
 Here, the anchor sentence is pulled toward the positive and pushed away from the negative, with a margin epsilon. Mean pooling over all token positions outperforms using the [CLS] token alone because it captures information from every word rather than relying on a single learned summary token.
 

@@ -12,9 +12,9 @@ Q-learning and related methods estimate a value function and then derive a polic
 
 Policy gradient methods bypass the value function entirely as a policy source by directly parameterizing the policy as π_θ(a|s) and optimizing the expected return J(θ) with respect to θ. The paper's core contribution is a clean formula for the gradient of J:
 
-\[
+$$
 \nabla_\theta J(\theta) = \mathbb{E}_\pi\left[\nabla_\theta \log \pi_\theta(a|s) \cdot Q^\pi(s,a)\right]
-\]
+$$
 
 Here J(θ) is the expected cumulative return, ∇_θ log π_θ(a|s) is the score function measuring how a change in parameters shifts the log probability of the action taken, and Q^π(s, a) is the expected return starting from state s and taking action a under the current policy. The expectation is taken over trajectories sampled from π_θ, so no differentiation through environment dynamics is needed. The formula is tractable because it reduces to an average over rollouts.
 

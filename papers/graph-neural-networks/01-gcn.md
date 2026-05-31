@@ -14,9 +14,9 @@ In graph-structured data such as citation networks and social networks, nodes ha
 
 The paper's core contribution is a simple, efficient layer-wise propagation rule:
 
-\[H^{(l+1)} = \sigma\!\left(\tilde{D}^{-1/2}\,\tilde{A}\,\tilde{D}^{-1/2}\,H^{(l)}\,W^{(l)}\right)\]
+$$H^{(l+1)} = \sigma\!\left(\tilde{D}^{-1/2}\,\tilde{A}\,\tilde{D}^{-1/2}\,H^{(l)}\,W^{(l)}\right)$$
 
-Here \(\tilde{A} = A + I\) is the adjacency matrix with added self-loops so each node attends to its own features, \(\tilde{D}\) is the corresponding degree matrix used for symmetric normalization, \(H^{(l)}\) is the node feature matrix at layer \(l\), and \(W^{(l)}\) is a learnable weight matrix. In plain terms: each node's new representation is the normalized average of its own and its neighbors' previous representations, passed through a linear transformation and a nonlinearity. The symmetric normalization by degree prevents high-degree nodes from dominating the aggregation. Each additional layer extends the receptive field by one hop, so a two-layer GCN lets every node incorporate features from its two-hop neighborhood.
+Here $\tilde{A} = A + I$ is the adjacency matrix with added self-loops so each node attends to its own features, $\tilde{D}$ is the corresponding degree matrix used for symmetric normalization, $H^{(l)}$ is the node feature matrix at layer $l$, and $W^{(l)}$ is a learnable weight matrix. In plain terms: each node's new representation is the normalized average of its own and its neighbors' previous representations, passed through a linear transformation and a nonlinearity. The symmetric normalization by degree prevents high-degree nodes from dominating the aggregation. Each additional layer extends the receptive field by one hop, so a two-layer GCN lets every node incorporate features from its two-hop neighborhood.
 
 ## Semi-supervised training and spectral grounding
 
