@@ -1,40 +1,27 @@
-# Semi-Supervised Classification with Graph Convolutional Networks (GCN) (2016)
+---
+title: "Semi-Supervised Classification with Graph Convolutional Networks (GCN)"
+authors: "Thomas N. Kipf, Max Welling"
+year: 2016
+area: Graph Learning, Deep Learning
+link: https://arxiv.org/abs/1609.02907
+---
 
-**Authors:** Thomas N. Kipf, Max Welling
-**Area:** Graph Learning, Deep Learning
-**Link:** [arXiv](https://arxiv.org/abs/1609.02907)
+## The node classification problem
 
-## What the paper argues
+In graph-structured data such as citation networks and social networks, nodes have feature vectors and edges encode relationships. The goal is to classify nodes using only a small fraction of labeled examples. The central assumption is homophily: connected nodes tend to belong to the same class. If this holds, a model that lets labeled nodes propagate their signal to unlabeled neighbors across the graph can leverage the full structure as an implicit regularizer, even though supervision is only applied at labeled nodes.
 
-Node classification with few labels is hard when using only node features. But in many real graphs, connected nodes tend to have the same label (homophily). GCN argues that a simple layer-wise propagation rule that aggregates each node's own features with its neighbors' features can exploit graph structure as a regularizer, making a few labeled nodes sufficient to classify many unlabeled ones.
+## The propagation rule
 
-## Propagation rule
+The paper's core contribution is a simple, efficient layer-wise propagation rule:
 
-At each layer, each node's new representation is a normalized weighted sum of its own and neighbors' representations:
+\[H^{(l+1)} = \sigma\!\left(\tilde{D}^{-1/2}\,\tilde{A}\,\tilde{D}^{-1/2}\,H^{(l)}\,W^{(l)}\right)\]
 
-```
-H^(l+1) = σ( D̃^{-1/2} Ã D̃^{-1/2}  H^(l) W^(l) )
-```
+Here \(\tilde{A} = A + I\) is the adjacency matrix with added self-loops so each node attends to its own features, \(\tilde{D}\) is the corresponding degree matrix used for symmetric normalization, \(H^{(l)}\) is the node feature matrix at layer \(l\), and \(W^{(l)}\) is a learnable weight matrix. In plain terms: each node's new representation is the normalized average of its own and its neighbors' previous representations, passed through a linear transformation and a nonlinearity. The symmetric normalization by degree prevents high-degree nodes from dominating the aggregation. Each additional layer extends the receptive field by one hop, so a two-layer GCN lets every node incorporate features from its two-hop neighborhood.
 
-where:
-- Ã = A + I  (adjacency matrix with added self-loops)
-- D̃ = degree matrix of Ã (for normalization)
-- H^(l) = node feature matrix at layer l
-- W^(l) = learnable weight matrix
-- σ = non-linearity (ReLU)
+## Semi-supervised training and spectral grounding
 
-In plain terms: each node's new representation is the average of its own and neighbors' previous representations, linearly transformed. A 2-layer GCN lets each node incorporate features from its 2-hop neighborhood.
-
-## Semi-supervised training
-
-Only a few nodes are labeled. The model is trained with cross-entropy only on those nodes, but the graph convolution layers propagate information from all nodes:
-
-```
-Loss = Σ_{labeled nodes} CE(softmax(Z_i), y_i)
-```
-
-The graph structure implicitly smooths predictions: neighboring nodes will have similar representations and therefore similar predictions, even if not labeled.
+Training applies cross-entropy loss only over labeled nodes, but the graph convolution operates over all nodes in every forward pass. Unlabeled nodes receive representations shaped by the labeled nodes in their neighborhood through the propagation mechanism, giving the model access to graph structure without requiring labels everywhere. The propagation rule is derived as a first-order approximation of spectral graph convolutions from graph signal processing theory, giving the method a principled motivation beyond the intuitive neighborhood aggregation view.
 
 ## Results and impact
 
-GCN outperformed all prior semi-supervised methods on Cora, Citeseer, and PubMed citation networks with very few labels (20 per class). It established the message-passing GNN paradigm that virtually all subsequent graph neural network architectures follow.
+A two-layer GCN outperformed all prior semi-supervised methods on the Cora, Citeseer, and PubMed citation benchmarks using only 20 labels per class. The approach was simple to implement, fast to train, and interpretable. It established the message-passing paradigm that virtually all subsequent graph neural network architectures follow: aggregate neighbor information, transform, repeat. Methods including GraphSAGE, GAT, GIN, and most graph learning systems are direct descendants of this propagation framework.

@@ -2,32 +2,22 @@
 
 **Authors:** Yann LeCun, B. Boser, J. S. Denker, D. Henderson, R. E. Howard, W. Hubbard, L. D. Jackel
 **Area:** Computer Vision, Deep Learning
-**Link:** [Neural Computation](https://direct.mit.edu/neco/article/1/4/541/5515)
+**Link:** [Neural Computation](https://direct.mit.edu/neco/article/1/4/541/5515/Backpropagation-Applied-to-Handwritten-Zip-Code)
 
-## What the paper argues
+## The problem with hand-engineered features
 
-Recognizing handwritten digits requires handling variability in size, position, and style. Prior systems used hand-crafted feature extractors followed by a classifier. This paper argues that a constrained neural network trained end-to-end with backpropagation can learn features directly from pixels, removing the need for manual feature design.
+Pre-1989 systems for handwriting recognition required a domain expert to manually design features: stroke detectors, curve templates, aspect ratio measurements. Each feature was a brittle heuristic, tuned for a narrow task and failing to transfer across writing styles. This paper asks whether a network trained end-to-end with backpropagation can learn useful representations automatically from raw pixel data, without any feature engineering.
 
-## Constrained architecture
+## Local receptive fields and weight sharing
 
-The network applies three ideas together to reduce parameters and build in position invariance:
+The architecture introduces two structural constraints. **Local receptive fields** connect each neuron only to a small spatial patch of the input image, forcing each unit to specialize in local stroke patterns and edges rather than global statistics. This encodes the prior that nearby pixels are more relevant to each other than distant ones and dramatically reduces the number of weights compared to a fully connected layer.
 
-**Local receptive fields:** each unit sees only a small patch of the input, detecting local strokes and edges.
-
-**Weight sharing:** the same filter is applied at every position, so the same detector works regardless of where a digit appears.
-
-**Subsampling:** after each feature map, spatial resolution is reduced, giving robustness to small translations.
-
-```
-Input (16x16) -> conv (12 feature maps) -> subsample -> conv (24 maps) -> subsample -> FC -> 10 outputs
-```
-
-This is a direct predecessor to LeNet-5. The fully connected baseline on the same data had far worse generalization due to overfitting.
+**Weight sharing** extends this further: every neuron in a feature map uses the same filter weights, regardless of its position in the image. The same edge detector is applied at every spatial location. This reduces parameters by a factor equal to the number of positions and encodes translation invariance directly into the network structure. A digit written in the top-left corner activates the same filters as one written in the bottom-right. Together, these two constraints are the defining characteristics of a convolutional layer.
 
 ## End-to-end training
 
-All layers are trained jointly with backpropagation through the entire network. This was non-trivial to trust in 1989. The paper demonstrated it converged reliably and that gradient signal propagated meaningfully through the constrained architecture.
+The network was trained on 7,291 digit images from US Postal Service zip codes with no hand-crafted intermediate targets. Backpropagation propagated the error signal through all layers, including the feature extraction stages, allowing the filters to specialize for the actual distribution of handwritten strokes. Test error reached approximately 1%, far below what contemporary rule-based systems achieved on the same data.
 
 ## Results and impact
 
-1% error on a test set of handwritten zip code digits. It was one of the first real-world deployments of a deep trained network and directly led to LeNet-5 and modern CNNs.
+This paper is the direct precursor to LeNet-5, which extended the architecture with deeper feature hierarchies and subsampling layers and became the blueprint for modern convolutional networks. The demonstration that constrained weight-sharing architectures could be trained end-to-end established the template for CNN-based computer vision.

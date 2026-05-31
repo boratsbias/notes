@@ -4,38 +4,28 @@
 **Area:** Reinforcement Learning
 **Link:** [NeurIPS](https://proceedings.neurips.cc/paper/1999/hash/464d828b85b0bed98e80ade0a5c43b0f-Abstract.html)
 
-## What the paper argues
+## The limitation of value-based methods
 
-Value-based RL (Q-learning, value iteration) estimates a value function and derives a policy from it. This is indirect, unstable, and struggles with continuous action spaces. Policy gradient methods directly parameterize the policy π_θ and optimize expected cumulative reward by gradient ascent. The paper proves the **policy gradient theorem**: the exact gradient of expected return is computable from sampled trajectories without differentiating through environment dynamics.
+Q-learning and related methods estimate a value function and then derive a policy from it indirectly, typically by taking the argmax over Q(s, a). This is workable in discrete action spaces, but the approach breaks down in continuous settings where computing argmax over Q is intractable. Even in discrete settings, the policy extraction step is a separate operation and introduces instability: small changes in Q values can cause large, discontinuous swings in the derived policy. The coupling between the function approximator errors and the policy makes convergence difficult to guarantee. The fundamental issue is that value-based methods optimize the wrong object. They optimize the value function and hope the policy follows.
 
 ## The policy gradient theorem
 
-Let J(θ) = E[Σ_t r_t] be the expected return under policy π_θ. The theorem states:
+Policy gradient methods bypass the value function entirely as a policy source by directly parameterizing the policy as π_θ(a|s) and optimizing the expected return J(θ) with respect to θ. The paper's core contribution is a clean formula for the gradient of J:
 
-```
-∇_θ J(θ) = E_π [ ∇_θ log π_θ(a|s) · Q^π(s, a) ]
-```
+\[
+\nabla_\theta J(\theta) = \mathbb{E}_\pi\left[\nabla_\theta \log \pi_\theta(a|s) \cdot Q^\pi(s,a)\right]
+\]
 
-The gradient of the expected return equals the expected product of:
-- ∇_θ log π_θ(a|s): how much the log probability of the taken action changes with θ
-- Q^π(s, a): the return obtained after taking action a in state s
+Here J(θ) is the expected cumulative return, ∇_θ log π_θ(a|s) is the score function measuring how a change in parameters shifts the log probability of the action taken, and Q^π(s, a) is the expected return starting from state s and taking action a under the current policy. The expectation is taken over trajectories sampled from π_θ, so no differentiation through environment dynamics is needed. The formula is tractable because it reduces to an average over rollouts.
 
-This expectation can be estimated by collecting trajectories and averaging. No knowledge of the environment dynamics is needed.
+## REINFORCE and variance reduction
 
-## REINFORCE
+The simplest implementation, REINFORCE, replaces Q^π(s, a) with the actual sampled return G_t collected from the trajectory. The update rule is θ += α · ∇_θ log π_θ(a_t|s_t) · G_t. This is unbiased but has extremely high variance because G_t accumulates stochastic rewards over many steps. Subtracting a baseline b(s) from G_t controls variance without introducing bias, since any function of state alone has zero expectation in the gradient expression. The state value function V(s) is the natural baseline because it represents the average return from that state, and the difference G_t - V(s) is the advantage: how much better the taken action was than average.
 
-The simplest implementation replaces Q^π(s,a) with the actual return G_t from that timestep:
+## Actor-critic interpretation
 
-```
-θ ← θ + α · Σ_t ∇_θ log π_θ(a_t | s_t) · G_t
-```
-
-This is unbiased but has high variance. Subtracting a baseline b(s) (e.g. the value function V(s)) from G_t reduces variance without introducing bias:
-
-```
-θ ← θ + α · Σ_t ∇_θ log π_θ(a_t | s_t) · (G_t - b(s_t))
-```
+This baseline choice gives rise to the actor-critic architecture. The actor is the policy π_θ, updated using the policy gradient. The critic is a separate function approximator for V(s), used to estimate the advantage A(s, a) = Q^π(s, a) - V(s). The actor improves by following the direction that increases returns above what the critic predicts. The critic improves by minimizing prediction error against observed returns. The two components train in a loop, with the critic providing lower-variance gradient estimates to the actor.
 
 ## Results and impact
 
-The policy gradient theorem provided the theoretical foundation for a large family of RL algorithms. REINFORCE, actor-critic methods, TRPO, PPO, and RLHF all build on this result. It is a standard theorem in any RL course.
+The policy gradient theorem gave the field a rigorous theoretical grounding for directly optimizing parameterized policies. It showed that the gradient of expected return can be expressed as an expectation over on-policy rollouts, making it estimable from sampled experience. This result is the theoretical foundation on which REINFORCE, actor-critic methods, TRPO, PPO, and RLHF all rest. Nearly every modern policy optimization algorithm can be understood as a refinement of the update rule derived in this paper.

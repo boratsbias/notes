@@ -1,42 +1,27 @@
-# Universal Adversarial Perturbations (2016)
+---
+title: "Universal Adversarial Perturbations"
+year: 2016
+authors: Seyed-Mohsen Moosavi-Dezfooli, Alhussein Fawzi, Omar Fawzi, Pascal Frossard
+area: Deep Learning, Adversarial Robustness
+link: https://arxiv.org/abs/1610.08401
+---
 
-**Authors:** Seyed-Mohsen Moosavi-Dezfooli, Alhussein Fawzi, Omar Fawzi, Pascal Frossard
-**Area:** Deep Learning, Adversarial Robustness
-**Link:** [arXiv](https://arxiv.org/abs/1610.08401)
+## The finding
 
-## What the paper argues
+Prior adversarial example research produced perturbations that were input-specific: a noise pattern crafted to fool a model on one image fails on a different image. This paper demonstrates that a single image-agnostic perturbation vector δ exists that, when added to any image, causes a classifier to misclassify roughly 80% of the time. The perturbation is small in L_p norm and mostly imperceptible to humans.
 
-Standard adversarial examples are input-specific: a perturbation crafted to fool the network on one image typically fails on another. This paper demonstrates the surprising existence of **universal perturbations**: a single image-agnostic vector δ that, when added to almost any image, causes a deep classifier to misclassify it. This suggests a systematic geometric weakness in deep network decision boundaries.
+## How the universal perturbation is computed
 
-## Computing the universal perturbation
+The algorithm iterates over training images and accumulates perturbations. For each image x_i, it checks whether the current δ already causes misclassification. If not, it computes the minimal additional perturbation that pushes x_i + δ across the nearest decision boundary, using DeepFool to find this minimal step. That per-image correction is added to δ, which is then projected back onto an L_p ball of radius ξ to keep the total magnitude bounded. The loop repeats over the dataset until δ fools the target fraction of training examples. The resulting δ is fixed and applied identically to any test image.
 
-The algorithm iterates over the training set and builds up δ:
+## The geometric explanation
 
-```
-δ ← 0
-for each image x_i:
-    if f(x_i + δ) == true_label:          ← model still correct on this image
-        Δv = smallest perturbation that pushes x_i + δ past a decision boundary
-        δ ← δ + Δv
-        δ ← project δ onto L_p ball of radius ξ   ← enforce small magnitude
-```
-
-After one pass through the dataset, δ fools ~80% of images. The perturbation looks like structured noise and is mostly imperceptible to humans.
+Why does a single vector work across such diverse inputs? Decision boundaries in high-dimensional pixel space are locally approximately planar, and those planes share similar orientations across different input regions of the space. A universal perturbation exploits this by finding a direction in pixel space that is nearly perpendicular to the decision boundaries of most images simultaneously. Moving in that direction crosses many boundaries at once. The paper shows that the boundaries cluster geometrically in ways that the model's training objective never explicitly discouraged.
 
 ## Cross-architecture transferability
 
-Universal perturbations computed on one network transfer to other networks:
-
-```
-Perturbation computed on VGG-16  →  also fools GoogLeNet, ResNet, etc.
-```
-
-This transferability is stronger than for instance-specific adversarial examples, suggesting the vulnerability is in the geometry of the task rather than the specific network.
-
-## Geometric explanation
-
-Decision boundaries in high-dimensional input space share similar local orientations across different regions. A universal perturbation exploits this: it finds a direction in pixel space that crosses decision boundaries for most images, because the boundaries are nearly parallel in the relevant region.
+Universal perturbations computed against one architecture transfer to other architectures with meaningful success rates. A δ crafted against VGG-16 also fools GoogLeNet, ResNet, and CaffeNet. This cross-model transferability is stronger than for standard input-specific adversarial examples, suggesting the vulnerability is rooted in the geometry of the image classification task itself, not in idiosyncratic properties of any particular model's weights.
 
 ## Results and impact
 
-Revealed that adversarial vulnerability is a systematic property of trained classifiers, not just a per-sample artifact. Motivated adversarial training, certified defenses, and fundamental questions about what neural networks are actually learning. Remains one of the most striking demonstrations of how fragile deep classifiers are to structured input manipulations.
+The paper demonstrated that classifiers have systematic, exploitable geometric weaknesses that a single fixed perturbation can activate. This moved adversarial robustness from a per-sample curiosity to a structural concern. It motivated adversarial training approaches that explicitly inject universal perturbations, certified defense methods that provide provable robustness guarantees, and ongoing investigation into what structural properties of training data and objectives produce these clustered decision boundaries.

@@ -4,35 +4,18 @@
 **Area:** Natural Language Processing, Reinforcement Learning from Human Feedback
 **Link:** [arXiv](https://arxiv.org/abs/1909.08593)
 
-## What the paper argues
+## The fundamental alignment problem
 
-Language models trained on next-token prediction optimize for predicting text, not for producing outputs humans actually want. Specifying a good reward function in closed form is nearly impossible for open-ended generation. RLHF argues that human preference comparisons can be used to train a reward model, which then guides fine-tuning via RL. This is the paper that established the three-stage pipeline used to train InstructGPT and ChatGPT.
+Language models trained on next-token prediction optimize for one thing: predicting the distribution of text in the training corpus. This is not the same as producing outputs that humans find helpful, accurate, or safe. The gap is not a bug that more data or scale automatically closes. A model can achieve low perplexity while generating confident misinformation, plausible but unhelpful responses, or text that matches the statistical surface of training data without satisfying the intent behind a prompt. Defining a scalar reward function that captures "what humans want" for open-ended generation is nearly impossible to do by hand, since the space of possible outputs is enormous and human preferences depend on context in ways that resist simple specification.
 
-## The three-stage pipeline
+## The three-stage RLHF pipeline
 
-```
-Stage 1: Supervised Fine-Tuning (SFT)
-  Pre-trained LM  →  fine-tune on (prompt, good response) pairs from humans
+RLHF sidesteps the reward specification problem by learning the reward from human behavior. The pipeline has three stages. Stage 1 is supervised fine-tuning: the base language model is fine-tuned on a dataset of high-quality prompt-response pairs written or curated by human labelers, producing an SFT model that generates reasonable outputs. Stage 2 is reward model training: annotators are shown pairs of model responses to the same prompt and asked which they prefer. This comparison data is used to train a reward model r_θ with a ranking loss that maximizes r_θ(preferred) - r_θ(rejected) using a log-sigmoid objective. Comparisons rather than scalar ratings are used because ratings are noisy and inconsistent across annotators, while binary comparisons are simpler and more reliable to collect at scale. The reward model shares the same architecture as the language model, with the final token's hidden state projected through a linear head to a scalar score. Stage 3 is RL fine-tuning: the SFT model is fine-tuned with PPO using a reward signal that combines the learned reward model score with a KL penalty.
 
-Stage 2: Reward Model Training
-  Collect (prompt, response_A, response_B, human_preference) data
-  Train reward model r_θ to predict which response humans prefer:
-    L_RM = -log σ( r_θ(response_win) - r_θ(response_lose) )
+## The KL penalty and why it matters
 
-Stage 3: RL Fine-Tuning (PPO)
-  Use reward model as the reward signal:
-    reward = r_θ(prompt, response) - β · KL(π_RL || π_SFT)
-  Fine-tune the SFT model with PPO to maximize this reward
-```
-
-## The KL penalty
-
-The KL divergence term `β · KL(π_RL || π_SFT)` is critical. Without it, the RL policy learns to produce outputs that score high on the reward model but diverge from coherent language. The penalty keeps the fine-tuned model close to the SFT baseline, preventing reward hacking while still improving alignment.
-
-## Why comparisons, not ratings
-
-Asking humans to rate responses on a scale is inconsistent and noisy. Asking which of two responses is better is simpler, more consistent, and scales more easily to large annotation teams.
+The reward signal used in Stage 3 is not just r_θ(prompt, response). It is r_θ(prompt, response) - β · KL(π_RL || π_SFT), where π_RL is the current policy and π_SFT is the supervised baseline. Without this penalty, the RL policy tends to find outputs that exploit weaknesses in the reward model: degenerate repetitions or syntactically unusual text that scores high but diverges completely from natural language. The KL term prevents the policy from drifting too far from the SFT initialization, keeping responses fluent and grounded. A typical value of β is 0.02, small enough to allow meaningful improvement but large enough to prevent reward hacking.
 
 ## Results and impact
 
-Demonstrated RLHF for text generation. The same pipeline was scaled to produce InstructGPT (which outperformed GPT-3 on human evaluations), and then ChatGPT. RLHF is now the standard technique for aligning large language models.
+Models fine-tuned with RLHF on text continuation tasks were consistently rated as higher quality by human evaluators than the base language models, demonstrating that the learned reward model captured genuine preferences beyond what perplexity measures. The paper established the three-stage pipeline and the KL-penalized PPO objective as the practical recipe for aligning language models to human intent. InstructGPT and ChatGPT are direct descendants, scaling the same approach to much larger models with more annotator data. RLHF is now the standard alignment technique used across large language model training pipelines.

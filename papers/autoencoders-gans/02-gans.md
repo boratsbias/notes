@@ -1,46 +1,31 @@
-# Generative Adversarial Nets (GANs) (2014)
+---
+title: "Generative Adversarial Nets (GANs)"
+year: 2014
+authors: Ian J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair, Aaron Courville, Yoshua Bengio
+area: Deep Learning, Generative Models
+link: https://arxiv.org/abs/1406.2661
+---
 
-**Authors:** Ian J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair, Aaron Courville, Yoshua Bengio
-**Area:** Deep Learning, Generative Models
-**Link:** [arXiv](https://arxiv.org/abs/1406.2661)
+## The problem with prior generative models
 
-## What the paper argues
+Before GANs, generative models required either computing or approximating the intractable likelihood p(x). Boltzmann machines needed expensive MCMC sampling. VAEs optimized a lower bound on the likelihood. GANs sidestep likelihood estimation entirely by framing generation as a two-player game between a generator and a discriminator, requiring neither.
 
-Learning generative models traditionally requires computing or approximating intractable likelihoods. GANs avoid this entirely: two networks play a minimax game against each other until the generator produces samples indistinguishable from real data, without ever computing a likelihood.
+## The adversarial objective
 
-## The adversarial game
+The core contribution is the minimax game:
 
-```
-Generator G:      noise z ~ p(z)  →  fake sample G(z)
-Discriminator D:  sample x        →  probability that x is real (not from G)
+min_G max_D E_{x~p_data}[log D(x)] + E_{z~p(z)}[log(1 - D(G(z)))]
 
-G tries to fool D  (maximize D's error on fake samples)
-D tries to catch G  (correctly classify real vs fake)
-```
+The generator G takes a noise vector z as input and produces a synthetic sample G(z). The discriminator D takes any sample and outputs the probability that it came from the real data distribution. D is trained to maximize its classification accuracy on both real and fake samples. G is trained to minimize D's ability to distinguish its outputs from real data. At the theoretical optimum, G's distribution exactly matches the data distribution and D outputs 0.5 everywhere, provably derived using optimal transport arguments. In practice, G is trained to maximize log D(G(z)) rather than minimize log(1 - D(G(z))), because the latter saturates and produces near-zero gradients early in training when D is confident that G's outputs are fake.
 
-The minimax objective:
+## Training dynamics and instabilities
 
-```
-min_G max_D  E_{x~p_data}[log D(x)] + E_{z~p(z)}[log(1 - D(G(z)))]
-```
+Training alternates: update D for one step with G fixed, then update G for one step with D fixed. This alternating update procedure is the source of GAN training instability. If D becomes too strong, G receives no useful gradient signal. If G moves too fast, D cannot track it. Mode collapse is a persistent failure mode where G learns to produce a narrow set of outputs that reliably fool D, ignoring large portions of the data distribution. D adapts to those specific outputs, G shifts, but the diversity never improves because neither player is incentivized to cover the full distribution.
 
-At the theoretical optimum, G's distribution matches the data distribution exactly and D outputs 0.5 everywhere. In practice, G is trained to maximize log D(G(z)) rather than minimize log(1-D(G(z))) to avoid vanishing gradients early in training.
+## Improvements and successors
 
-## Training procedure
-
-```
-Step 1:  sample real batch  +  generate fake batch
-Step 2:  update D to maximize log D(x_real) + log(1 - D(G(z)))
-Step 3:  sample new noise, update G to maximize log D(G(z))
-         (keep D fixed during generator update)
-```
-
-## Known failure modes
-
-**Mode collapse:** G generates a small set of high-quality outputs that fool D, rather than covering the full data distribution. D then adapts to reject them and the cycle continues without diversity.
-
-**Training instability:** G and D can diverge or oscillate. Wasserstein GAN (WGAN) replaced the JS divergence implicit in the original loss with Wasserstein distance, which provides more stable gradients.
+Wasserstein GAN replaced the Jensen-Shannon divergence implicit in the original objective with the Wasserstein distance, providing stable gradient signal even when G and D have non-overlapping support. It requires enforcing a Lipschitz constraint on D via weight clipping or gradient penalty. Progressive training, used in StyleGAN, starts G and D at low resolution and simultaneously increases resolution during training, stabilizing the process by avoiding the difficult problem of learning global structure and fine detail simultaneously.
 
 ## Results and impact
 
-The adversarial framework became the dominant approach to image synthesis. StyleGAN, BigGAN, and CycleGAN all use it. By 2022 diffusion models displaced GANs as the state of the art for image generation, but GAN training techniques remain influential.
+The original GAN produced blurry, low-resolution samples on small datasets. Despite this, the adversarial framework became the dominant approach to image synthesis over the following years. StyleGAN, BigGAN, and CycleGAN all extend the core framework. GANs remained the state of the art for image generation until diffusion models displaced them around 2022.

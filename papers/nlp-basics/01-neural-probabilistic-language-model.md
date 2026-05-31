@@ -2,32 +2,20 @@
 
 **Authors:** Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Janvin
 **Area:** Natural Language Processing, Language Modeling
-**Link:** [JMLR](https://www.jmlr.org/papers/v3/bengio03a.html)
+**Link:** [JMLR Paper](https://www.jmlr.org/papers/v3/bengio03a.html)
 
-## What the paper argues
+## The n-gram problem
 
-N-gram models assign zero probability to any word sequence not seen in training. Language is too combinatorially large for this to work: most valid sentences never appear in any corpus. The paper argues that learning a dense vector for each word lets the model generalize, because similar words end up near each other in the learned space and their probabilities can be shared.
+Statistical language models before this paper were built on **n-grams**: count how often a sequence of words appears in a corpus and estimate the probability of the next word from those counts. This approach has two fundamental failure modes. First, the number of distinct word sequences grows exponentially with sequence length, so most sequences encountered at test time were never seen during training, producing zero probabilities that must be patched with ad hoc smoothing. Second, n-gram models treat words as atomic, discrete symbols with no notion of similarity. Seeing "the cat sat on the mat" teaches the model nothing about "the dog lay on the rug," because "dog" and "cat" are unrelated tokens to a count-based model. The paper argues that both problems dissolve once words are represented as **dense continuous vectors** in a shared geometric space.
 
-## Architecture
+## Distributed word representations
 
-Each of the previous n words is mapped to a feature vector, the vectors are concatenated, passed through a hidden layer, and projected to a probability distribution over the vocabulary:
+The core idea is a **word embedding**: a learned dense vector assigned to each vocabulary item. These vectors are initialized randomly and updated by gradient descent. Because the model must predict held-out text, gradient pressure pushes words that appear in similar contexts toward the same region of the embedding space. "Cat" and "dog" end up geometrically close. When the model encounters "the dog sat on the," it can borrow probability mass from the near-identical training sequence "the cat sat on the," because dog and cat share a neighborhood in the continuous space. Generalization to unseen sequences emerges naturally as a consequence of the geometry, not from hand-crafted smoothing rules.
 
-```
-[w_{t-n+1}, ..., w_{t-1}]
-        ↓  (lookup table)
-[e_{t-n+1}, ..., e_{t-1}]
-        ↓  (concat + tanh layer)
-      hidden
-        ↓  (linear + softmax)
-   P(w_t | context)
-```
+## Architecture and the softmax bottleneck
 
-The lookup table is the first word embedding matrix. It is learned jointly with the rest of the network.
-
-## Why it generalizes
-
-If the model has seen "the cat sat on the mat" and a new sentence has "the dog sat on the mat", the embeddings for "cat" and "dog" will be close (both are common animals that appear in similar contexts). The model therefore assigns reasonable probability to the new sentence without ever having seen it.
+The forward pass follows a simple pipeline: word indices feed into a **lookup table** that retrieves their embedding vectors, the context vectors are concatenated, passed through a tanh hidden layer, and then through a **softmax** over the full vocabulary to produce a probability distribution over the next word. The lookup table is just an embedding matrix, index in and vector out, updated by backpropagation like any other parameter. The embedding matrix is learning semantic similarity as a side effect of learning to predict language. The softmax is the computational bottleneck: normalizing over tens of thousands of vocabulary entries at every training step is expensive, a problem the authors addressed with short-list approximations and one that word2vec would later solve more elegantly with negative sampling.
 
 ## Results and impact
 
-Outperformed n-gram baselines on standard language modeling benchmarks by using word similarity to smooth probabilities. This paper introduced the concept of word embeddings learned from data, which became the foundation for word2vec, GloVe, and eventually BERT and GPT.
+The paper was largely overlooked at publication in 2003 but proved foundational in retrospect. It introduced word embeddings learned from raw text, demonstrated that continuous representations enable generalization to unseen sequences, and identified the vocabulary-size bottleneck that shaped a decade of follow-on work. It is the direct ancestor of word2vec, GloVe, and every contextualized embedding system that followed. The core claim, that a distributed representation over a continuous space can substitute for exhaustive enumeration of discrete sequences, became the organizing principle of the entire pre-training era in NLP.

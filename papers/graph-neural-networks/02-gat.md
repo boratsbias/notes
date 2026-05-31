@@ -1,45 +1,31 @@
-# Graph Attention Networks (GAT) (2018)
+---
+title: "Graph Attention Networks (GAT)"
+authors: "Petar Velickovic et al."
+year: 2018
+area: Graph Learning, Deep Learning
+link: https://arxiv.org/abs/1710.10903
+---
 
-**Authors:** Petar Velickovic, Guillem Cucurull, Arantxa Casanova, Adriana Romero, Pietro Lio, Yoshua Bengio
-**Area:** Graph Learning, Deep Learning
-**Link:** [arXiv](https://arxiv.org/abs/1710.10903)
+## GCN's fixed-weight limitation
 
-## What the paper argues
+GCN aggregates each node's neighborhood using weights fixed by the graph's degree structure. A node with five neighbors averages all five equally, with no mechanism for the model to down-weight irrelevant or noisy neighbors. This is a strong assumption: in citation networks, some papers cite tangentially related work; in social networks, not all connections carry equal information. GCN cannot distinguish an informative neighbor from a distracting one because its aggregation weights are determined entirely by graph topology, not by learned features.
 
-GCN aggregates neighbors with fixed weights determined by graph degree. Not all neighbors are equally informative, and the model has no way to weight them differently. GAT argues that attention should be computed over the neighborhood based on node features, so the model learns which neighbors matter more for each node.
+## Attention over neighbors
 
-## Attention over neighborhoods
+GAT introduces learned attention weights over each node's neighborhood. For a node i and a neighbor j, the unnormalized attention coefficient is computed as:
 
-For each node i and each neighbor j, an attention coefficient is computed:
+\[e_{ij} = \text{LeakyReLU}\!\left(\mathbf{a}^\top \cdot \left[W\mathbf{h}_i \,\|\, W\mathbf{h}_j\right]\right)\]
 
-```
-e_{ij} = LeakyReLU( a^T · [W h_i || W h_j] )
+where W is a shared linear transformation, a is a learnable attention vector, and || denotes concatenation. These are then normalized across the neighborhood using softmax:
 
-α_{ij} = softmax_j(e_{ij}) = exp(e_{ij}) / Σ_{k ∈ N(i)} exp(e_{ik})
-```
+\[\alpha_{ij} = \frac{\exp(e_{ij})}{\sum_{k \in \mathcal{N}(i)} \exp(e_{ik})}\]
 
-The new node representation is:
+The updated node representation is \(\mathbf{h}_i' = \sigma\!\left(\sum_{j \in \mathcal{N}(i)} \alpha_{ij} W\mathbf{h}_j\right)\). The attention weights are computed entirely from node features, requiring no knowledge of the global graph structure beyond the adjacency.
 
-```
-h_i' = σ( Σ_{j ∈ N(i)} α_{ij} · W h_j )
-```
+## Multi-head attention and specialization
 
-Node i aggregates its neighbors weighted by learned attention scores, not fixed degree normalization.
-
-## Multi-head attention
-
-K independent attention heads are run in parallel:
-
-```
-h_i' = ||_{k=1}^K  σ( Σ_{j ∈ N(i)} α_{ij}^k · W^k h_j )
-```
-
-Different heads learn to attend to different types of structural relationships. In the final layer, heads are averaged rather than concatenated.
-
-## Advantage over GCN
-
-GCN cannot assign different importance to different neighbors. GAT can: a node that is highly relevant to the prediction gets a high attention score; an irrelevant neighbor gets near zero. The attention weights are also fully differentiable, so the model learns which structure matters from the task supervision.
+GAT uses multi-head attention: K independent attention mechanisms run in parallel, and their outputs are concatenated for intermediate layers or averaged for the final output layer. This stabilizes training and lets different heads specialize in different types of neighbor relationships. Nodes can effectively assign near-zero attention to uninformative neighbors, making GAT more robust on heterogeneous or noisy graphs where GCN's uniform aggregation fails. The model implicitly learns which parts of the graph structure matter for the task, supervised only by node classification labels.
 
 ## Results and impact
 
-State of the art on Cora, Citeseer, PubMed, and protein interaction networks. Demonstrated that attention is as powerful on graphs as on sequences. One of the most cited GNN architectures and the basis for many subsequent graph transformer models.
+GAT achieved state-of-the-art results on Cora, Citeseer, PubMed, and protein interaction datasets, outperforming GCN and GraphSAGE across benchmarks. It demonstrated that the attention mechanism, which had proven transformative for sequences in the transformer, is equally powerful on graph-structured data. GAT is among the most cited graph neural network architectures and remains a standard baseline. The core idea, that neighbor weights should be learned from features rather than fixed by topology, directly influenced the design of every subsequent graph attention variant.

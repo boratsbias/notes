@@ -1,52 +1,29 @@
-# Attention Is All You Need (2017)
+---
+title: "Attention Is All You Need"
+authors: "Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin"
+year: 2017
+area: "Natural Language Processing, Transformers"
+link: "https://arxiv.org/abs/1706.03762"
+---
 
-**Authors:** Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin
-**Area:** Natural Language Processing, Transformers
-**Link:** [arXiv](https://arxiv.org/abs/1706.03762)
+## The recurrence problem
 
-## What the paper argues
-
-RNNs process tokens sequentially: token t cannot be computed until token t-1 is done. This prevents parallelization and makes it hard to connect distant tokens because information must flow through every intermediate step. The paper argues that attention alone, with no recurrence, is sufficient and superior: any two positions can interact directly, and the entire sequence is processed in parallel.
+Sequence models before 2017 were almost exclusively RNN-based. The fundamental problem with recurrence is sequential computation: each step depends on the previous hidden state, making parallelization across the sequence length impossible. Long-range dependencies are additionally fragile because signals must propagate through every intermediate recurrent step, causing gradients to vanish or explode. Convolutional alternatives reduced sequential computation but still required many layers to connect distant positions. The paper's central argument is that attention alone, without any recurrence or convolution, is sufficient to model sequence relationships and is superior in both quality and computational efficiency.
 
 ## Scaled dot-product attention
 
-For a set of queries Q, keys K, and values V:
+The core operation is:
 
-```
-Attention(Q, K, V) = softmax( Q Kᵀ / √d_k ) V
-```
+\[
+\text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right)V
+\]
 
-Each query attends to all keys by computing dot products, scaling by √d_k (to prevent large dot products from pushing softmax into low-gradient regions), applying softmax to get weights, and taking a weighted sum of values. This is O(n²) in sequence length but O(1) in how far information can travel between positions.
+Q, K, and V are projections of the input into query, key, and value spaces. The dot product of Q and K measures compatibility between each query and every key, producing a score matrix. Dividing by \(\sqrt{d_k}\) prevents large dot products from pushing the softmax into regions of near-zero gradient, which becomes critical at larger embedding dimensions. The softmax converts scores into a probability distribution over positions, and these weights are used to compute a weighted sum over the value vectors. The result is a context-sensitive representation for every position that directly reflects the relevance of every other position, regardless of distance.
 
-## Multi-head attention
+## Multi-head attention and architecture
 
-Run h attention heads in parallel, each in a lower-dimensional subspace:
-
-```
-MultiHead(Q,K,V) = Concat(head_1, ..., head_h) W^O
-     head_i = Attention(Q W_i^Q, K W_i^K, V W_i^V)
-```
-
-Different heads learn to attend to different relationship types simultaneously (syntactic, positional, semantic).
-
-## Transformer block
-
-```
-Input
-  ↓
-[Multi-Head Self-Attention]  +  residual
-  ↓
-[Layer Norm]
-  ↓
-[Feed-Forward (linear → ReLU → linear)]  +  residual
-  ↓
-[Layer Norm]
-  ↓
-Output
-```
-
-Encoder stacks N of these blocks. Decoder adds a cross-attention sublayer between self-attention and feed-forward, attending to the encoder output.
+Multi-head attention runs h independent attention operations in parallel, each in a lower-dimensional subspace. Outputs are concatenated and projected. Different heads can specialize in different relationship types, such as syntactic vs. semantic dependencies, within the same layer. The full model uses an encoder-decoder structure. The encoder applies self-attention over the source sequence. The decoder applies masked self-attention over the target sequence and cross-attention over encoder outputs. Positional encodings using sine and cosine functions at different frequencies are added to embeddings, since self-attention is permutation-equivariant and has no inherent sense of position. Residual connections and layer normalization are applied around every sub-layer.
 
 ## Results and impact
 
-State of the art on English-German and English-French translation at a fraction of the compute of the best RNN models. The transformer became the backbone of BERT, GPT, ViT, Whisper, AlphaFold, and essentially every major AI system since.
+The Transformer set state-of-the-art BLEU scores on English-German and English-French translation at a fraction of the training compute of previous models. The impact extended far beyond translation. BERT, GPT, ViT, DALL-E, Whisper, AlphaFold 2, and virtually every major AI system built since 2018 use the transformer as their backbone. The attention mechanism made long-range dependencies cheap to compute, unlocked massive parallelization during training, and established a unified architecture that scales from language to vision to protein structure prediction.

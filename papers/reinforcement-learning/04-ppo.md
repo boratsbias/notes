@@ -4,35 +4,24 @@
 **Area:** Reinforcement Learning
 **Link:** [arXiv](https://arxiv.org/abs/1707.06347)
 
-## What the paper argues
+## TRPO's practical limitations
 
-TRPO achieves stable updates through a constrained optimization that requires conjugate gradient and is incompatible with architectures using shared parameters or dropout. PPO achieves similar stability with a first-order method: a **clipped surrogate objective** that simply penalizes the policy ratio moving too far from 1, without a hard constraint or second-order computation.
+TRPO's constrained optimization works well theoretically but is difficult to use in practice. The conjugate gradient solve and the Fisher-vector products require second-order information that is incompatible with architectures using dropout, layer normalization, or parameter sharing between the policy and value function heads. Implementing the constraint satisfaction with a line search adds significant engineering complexity. The result is an algorithm that requires considerable infrastructure to run correctly and does not compose easily with standard deep learning tooling.
 
-## Clipped objective
+## The clipped surrogate objective
 
-Let r_t(θ) = π_θ(a|s) / π_old(a|s) be the probability ratio. The PPO objective clips this ratio:
+PPO replaces the constrained optimization with a clipped objective that implicitly enforces a similar trust region through the loss function itself. The clipped objective is the paper's core contribution:
 
-```
-L_CLIP(θ) = E_t [ min(
-    r_t(θ) · A_t,
-    clip(r_t(θ), 1-ε, 1+ε) · A_t
-) ]
-```
+\[
+L^\text{CLIP}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\cdot A_t,\; \text{clip}(r_t(\theta), 1-\varepsilon, 1+\varepsilon)\cdot A_t\right)\right]
+\]
 
-Typical ε = 0.2. Taking the minimum of clipped and unclipped ensures that:
-- When A_t > 0 (good action): ratio cannot grow beyond 1+ε to claim more credit
-- When A_t < 0 (bad action): ratio cannot shrink below 1-ε to avoid more blame
+where r_t(θ) = π_θ(a_t|s_t) / π_old(a_t|s_t) is the importance ratio between the current and old policy. The clipping works asymmetrically based on the sign of the advantage. When A_t > 0, the action was better than expected and the policy wants to increase its probability. The min prevents r_t from growing beyond 1 + ε, stopping the policy from claiming excessive credit. When A_t < 0, the action was worse than expected and the policy wants to decrease its probability. The clip prevents r_t from falling below 1 - ε, stopping the policy from moving too far away from the action it took. Both cases limit the policy shift without requiring a KL computation or a constrained solver. A typical value of ε is 0.2.
 
-This discourages large policy changes without requiring a hard KL constraint.
+## Multiple epochs per rollout and GAE
 
-## Multiple epochs per rollout
-
-Because the clipped objective limits policy drift, PPO can perform multiple SGD epochs on the same batch of collected data. This improves sample efficiency compared to on-policy methods that discard data after one gradient step:
-
-```
-collect rollout  →  run K epochs of mini-batch SGD on clipped objective  →  repeat
-```
+Because clipping limits how far the policy can move, PPO can safely run K epochs of mini-batch stochastic gradient descent on the same rollout data. This dramatically improves sample efficiency compared to single-step on-policy methods where each rollout is discarded after one gradient step. K is typically between 4 and 10. Advantage estimates are computed using Generalized Advantage Estimation (GAE), an exponentially weighted average of multi-step returns controlled by a λ parameter that balances bias and variance. An entropy bonus is added to the loss to prevent the policy from collapsing to a deterministic solution prematurely, particularly in environments where early commitment to a suboptimal action sequence is irreversible.
 
 ## Results and impact
 
-Matched TRPO on continuous control and Atari while being much simpler to implement. OpenAI adopted PPO as their default RL algorithm. It is the algorithm used in RLHF to train InstructGPT and ChatGPT, making it arguably the most impactful RL algorithm of the current era.
+PPO matched or exceeded TRPO on continuous control benchmarks including MuJoCo locomotion tasks and matched DQN on Atari while requiring only first-order gradient computation and standard mini-batch training. The simplicity of the implementation made it immediately usable in large-scale distributed training setups. OpenAI adopted PPO as its default RL algorithm. It was the optimization algorithm used in InstructGPT and subsequently ChatGPT, where the reward signal came from a trained reward model rather than an environment, making PPO the algorithmic engine of RLHF. It is arguably the most practically impactful RL algorithm of the current era.

@@ -4,30 +4,25 @@
 **Area:** Optimization, Online Learning
 **Link:** [JMLR](https://jmlr.org/papers/v12/duchi11a.html)
 
-## What the paper argues
+## The problem with flat learning rates in sparse settings
 
-In NLP and other sparse-feature settings, most parameters receive gradient signal very rarely. A flat learning rate treats all parameters the same, wasting updates on common features and under-updating rare ones. Adagrad gives each parameter its own learning rate, inversely scaled by how much gradient it has accumulated so far.
+In NLP, most parameters receive gradient updates very rarely. The embedding for a common word like "the" fires on almost every training step. The embedding for a rare technical term might update once per epoch. A global learning rate treats both identically: it is either too large for the frequent parameter, causing instability, or too small for the rare one, meaning it barely moves. Adagrad gives each parameter its own effective learning rate automatically, with no manual tuning required beyond the global rate α.
 
-## Per-parameter update rule
+## The accumulated squared gradient
 
-Adagrad accumulates the sum of squared gradients for each parameter from the start of training:
+Adagrad maintains a running sum of squared gradients G_t for each parameter, starting from zero at the beginning of training. At each step, the squared gradient is added to the accumulator, and the effective learning rate is α divided by the square root of this sum:
 
 ```
-G_t = G_{t-1} + g_t²          ← running sum of squared gradients
-
-θ_t = θ_{t-1} - (α / √(G_t + ε)) · g_t
+G_t = G_{t-1} + g_t²
+θ_t = θ_{t-1} − (α / √(G_t + ε)) · g_t
 ```
 
-Parameters with a large cumulative squared gradient (updated frequently or with large signal) get a smaller effective learning rate. Parameters that have barely been updated get a large one when they finally fire.
+A parameter that has received large or frequent gradients builds up a large G_t and takes smaller steps. A parameter barely touched keeps a near-zero G_t and takes much larger steps when its gradient finally arrives. This scaling is computed per-parameter at every step with no hyperparameters beyond α.
 
-## Why it works for sparse data
+## Why it works for NLP
 
-A word embedding for "the" gets updated on almost every step. A rare technical term embedding gets updated almost never. With a flat rate both receive the same step size, which is wrong in both directions. Adagrad's adaptive denominator automatically sets appropriate scales for each.
+Sparse input representations are the norm in text: bag-of-words models, one-hot encodings, and word embeddings all have most entries at zero on any given example. Adagrad's mechanism is exactly calibrated for this case, scaling rare feature updates up and frequent ones down. It demonstrated clear gains over fixed-rate SGD on large-scale NLP tasks and was the first optimizer to make per-parameter adaptation practical.
 
-## The vanishing rate problem
+## The fatal flaw that motivated Adam
 
-Because G_t only ever grows, the effective rate α / √G_t decays monotonically toward zero. For long training runs this causes learning to stall. RMSProp (using an exponential moving average instead of a cumulative sum) and Adam fix this while keeping the per-parameter adaptation.
-
-## Results and impact
-
-Adagrad improved NLP tasks significantly over fixed-rate SGD and was the first widely adopted adaptive optimizer. It directly motivated RMSProp, Adadelta, and Adam.
+Because G_t only ever grows, the effective learning rate for every parameter decays monotonically toward zero. Given enough training steps, all learning stalls regardless of how much gradient signal remains. **RMSProp** addressed this by replacing the cumulative sum with an exponential moving average, preserving the adaptive behavior while preventing the rate from collapsing. **Adam** then combined this fix with momentum, completing the lineage from Adagrad to the modern default optimizer.

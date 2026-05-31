@@ -1,36 +1,23 @@
-# Mixture-of-Experts with Expert Choice Routing (2022)
+---
+title: "Mixture-of-Experts with Expert Choice Routing"
+authors: "Yanqi Zhou et al."
+year: 2022
+area: Deep Learning, Mixture of Experts
+link: https://arxiv.org/abs/2202.09368
+---
 
-**Authors:** Yanqi Zhou et al.
-**Area:** Deep Learning, Mixture of Experts
-**Link:** [arXiv](https://arxiv.org/abs/2202.09368)
+## The token-choice routing problem
 
-## What the paper argues
+In standard MoE routing, each token selects its top-k experts. This creates a load imbalance problem: tokens tend to route to the same popular experts, overloading them while others sit idle. Auxiliary load-balancing losses reduce this imbalance but introduce a training objective that is in tension with the primary language modeling loss. Even with these losses, popular experts still receive more tokens than they can process and must drop the excess, meaning some tokens receive no expert computation at all. The instability from balancing two competing objectives slows convergence and complicates tuning.
 
-Standard MoE routing is token-choice: each token picks its top-k experts. This causes load imbalance because popular experts receive too many tokens and must drop them, while others sit idle. Expert Choice flips the routing direction: each expert independently selects its top-k tokens from the batch. Load balance is guaranteed by construction with no auxiliary loss needed.
+## Flipping the routing direction
 
-## Token-choice vs expert-choice
+Expert choice routing inverts the decision: rather than tokens choosing experts, each expert selects its top-k tokens from the full batch. Since each expert selects exactly k tokens by construction, load is perfectly balanced with no auxiliary loss and no dropped tokens. This is the paper's central insight. The routing problem is reframed from a selection problem on the token side to a fixed-budget selection problem on the expert side, and the budget constraint is trivially satisfied.
 
-```
-Token-choice:   each token  →  selects k experts       (token decides)
-                Problem: popular experts get overloaded, tokens may be dropped
+## Adaptive compute allocation
 
-Expert-choice:  each expert →  selects k tokens        (expert decides)
-                Each expert processes exactly k tokens per batch: perfectly balanced
-```
-
-For a batch of T tokens and E experts each selecting k tokens, each expert processes exactly k tokens. A token may be selected by 0, 1, or multiple experts.
-
-## Heterogeneous compute allocation
-
-Since tokens compete for expert slots, harder or more informative tokens attract more expert selections. Easy or repetitive tokens may be skipped entirely:
-
-```
-"The"   →  selected by 0 experts  (trivial, skipped)
-"mitochondria"  →  selected by 3 experts  (rare, gets more processing)
-```
-
-This is an emergent form of adaptive compute allocation: the model implicitly gives more capacity to tokens that need it.
+Flipping the routing direction produces an unexpected benefit: adaptive compute allocation. Experts compete for tokens, so tokens that are more informative or more difficult will be selected by more experts and receive more computation. A common token like "the" appearing frequently in a trivial context may be selected by no experts and pass through only the residual connection. A rare technical term in an ambiguous context may be selected by several experts and receive proportionally more processing. This is not explicitly designed; it emerges from the expert selection dynamics. Token-choice routing allocates the same compute to every token regardless of difficulty, which is a fundamental inefficiency that expert choice eliminates.
 
 ## Results and impact
 
-Expert Choice outperformed standard top-k token-choice MoE on language modeling and fine-tuning benchmarks, converging faster and reaching better perplexity with the same compute. The perfect load balance eliminates dropped tokens and training instability from imbalanced routing, making it a cleaner training objective.
+Expert choice MoE outperformed standard top-2 token-choice MoE on language modeling and downstream fine-tuning benchmarks while requiring fewer training steps to converge. The authors attribute the faster convergence to the elimination of load-imbalance instability and to the alignment between model capacity and token difficulty. The paper contributed to a broader understanding that routing direction is a fundamental architectural choice in sparse models, not an implementation detail. It influenced subsequent MoE designs by demonstrating that the standard token-choice framing carries unnecessary assumptions that can be discarded entirely.

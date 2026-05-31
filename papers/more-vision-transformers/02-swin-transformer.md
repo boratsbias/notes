@@ -1,52 +1,23 @@
-# Swin Transformer: Hierarchical Vision Transformer using Shifted Windows (2021)
+---
+title: "Swin Transformer: Hierarchical Vision Transformer using Shifted Windows"
+year: 2021
+authors: Ze Liu et al.
+area: Computer Vision, Transformers
+link: https://arxiv.org/abs/2103.14030
+---
 
-**Authors:** Ze Liu et al.
-**Area:** Computer Vision, Transformers
-**Link:** [arXiv](https://arxiv.org/abs/2103.14030)
+## ViT's limitations for dense prediction
 
-## What the paper argues
+Global self-attention scales quadratically with image resolution. For high-resolution inputs needed by detection and segmentation models, this becomes prohibitively expensive. ViT also produces a single-scale feature map, but dense prediction tasks require multi-scale features: detectors like FPN expect feature maps at 4 different spatial resolutions so that the model can detect objects at many sizes. ViT was designed for classification and cannot serve as a general backbone without architectural changes to address both problems.
 
-ViT computes global self-attention: every patch attends to every other patch. This scales quadratically with image resolution and produces only one scale of features, making it unsuitable for dense prediction tasks like detection and segmentation. Swin Transformer introduces **window-based attention** and a hierarchical structure that gives linear complexity and multi-scale features, making it a practical general-purpose vision backbone.
+## Window-based attention and the shift mechanism
 
-## Window-based self-attention
+Swin's first innovation is partitioning the image into non-overlapping M×M local windows and computing self-attention independently within each window. Complexity drops from O((HW)²) to O(HW·M²), which is linear in image size since M is fixed (typically 7). The problem with pure window attention is that patches in different windows never interact, preventing any global communication. Swin resolves this by alternating between two window configurations on successive layers: regular windows aligned to the grid in even layers, and windows shifted by M/2 pixels in odd layers. The shifted windows overlap with multiple windows from the previous layer, so information from separated regions exchanges across alternating layers. Over many such alternations, information propagates globally while each individual attention operation remains local and cheap.
 
-The image is partitioned into non-overlapping local windows of M×M patches. Self-attention is computed independently within each window:
+## Hierarchical feature maps
 
-```
-Full image (H×W patches)
-  ↓  partition into M×M windows
-(H/M) × (W/M) windows, each with M² patches
-  ↓
-Self-attention within each window independently
-Complexity: O(M² · (H/M)(W/M)) = O(HW)  (linear in image size, not quadratic)
-```
-
-Patches in different windows never attend to each other in standard window attention.
-
-## Shifted windows
-
-To connect across window boundaries, alternating layers shift the window partition by (M/2, M/2):
-
-```
-Layer l:    windows aligned to grid      [A][B][C][D]
-Layer l+1:  windows shifted by M/2       [E][F][G][H]  (crosses original boundaries)
-```
-
-Over multiple layers, information propagates across the full image through the shifted window sequence.
-
-## Hierarchical structure
-
-Like ResNet, Swin uses 4 stages with progressively smaller spatial resolution and larger channel dimension:
-
-```
-Stage 1:  (H/4 × W/4) resolution,  C channels
-Stage 2:  (H/8 × W/8),             2C channels
-Stage 3:  (H/16 × W/16),           4C channels
-Stage 4:  (H/32 × W/32),           8C channels
-```
-
-This produces feature maps at 4 scales, directly compatible with FPN-based detectors and segmentation decoders.
+Swin organizes computation into four stages with progressively decreasing spatial resolution and increasing channel dimension: H/4×W/4, H/8×W/8, H/16×W/16, and H/32×W/32. Patch merging operations between stages concatenate and project neighboring patch tokens to halve spatial resolution. This produces a feature pyramid directly compatible with FPN-based detectors and segmentation decoders, something global-attention ViT cannot provide without modification. Learned relative position biases are added within each window rather than using absolute position embeddings, encoding spatial proximity more effectively for vision tasks where location relative to neighbors matters more than absolute position in the image.
 
 ## Results and impact
 
-State of the art on ImageNet (87.3%), COCO detection, and ADE20K segmentation. Displaced CNNs as the standard backbone for dense prediction tasks. The shifted window mechanism is widely cited and adapted in subsequent efficient attention research.
+Swin achieves 87.3% top-1 on ImageNet and simultaneously reaches state of the art on COCO object detection and ADE20K semantic segmentation. This simultaneous dominance across classification, detection, and segmentation established it as a general-purpose vision backbone. Swin displaced CNNs as the standard backbone for dense prediction tasks throughout 2021 and 2022. The shifted window mechanism has been widely cited and adapted in efficient attention research, and the hierarchical design influenced subsequent transformer backbones for video and 3D vision.

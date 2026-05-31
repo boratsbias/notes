@@ -4,32 +4,32 @@
 **Area:** Reinforcement Learning
 **Link:** [arXiv](https://arxiv.org/abs/1502.05477)
 
-## What the paper argues
+## The catastrophic update problem
 
-Policy gradient updates can be catastrophically large: a step that changes the policy too much sends it into a bad region, which then collects bad data, making recovery very hard. TRPO argues that policy updates should be constrained to a **trust region**: only allow updates where the new policy is not too different from the old one, as measured by KL divergence. Within this constraint, optimize the surrogate objective as much as possible.
+Vanilla policy gradient is brittle because the data collection and the optimization are coupled. If a gradient step is too large, the new policy is significantly different from the one that collected the training data. That bad policy then generates bad trajectories, which produce a misleading gradient estimate, which causes another bad update. There is no natural recovery mechanism: the system can collapse and fail to return to a good policy region. Reducing the learning rate helps but slows training dramatically, and the right step size varies across training and across environments. A principled approach to constraining update size is needed.
 
-## Surrogate objective
+## The trust region formulation
 
-TRPO optimizes an importance-weighted surrogate objective using data collected from the old policy π_old:
+TRPO constrains each update to a region where the new policy is not too different from the old one, then optimizes as aggressively as possible within that region. The surrogate objective and its constraint are the paper's core contribution:
 
-```
-maximize:   L(θ) = E_s,a [ (π_θ(a|s) / π_old(a|s)) · A^π(s,a) ]
+\[
+\text{maximize} \quad L(\theta) = \mathbb{E}\left[\frac{\pi_\theta(a|s)}{\pi_\text{old}(a|s)} \cdot A^\pi(s,a)\right]
+\]
 
-subject to: E_s [ KL(π_old(·|s) || π_θ(·|s)) ] ≤ δ
-```
+\[
+\text{subject to} \quad \mathbb{E}_s\left[\text{KL}\left(\pi_\text{old}(\cdot|s) \,\|\, \pi_\theta(\cdot|s)\right)\right] \leq \delta
+\]
 
-The ratio π_θ / π_old corrects for the fact that data was collected under the old policy. The KL constraint limits how far the new policy can be from the old one.
+The importance ratio π_θ / π_old corrects for the fact that the data was collected under the old policy, allowing the objective to be evaluated without additional rollouts. The KL constraint limits how far the new distribution can move from the old one in any single update. A typical value of δ is 0.01. This is small enough to keep the importance ratio well-conditioned and the surrogate objective a faithful proxy for the true objective.
 
-## Solving the constrained optimization
+## Solving the constrained problem
 
-1. Compute the gradient of L(θ): standard policy gradient.
-2. Use **conjugate gradient** to compute the natural gradient direction (F^{-1} g) approximately, without explicitly inverting the Fisher matrix.
-3. Run a **line search** along this direction to find the largest step satisfying the KL constraint.
+Directly inverting the Fisher information matrix is infeasible for neural network policies, where n can be in the millions and F is n × n. TRPO uses the conjugate gradient algorithm to compute the product F^{-1}g iteratively, requiring only matrix-vector products of the form Fv, which can be computed via two backpropagation passes. This runs in O(k · n) time where k is the number of CG iterations, typically 10. After finding the natural gradient direction, TRPO performs a line search along that direction to find the largest step that satisfies the KL constraint and produces an actual improvement in the surrogate objective.
 
-## Theoretical guarantee
+## Monotonic improvement guarantee
 
-TRPO provides a monotonic improvement bound: if the constraint is satisfied, the true policy performance J(θ_new) ≥ J(θ_old) up to approximation error. This makes it one of the few RL algorithms with a formal guarantee.
+TRPO provides one of the few formal guarantees in deep RL: if the KL constraint is satisfied, the true expected return J(θ_new) is at least J(θ_old) minus a term that depends on the approximation error in the surrogate. In practice this means training is monotonically improving on the surrogate, with only minor deviations from monotonicity in the true objective due to finite-sample estimation. Locomotion tasks where vanilla policy gradient diverges show stable, consistent improvement curves under TRPO.
 
 ## Results and impact
 
-Stable, monotonically improving training on locomotion tasks where vanilla policy gradient frequently diverges. Established the trust region framework. PPO later achieved similar stability with a much simpler implementation, making it the practical successor.
+TRPO demonstrated stable monotonically improving training on MuJoCo locomotion tasks, including hopper, half-cheetah, and swimmer, environments where policy gradient without constraints regularly diverges. It established the trust region framework as the right lens for thinking about policy update stability. PPO later approximated the same guarantee using a much simpler clipped objective, making the ideas broadly accessible, but TRPO's theoretical contribution and the conjugate gradient machinery remain foundational references.

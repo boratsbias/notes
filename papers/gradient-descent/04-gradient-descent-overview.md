@@ -4,35 +4,18 @@
 **Area:** Optimization, Deep Learning
 **Link:** [arXiv](https://arxiv.org/abs/1609.04747)
 
-## What the paper argues
+## The three regimes
 
-Gradient descent has many variants and the optimizer landscape is fragmented. This paper gives a unified treatment of the major algorithms, tracing each one as a solution to a specific problem with the previous variant.
+Gradient descent comes in three variants, each trading off computation against signal quality. **Batch gradient descent** computes the gradient over the full training set at each step, producing an accurate update direction but making each step prohibitively expensive for large datasets. **Stochastic gradient descent** computes the gradient from a single example, making steps cheap but introducing high variance that can destabilize convergence. **Mini-batch gradient descent** averages gradients over small batches of 32 to 512 examples, providing a useful signal while enabling GPU parallelism and adding a regularizing effect from gradient noise. Modern deep learning essentially always uses mini-batch gradient descent, and refers to it simply as SGD.
 
-## The variant hierarchy
+## The challenges
 
-```
-SGD
- └─ + momentum           → smooths oscillations across steps
-     └─ + Nesterov       → looks ahead before computing gradient
-         └─ + per-param  → Adagrad (cumulative), RMSProp (moving avg)
-             └─ + both   → Adam (momentum + adaptive rate)
-                 └─ + natural gradient → KFAC, Shampoo
-```
+Training deep networks surfaces distinct failure modes that no single algorithm solves simultaneously. **Learning rate selection** is the most consequential hyperparameter: too large and the loss oscillates or diverges; too small and training stalls in a flat region. **Ill-conditioned curvature** means the loss surface is far steeper in some directions than others, causing gradient descent to zig-zag inefficiently rather than descending directly. **Saddle points** are common in high-dimensional spaces, where gradients vanish but the point is neither a minimum nor maximum, trapping algorithms that rely on small gradients as a stopping condition. **Noisy gradients** from mini-batches add variance that complicates convergence.
 
-**Batch gradient descent** uses the full dataset per step: exact gradient, but very slow and infeasible for large data.
+## The algorithm landscape
 
-**Stochastic gradient descent (SGD)** uses one sample: fast but high variance, making the loss noisy and hard to converge.
-
-**Mini-batch SGD** uses a small batch (typically 32-512): the practical standard, balancing speed and stability.
-
-## Key challenges each optimizer addresses
-
-**Choosing a learning rate:** too large causes divergence, too small wastes compute. Learning rate schedules (step decay, cosine annealing, warmup) are standard responses.
-
-**Ill-conditioned curvature:** loss landscapes are elongated ellipses when features have different scales. Adaptive methods (Adagrad, Adam) rescale each dimension. Input normalization also helps.
-
-**Saddle points:** in high-dimensional spaces, most critical points are saddle points, not local minima. Momentum and noise from mini-batches help escape them.
+Each optimizer the survey covers addresses a different challenge. **Momentum** accumulates a velocity vector in the gradient direction, smoothing oscillations and accelerating progress through flat regions. **Nesterov accelerated gradient** improves on momentum by computing the gradient at the anticipated future position, correcting for overshoot. **Adagrad** adapts the learning rate per parameter using accumulated squared gradients, benefiting sparse features in NLP. **RMSProp** replaces Adagrad's cumulative sum with an exponential moving average, fixing the monotonic decay problem. **Adam** combines adaptive per-parameter rates with momentum, addressing both ill-conditioning and gradient noise.
 
 ## Results and impact
 
-The paper became the standard reference for optimization in deep learning. Its recommendations (use Adam as default, tune learning rate first, use schedules) remain the practical starting point for most training runs.
+The survey covers learning rate schedules including step decay, cosine annealing, and linear warmup before peak rate. Its practical recommendation, start with Adam at default hyperparameters and tune the learning rate before anything else, remains the standard first step when approaching a new problem. The paper became the canonical reference for optimization in deep learning, regularly cited for explaining the landscape of choices and their tradeoffs.

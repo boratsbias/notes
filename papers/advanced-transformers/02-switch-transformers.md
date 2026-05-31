@@ -1,44 +1,27 @@
-# Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity (2021)
+---
+title: "Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity"
+year: 2021
+authors: William Fedus, Barret Zoph, Noam Shazeer
+area: Deep Learning, Scalability, Mixture of Experts
+link: https://arxiv.org/abs/2101.03961
+---
 
-**Authors:** William Fedus, Barret Zoph, Noam Shazeer
-**Area:** Deep Learning, Scalability, Mixture of Experts
-**Link:** [arXiv](https://arxiv.org/abs/2101.03961)
+## Simplifying mixture of experts
 
-## What the paper argues
+The 2017 mixture-of-experts paper routed each token to k=2 experts per layer. Switch Transformers reduce this to k=1, meaning each token is processed by exactly one expert per Switch layer. The argument is practical: top-1 routing simplifies the routing logic, eliminates the need to combine outputs from multiple experts, and dramatically reduces communication overhead in distributed training across TPU pods. Crucially, scaling to more experts does not increase the compute per token, because only one FFN is activated per token regardless of how many total experts exist. This allows parameter count to grow without proportional growth in FLOPs.
 
-The 2017 MoE paper routed each token to k=2 experts. Switch Transformers simplify this to k=1 (one expert per token). This **Switch layer** is simpler, has lower communication overhead in distributed training, and scales to over a trillion parameters while keeping the compute per token the same as a dense model.
+## The Switch layer mechanism
 
-## Switch routing
+Each transformer block contains a Switch layer that replaces the standard feedforward sublayer. When a token's hidden state reaches the Switch layer, a lightweight router applies a linear projection followed by softmax over E experts to produce a probability distribution. The expert with the highest probability receives the token and processes it through its own independent FFN. The output replaces what the standard FFN would have produced. All other experts are bypassed for that token. The router is the only additional component and adds negligible compute.
 
-Each transformer block replaces the feed-forward sublayer with a Switch layer:
+## Capacity buffers and load balancing
 
-```
-Token h
-  ↓
-Router: softmax(h W_r)  →  scores over E experts
-  ↓
-Select top-1 expert (highest score)
-  ↓
-Expert FFN processes h
-  ↓
-Output (no weighted sum needed since only 1 expert)
-```
+Each expert has a fixed capacity: at most C tokens per batch, where C = capacity_factor × (tokens_per_batch / num_experts). If a popular expert receives more than C tokens in a batch, excess tokens skip the expert entirely and pass through unchanged. A capacity factor above 1.0 reduces token dropping but wastes allocated memory. Without any regularization, the router collapses onto a small number of popular experts, starving the rest. An auxiliary load-balancing loss discourages this by penalizing uneven token distribution, computed as the dot product of per-expert importance (summed routing probabilities) and per-expert load (fraction of tokens assigned). Minimizing this term pushes routing toward uniformity.
 
-Each expert has a capacity buffer: it can process at most C tokens per batch. If an expert is over capacity, excess tokens are passed through unchanged (token dropping). A **capacity factor** controls the buffer size:
+## Training stability fixes
 
-```
-expert capacity = (tokens per batch / num experts) × capacity factor
-```
-
-Setting capacity factor > 1 reduces dropping but increases memory usage.
-
-## Training stability
-
-Sparse models are more unstable than dense models at large scale. The paper identifies two fixes:
-
-1. Initialize router weights with small values (reduces initial routing variance)
-2. Compute routing in float32 even if the rest of the model uses bfloat16 (prevents NaN losses)
+Sparse models at large scale are prone to instability and NaN losses. Two targeted fixes proved sufficient. First, router weights are initialized with small values, reducing variance in routing decisions early in training before the model has learned meaningful representations. Second, routing computations are performed in float32 precision even when the rest of the model uses bfloat16. Numerical errors in the softmax accumulate and cause divergence in bfloat16; float32 routing eliminates this without significant cost since the router itself is small.
 
 ## Results and impact
 
-A Switch Transformer reaches the same perplexity as T5-Base in 1/7th the pre-training time. Demonstrated that trillion-parameter models are practically trainable on TPU pods. Established top-1 sparse routing as a viable and simpler alternative to top-k routing. Directly influenced Mixtral and subsequent production MoE architectures.
+Switch Transformer reaches T5-Base perplexity in one-seventh the pre-training time. The paper demonstrated that trillion-parameter models are practically trainable on TPU pod infrastructure. Top-1 routing, once considered too simple, proved competitive with k=2 routing while being easier to implement and scale. The architecture directly influenced Mixtral and subsequent production MoE deployments that now underpin several large language models.

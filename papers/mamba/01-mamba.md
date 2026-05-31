@@ -1,47 +1,27 @@
-# Mamba: Linear-Time Sequence Modeling with Selective State Spaces (2023)
+---
+title: "Mamba: Linear-Time Sequence Modeling with Selective State Spaces"
+year: 2023
+authors: Albert Gu, Tri Dao
+area: Deep Learning, Sequence Modeling
+link: https://arxiv.org/abs/2312.00752
+---
 
-**Authors:** Albert Gu, Tri Dao
-**Area:** Deep Learning, Sequence Modeling
-**Link:** [arXiv](https://arxiv.org/abs/2312.00752)
+## The transformer's quadratic bottleneck
 
-## What the paper argues
+Attention is O(n²) in sequence length. At 100k tokens a single attention layer requires roughly 10 billion operations, and memory usage grows quadratically as well. This makes transformers impractical for genomics, audio, and long-document tasks where sequences routinely exceed tens of thousands of tokens. State-space models like S4 offer linear-time alternatives, but prior SSMs apply a fixed linear recurrence to every input:
 
-Transformers have quadratic attention cost in sequence length. State-space models (SSMs) like S4 run in linear time but underperform transformers on tasks requiring selective recall, because they apply a fixed linear recurrence to every token. Mamba introduces **selective state spaces**: the recurrence parameters are made input-dependent, letting the model decide what to remember and what to forget at each step, like attention but at linear cost.
+\[h_t = \bar{A} h_{t-1} + \bar{B} x_t, \quad y_t = C h_t\]
 
-## State-space model basics
+When \(\bar{A}\), \(\bar{B}\), and \(C\) are time-invariant the model cannot choose to ignore irrelevant tokens. It writes everything into hidden state with equal weight, which causes it to underperform transformers on tasks requiring selective recall of specific past information.
 
-A linear SSM maps an input sequence x(t) to an output y(t) through a hidden state h(t):
+## Selective state spaces
 
-```
-h'(t) = A · h(t) + B · x(t)     ← state update
-y(t)  = C · h(t)                 ← output projection
-```
-
-Discretized for sequences:
-
-```
-h_t = Ā · h_{t-1} + B̄ · x_t
-y_t = C · h_t
-```
-
-In standard SSMs, A, B, C are fixed (time-invariant). Mamba makes B and C functions of the current input:
-
-```
-B_t = Linear(x_t)
-C_t = Linear(x_t)
-```
-
-This **selectivity** lets the model filter irrelevant tokens (set B_t ≈ 0 to not write them to state) and selectively read from state (adjust C_t based on what the current query needs).
+Mamba's core innovation is making \(B\) and \(C\) input-dependent: \(B_t = \text{Linear}(x_t)\), \(C_t = \text{Linear}(x_t)\). This selectivity lets the model gate what information to write into state and what to read from state at each step, based on the content of the current input. The mechanism resembles a continuous relaxation of LSTM gating but without the quadratic attention cost. For a factual recall task, the model needs to remember relevant tokens and suppress filler. A time-invariant SSM cannot do this. A selective SSM can set \(B_t \approx 0\) for irrelevant tokens, effectively skipping them, while retaining salient information across arbitrarily long contexts.
 
 ## Hardware-aware parallel scan
 
-Making B and C input-dependent breaks the time-invariant convolution that made SSMs trainable efficiently with FFTs. Mamba replaces it with a **parallel scan algorithm** implemented in a custom CUDA kernel that avoids materializing the full sequence in HBM (GPU high-bandwidth memory), running the recurrence in SRAM:
-
-```
-Training:  parallel scan  →  fast, like a convolutional model
-Inference: sequential recurrence  →  O(1) per step, like an RNN
-```
+Making B and C input-dependent breaks the time-invariant convolution that made prior SSMs fast to train. Mamba replaces the convolution with a parallel scan algorithm implemented in a custom CUDA kernel. The key insight is that the recurrence can be computed without materializing the full state sequence in high-bandwidth memory. Instead the kernel performs the recurrence entirely in SRAM, which is orders of magnitude faster to access. The result is a model that trains with parallel efficiency comparable to convolution and runs autoregressively at O(1) memory and compute per step at inference.
 
 ## Results and impact
 
-Mamba matches or outperforms transformers of comparable size on language modeling, DNA modeling, and audio benchmarks, with 5x higher throughput at 2k sequence length. It sparked significant research into SSM-transformer hybrid architectures (Mamba-2, Jamba) and demonstrated that state-space models are a practical alternative to attention for long sequences.
+Mamba matches or outperforms transformers of comparable parameter count on language modeling, DNA sequence modeling, and audio benchmarks, with 5x higher inference throughput at 2k sequence length. The work demonstrated that SSMs are a practical alternative to attention rather than a theoretical curiosity. It directly sparked research into hybrid architectures combining Mamba blocks with attention layers, including Mamba-2 and Jamba, and renewed interest in linear-time sequence models across the research community.

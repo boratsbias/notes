@@ -4,33 +4,22 @@
 **Area:** Deep Learning, Model Compression
 **Link:** [arXiv](https://arxiv.org/abs/1503.02531)
 
-## What the paper argues
+## The problem with training small models directly
 
-Training a small model directly on one-hot labels discards information the large model has learned. A well-trained classifier's output distribution over wrong classes encodes structure: "cat" is more similar to "dog" than to "car". This is **dark knowledge**. The paper argues that training a small student model to match the soft probability outputs of a large teacher model transfers this structure and produces a better small model.
+Large ensemble models achieve the best accuracy but are too expensive to deploy. The obvious solution is to train a smaller model directly on the same data. The problem is that the training labels are one-hot vectors: they assign probability 1 to the correct class and 0 to everything else. A one-hot label tells the student model nothing about which wrong answers are similar to the right answer. A well-trained large model's output distribution over all classes contains that structure: it assigns a small but meaningful probability to "dog" when the true answer is "cat," and a much smaller probability to "car." This information about inter-class similarity is what Hinton calls dark knowledge, and it is discarded entirely when training from hard labels alone.
 
-## Soft targets and temperature
+## Temperature scaling and soft targets
 
-Hard label:   [0, 0, 1, 0, 0, ...]   (no information about wrong classes)
+The mechanism for transferring dark knowledge is temperature scaling applied before the softmax:
 
-Soft target:  [0.01, 0.10, 0.85, 0.03, 0.01, ...]   (encodes similarity structure)
+\[ p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)} \]
 
-To amplify the soft signal from low-probability classes, a **temperature T** is applied before the softmax:
+At T = 1 this is the standard softmax. At T > 1 the distribution becomes softer, amplifying the small probabilities assigned to wrong classes and making the similarity structure more visible to the student. The student is trained at high temperature to match the teacher's high-temperature output distribution. At inference time, T returns to 1. The combined training loss mixes a soft target term (KL divergence between student and teacher at high T) with a hard label term (cross-entropy against ground truth). The soft target loss is scaled by T² to compensate for the reduction in gradient magnitude caused by the softened distribution.
 
-```
-p_i = exp(z_i / T) / Σ_j exp(z_j / T)
-```
+## Specialist models
 
-At T=1: standard softmax. At T>1: distribution is softer, rare class probabilities are more visible. Student is trained at temperature T to match the teacher's distribution also computed at T. After training, T is set back to 1 for inference.
-
-## The training objective
-
-```
-L = α · L_CE(student_hard, true_labels)
-  + (1-α) · T² · L_CE(student_soft, teacher_soft)
-```
-
-The T² factor compensates for the gradient magnitude being T² times smaller at high temperature. Typical α = 0.1 (emphasize soft targets).
+For large-scale classification with many classes, Hinton et al. also introduce specialist models: small networks trained specifically on subsets of classes that the general ensemble confuses most. At inference time, specialists handle the examples that fall in their confusion cluster, while the general model handles the rest. This allows a collection of small models to collectively match ensemble performance.
 
 ## Results and impact
 
-Distillation produced small models retaining most ensemble performance at a fraction of inference cost. The technique is used in training DistilBERT, TinyBERT, and most production model compression pipelines. The idea of soft targets as richer training signal than one-hot labels influenced training methodology broadly.
+Distillation consistently produces small models that substantially outperform the same architectures trained from scratch on hard labels. The technique became the standard approach to model compression and is used in DistilBERT, TinyBERT, and most production model compression pipelines deployed today.

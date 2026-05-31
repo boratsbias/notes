@@ -4,34 +4,28 @@
 **Area:** Deep Learning, Optimization
 **Link:** [AISTATS](https://proceedings.mlr.press/v9/glorot10a.html)
 
-## What the paper argues
+## The root cause of training failure
 
-Deep networks were known to be hard to train but the reason was not well understood. This paper traces the problem to poor weight initialization combined with saturating activations. It shows empirically that gradients vanish in early layers with standard initialization and derives a principled fix.
+Deep networks were known to be hard to train but the mechanism was not well understood. This paper traces the problem experimentally and analytically to the combination of poor weight initialization and saturating activation functions. It shows that with standard initialization, gradient magnitudes shrink exponentially as they propagate back through layers, leaving early layers with essentially no learning signal.
 
 ## Why gradients vanish
 
-During backpropagation, gradients are multiplied by weight matrices and activation derivatives at every layer. With sigmoid activations, the derivative is at most 0.25. With n layers and weights initialized naively:
-
-```
-gradient magnitude ∝ (W · σ'(z))ⁿ  →  shrinks exponentially with depth
-```
-
-By the time the gradient reaches the first layer it is essentially zero. That layer learns nothing.
+Backpropagation multiplies gradients by the weight matrix and the activation derivative at every layer. The sigmoid derivative peaks at 0.25, so with n layers of sigmoid activations and naive initialization, the gradient magnitude shrinks by at least a factor of 0.25 at each step backward through the network. After ten layers, the gradient reaching the earliest weights is negligible. The paper demonstrates this empirically by measuring activation variance and gradient variance layer by layer during training, showing the signal collapses in early layers almost immediately.
 
 ## Xavier initialization
 
-The paper derives a condition on weight variance that keeps gradient magnitude approximately constant across layers. For a layer with n_in inputs and n_out outputs:
+The paper derives a condition on weight variance that keeps activation variance approximately constant as signals flow forward and backward through the network. For a layer with n_in inputs and n_out outputs:
 
 ```
 Var(W) = 2 / (n_in + n_out)
 ```
 
-This is now called Xavier (or Glorot) initialization. It is the default in most frameworks today for layers with tanh or sigmoid activations. For ReLU layers, He initialization uses `2 / n_in` instead.
+This averages the constraint from the forward pass (which depends on n_in) and the backward pass (which depends on n_out). Weights are drawn from a uniform or normal distribution scaled to this variance. The goal is to prevent both explosion and vanishing at any layer depth.
 
 ## Sigmoid vs tanh
 
-Sigmoid outputs are in (0, 1), so they are not zero-centered. This means gradients flowing through a sigmoid layer are always the same sign, causing zig-zagging updates. Tanh outputs are in (-1, 1) and are zero-centered, which avoids this. The paper recommends tanh over sigmoid for deep networks and was a step toward the adoption of ReLU, which avoids saturation entirely.
+Sigmoid outputs lie in (0, 1) and are not zero-centered. Gradients flowing through a sigmoid layer always carry the same sign, forcing all weight updates in a layer to simultaneously be either all positive or all negative. This zig-zagging pattern slows learning. Tanh outputs lie in (−1, 1) and are zero-centered, allowing updates in both directions within a single step. The paper recommends tanh over sigmoid for deep networks and the saturation analysis directly motivated the adoption of ReLU, which has no saturation region for positive inputs.
 
 ## Results and impact
 
-Xavier initialization became standard across deep learning and is built into PyTorch, TensorFlow, and Keras as the default. The analysis of activation saturation directly motivated the design of ReLU and its variants.
+Xavier initialization became the default in PyTorch, TensorFlow, and Keras for layers with tanh or sigmoid activations. The analysis of how saturation compounds with depth directly motivated He initialization for ReLU layers, which uses Var(W) = 2/n_in to account for the half-rectified output distribution.

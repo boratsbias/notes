@@ -4,36 +4,24 @@
 **Area:** Natural Language Processing, Sentence Embeddings
 **Link:** [arXiv](https://arxiv.org/abs/1908.10084)
 
-## What the paper argues
+## The BERT semantic similarity problem
 
-Computing semantic similarity with BERT requires feeding both sentences through the model together, which is O(n²) for a corpus of n sentences. Comparing 10,000 sentences against each other requires ~50 million BERT inference passes. SentenceBERT fine-tunes BERT with a siamese structure so each sentence can be encoded independently to a fixed vector, reducing similarity search to a dot product.
+BERT computes semantic similarity by feeding both sentences together through the same forward pass and reading off the [CLS] token. This is accurate but quadratically expensive: comparing all pairs in a corpus of n sentences requires n² forward passes. For 10,000 sentences that takes roughly 65 hours on a modern GPU, making BERT unusable for semantic search, clustering, or any task that requires comparing a query to a large corpus at runtime. The fix is to pre-compute a fixed vector for each sentence independently, then reduce similarity to a fast cosine computation.
 
-## Siamese architecture
+## Siamese architecture and training
 
-```
-Sentence A  →  BERT  →  mean pool over tokens  →  embedding u
-Sentence B  →  BERT  →  mean pool over tokens  →  embedding v
-                                                        ↓
-                        softmax(W · concat(u, v, |u-v|))  →  NLI label
-```
+SentenceBERT fine-tunes BERT with a siamese network structure. Both sentences pass through the same shared BERT encoder independently. The token embeddings from each sentence are mean-pooled into a single fixed-size vector. During training on natural language inference data, a classification head takes the concatenation of the two sentence vectors along with their element-wise difference and predicts entailment, neutral, or contradiction. After training, the encoder has learned to place semantically similar sentences close together in embedding space.
 
-Both branches share the same BERT weights. The model is fine-tuned on NLI data (entailment, neutral, contradiction) so that:
-- entailment pairs → embeddings are close in cosine space
-- contradiction pairs → embeddings are far apart
+For datasets where graded similarity scores are available rather than NLI labels, SentenceBERT is trained with a triplet loss that directly optimizes distances in the embedding space:
 
-A triplet loss variant pulls anchors toward positives and pushes them from negatives directly in embedding space.
+\[ L = \max(\|s_a - s_p\| - \|s_a - s_n\| + \varepsilon,\ 0) \]
 
-## Semantic search at scale
+Here, the anchor sentence is pulled toward the positive and pushed away from the negative, with a margin epsilon. Mean pooling over all token positions outperforms using the [CLS] token alone because it captures information from every word rather than relying on a single learned summary token.
 
-After training, encode the entire corpus once and store embeddings. At query time, encode the query and run approximate nearest neighbor search:
+## Semantic search after training
 
-```
-offline:  embed all N docs once  →  store in vector index (FAISS, etc.)
-online:   embed query (1 BERT pass)  →  cosine search in index  →  top-k results
-```
-
-This reduces per-query cost from O(N) BERT passes to O(1) BERT pass + fast vector search.
+Once fine-tuned, the corpus is encoded once offline and stored in a vector index. At query time, the query is encoded in a single forward pass and the nearest neighbors are retrieved with approximate nearest neighbor search. The 65-hour pairwise comparison shrinks to under 5 seconds.
 
 ## Results and impact
 
-SentenceBERT dramatically outperformed previous sentence embedding methods on STS benchmarks and reduced computation for 10,000-sentence comparisons from 65 hours to 5 seconds. It became the foundation of the sentence-transformers library, which underpins most production semantic search systems today.
+SentenceBERT achieved state-of-the-art results on STS benchmarks while reducing comparison time by five orders of magnitude. It became the foundation of the sentence-transformers library and underlies most production semantic search, duplicate detection, and clustering systems in use today.

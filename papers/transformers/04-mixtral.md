@@ -1,31 +1,25 @@
-# Mixtral of Experts (2024)
+---
+title: "Mixtral of Experts"
+authors: "Mistral AI"
+year: 2024
+area: "Large Language Models, Mixture of Experts"
+link: "https://arxiv.org/abs/2401.04088"
+---
 
-**Authors:** Mistral AI
-**Area:** Large Language Models, Mixture of Experts
-**Link:** [arXiv](https://arxiv.org/abs/2401.04088)
+## Parameter-compute decoupling
 
-## What the paper argues
+Dense language models couple parameter count and compute inseparably: more parameters mean more computation per token. Mixture-of-experts architectures break this coupling. Mixtral 8x7B has 46.7B total parameters, but only 12.9B parameters are activated per token during inference. The remaining parameters belong to expert networks that the current token's gating decision did not select. This means the model thinks at 13B-scale compute while storing 47B-scale knowledge, a favorable trade-off for both quality and speed.
 
-Scaling a dense language model increases inference cost proportionally. Mixtral shows that replacing each feed-forward layer with a sparse mixture of 8 experts, where each token only activates 2, gives a 46.7B parameter model that uses only 12.9B parameters per forward pass. More capacity, same compute.
+## Expert routing mechanism
 
-## Sparse expert routing
+Each transformer block in Mixtral replaces the standard feed-forward network with eight parallel expert FFN networks. A gating network computes a score for each of the eight experts, selects the top two, and routes the token to those two experts. The output for that token is a weighted sum of the two experts' outputs, where the weights come from the softmax-normalized gate scores. The gating decision is made independently for each token at each layer, so the same token may be routed to different expert pairs at different layers.
 
-In each transformer block, the feed-forward sublayer is replaced by 8 expert FFN networks. A gating network selects top-2 experts per token:
-
-```
-Token hidden state  →  gating network  →  softmax scores over 8 experts
-                                                    ↓
-                                   select top-2 experts by score
-                                                    ↓
-         output = score_1 · Expert_1(x) + score_2 · Expert_2(x)
-```
-
-The 6 unselected experts do no computation for that token. Across a batch, different tokens route to different experts. Load-balancing auxiliary loss penalizes uneven expert utilization during training.
+Specialization emerges without explicit supervision. Analysis of routing decisions shows that certain experts handle specific domains or syntactic roles more frequently than others, though the assignment is soft and statistical rather than hard.
 
 ## Sliding window attention
 
-Mixtral also uses sliding window attention: each token attends to at most W previous tokens rather than all previous tokens. This reduces attention memory from O(n²) to O(n · W). At 4096 window size, a 32k context is processed at a fraction of full-attention cost.
+Mixtral uses sliding window attention in place of full self-attention. Each token attends to at most a fixed window of previous tokens rather than the entire sequence. This reduces attention memory from O(n²) to O(n times W), where W is the window size, allowing the model to handle longer sequences efficiently. The effective receptive field extends beyond the window through stacked layers, since information from earlier tokens propagates forward through the sequence over multiple transformer blocks.
 
 ## Results and impact
 
-Mixtral 8x7B outperforms LLaMA 2 70B and GPT-3.5 on most benchmarks while running 6x faster at inference. Mistral released the weights publicly, making it one of the most capable open-weight models at the time and demonstrating that MoE is practically viable at 7B-equivalent compute cost.
+Mixtral 8x7B outperforms LLaMA 2 70B on most benchmarks and matches or exceeds GPT-3.5 on standard evaluation suites, despite activating less than a third of GPT-3.5's estimated active parameter count per token. Mistral released the weights publicly under an open license, making Mixtral the first high-quality open-weight MoE model at this scale. The release demonstrated that mixture-of-experts is practically viable at the 7B-equivalent compute point, not just at frontier scale, and sparked a wave of subsequent open-weight MoE work.

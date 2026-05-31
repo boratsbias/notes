@@ -1,39 +1,31 @@
-# Auto-Encoding Variational Bayes (VAE) (2013)
+---
+title: "Auto-Encoding Variational Bayes (VAE)"
+year: 2013
+authors: Diederik P. Kingma, Max Welling
+area: Deep Learning, Generative Models
+link: https://arxiv.org/abs/1312.6114
+---
 
-**Authors:** Diederik P. Kingma, Max Welling
-**Area:** Deep Learning, Generative Models
-**Link:** [arXiv](https://arxiv.org/abs/1312.6114)
+## The generative modeling problem
 
-## What the paper argues
+Learning a generative model over high-dimensional data like images requires computing the marginal likelihood p(x) = ∫ p(x|z) p(z) dz. This integral is intractable because it sums over all possible latent configurations z. Exact inference is impossible for all but trivial distributions, and naive Monte Carlo estimation is too expensive. The VAE addresses this by approximating the true posterior p(z|x) with a learned encoder network, then optimizing a tractable lower bound on log p(x).
 
-Learning a generative model over high-dimensional data (images, text) requires computing intractable integrals over latent variables. VAE introduces a neural network encoder that approximates the otherwise intractable posterior, jointly trained with a decoder using a variational lower bound. The result is a generative model with a smooth, continuous latent space that can be sampled and interpolated.
+## The ELBO and what it contains
 
-## Architecture
+The core contribution is the Evidence Lower BOund (ELBO), which the model maximizes:
 
-```
-Input x
-  ↓
-Encoder q_φ(z|x)  →  outputs μ and σ (not a single point, a distribution)
-  ↓
-Sample z ~ N(μ, σ²)   using reparameterization trick: z = μ + σ · ε, ε ~ N(0,1)
-  ↓
-Decoder p_θ(x|z)  →  reconstructs x from z
-```
+ELBO = E_{q(z|x)}[log p(x|z)] - KL(q(z|x) || p(z))
 
-The **reparameterization trick** is the key technical contribution: by expressing z = μ + σ·ε with ε ~ N(0,1), the sampling operation moves outside the computation graph and gradients can flow back through μ and σ to the encoder.
+The first term is the reconstruction objective: sample a latent code z from the encoder's distribution q_φ(z|x), pass it through the decoder p_θ(x|z), and measure how well the decoder reproduces the original input x. The second term is a KL divergence that regularizes the encoder's approximate posterior toward the standard Gaussian prior N(0, I). Without this term, the encoder would learn to map each input to a narrow spike in latent space, making the space useless for sampling because arbitrary z values would land in empty, unlearned regions.
 
-## The ELBO objective
+## The reparameterization trick
 
-Training maximizes the Evidence Lower BOund (ELBO):
+Sampling z from q(z|x) is non-differentiable, so gradients cannot flow back through the sampling step to the encoder parameters. The reparameterization trick resolves this by writing z = μ + σ · ε where ε ~ N(0, 1). The stochasticity moves into ε, which has no learned parameters, while μ and σ are deterministic outputs of the encoder. Gradients can now flow through μ and σ normally, making the entire model trainable end-to-end with standard backpropagation.
 
-```
-ELBO = E_{q(z|x)}[log p(x|z)]  -  KL(q(z|x) || p(z))
-        ─────────────────────     ──────────────────────
-         reconstruction loss        regularization term
-```
+## Latent space structure and applications
 
-The reconstruction loss pushes the decoder to reproduce the input. The KL term pulls the encoder's posterior toward the standard Gaussian prior N(0,I), making the latent space smooth and compact so that arbitrary z samples decode into plausible outputs.
+After training, the KL term forces the encoder to produce posteriors that overlap with N(0, I), which makes the latent space smooth and continuous. Interpolating linearly between two latent codes produces semantically intermediate outputs. Sampling a random z decodes into a plausible data point. These properties enable interpolation between data points, latent arithmetic, and anomaly detection by measuring reconstruction error plus KL divergence for out-of-distribution inputs. Stable Diffusion uses a VAE to compress 512×512 images into a 4×64×64 latent space before running the diffusion process, reducing compute by roughly 48x compared to operating in pixel space.
 
 ## Results and impact
 
-VAEs produce a smooth interpolable latent space: points between two latent codes decode to sensible intermediate images. Became a foundational generative model used for representation learning, anomaly detection, and as a component in diffusion models (Stable Diffusion encodes images into a VAE latent space before running the diffusion process).
+The VAE established variational inference as a practical tool for deep generative modeling. The reparameterization trick became a standard component for training any latent variable model with continuous latent codes. The ELBO formulation directly influenced subsequent work including conditional VAEs, hierarchical VAEs, and VQ-VAE. The framework remains foundational to the latent diffusion architecture that underlies most production image generation systems.

@@ -2,39 +2,24 @@
 
 **Authors:** Jan Peters, Stefan Schaal
 **Area:** Reinforcement Learning, Robotics
-**Link:** [Autonomous Robots](https://link.springer.com/article/10.1007/s10514-008-9109-9)
+**Link:** [Springer](https://link.springer.com/article/10.1007/s10514-008-9109-9)
 
-## What the paper argues
+## Why robotics is a hard RL setting
 
-Robotics has unique RL requirements: continuous high-dimensional action spaces, expensive hardware exploration, and strict sample efficiency constraints. Standard policy gradient methods work in theory but struggle in practice on physical systems. This survey unifies the literature under a common framework and argues that **natural policy gradients** are particularly well-suited to robotics.
+Standard RL benchmarks run in simulation at millions of steps per second. Physical robots cannot. Each interaction with hardware is slow, potentially damaging, and irreversible. This makes sample efficiency a hard constraint rather than a performance metric: a method that requires a million environment interactions to converge is simply not usable on a robot arm. Beyond sample count, robotics introduces continuous high-dimensional action spaces (joint torques, velocities), strict real-time control requirements, and dynamics that are difficult to model accurately. These constraints make it inadequate to import algorithms designed for Atari games directly. The survey reviews which policy gradient variants are actually viable under these constraints and why.
 
-## Taxonomy of policy gradient methods
+## Likelihood ratio vs. perturbation vs. natural gradient methods
 
-```
-Likelihood ratio methods:   estimate gradient from reward without environment model
-                            (REINFORCE, actor-critic)
+Likelihood ratio methods, including REINFORCE, estimate the gradient by differentiating the log probability of the trajectory, avoiding any model of dynamics. They are unbiased but high variance. Perturbation methods estimate the gradient by directly measuring how small parameter changes affect return, which works well in low-dimensional parameter spaces but scales poorly. Natural gradient methods are the paper's primary contribution to practice. Standard gradient ascent treats all parameter directions as equivalent, but equal steps in parameter space can produce very different changes in the policy distribution. The Fisher information matrix F captures this local geometry of the distribution manifold. The natural gradient direction is F^{-1} · ∇J, which moves in the steepest ascent direction in distribution space rather than parameter space, producing updates that are invariant to the parameterization of the policy. This leads to more consistent improvements per sample, which is the central requirement for hardware RL.
 
-Perturbation-based methods: estimate gradient by directly perturbing policy parameters
-                            (finite differences, evolution strategies)
+## Dynamic Movement Primitives as robot policy representations
 
-Natural gradient methods:   correct for parameter space geometry
-                            (considers the distribution of policies, not just parameters)
-```
+Rather than parameterizing policies as neural networks, the survey advocates Dynamic Movement Primitives (DMPs): movements encoded as learned differential equations that produce smooth, stable trajectories suitable for motor control. DMPs can be initialized from human demonstrations, greatly reducing the number of RL iterations needed to reach a good solution. This combination of imitation-based initialization with natural gradient refinement defines the practical methodology the paper recommends. The compatible function approximation framework is also covered, which ensures the critic's gradient estimate is aligned with the actor's parameterization so that the critic does not introduce systematic bias into the policy update.
 
-## Natural policy gradient
+## Sample efficiency and the case for natural gradients
 
-Standard gradient ascent treats all parameter directions equally. But equal steps in parameter space can produce very different changes in the policy distribution. The natural gradient pre-multiplies by the inverse Fisher information matrix F:
-
-```
-θ ← θ + α · F^{-1} · ∇_θ J(θ)
-```
-
-F measures the local curvature of the distribution manifold. The natural gradient moves in the direction of steepest ascent in distribution space, producing more consistent policy improvements regardless of parameterization. In practice, computing F^{-1} exactly is expensive; TRPO approximates it with a conjugate gradient solver.
-
-## Policy representations for robotics
-
-The survey discusses **Dynamic Movement Primitives (DMPs)**: policies encoded as learned differential equations rather than neural networks. DMPs produce smooth trajectories suitable for motor control and can be adapted from demonstrations.
+The Fisher matrix is n × n where n is the number of policy parameters, making direct inversion expensive for large networks. The survey identifies this as a practical bottleneck and discusses approximate methods. The insight that natural gradients outperform vanilla gradients in terms of samples-per-improvement directly motivated the design of TRPO, which found a way to approximately apply the natural gradient direction using conjugate gradient methods without ever constructing F explicitly.
 
 ## Results and impact
 
-The survey became a standard reference for applying RL to physical systems. It identified natural gradients as particularly promising, which directly influenced TRPO and the subsequent RL for robotics literature.
+The survey established natural policy gradients as the appropriate class of methods for physical robot learning and gave practitioners a structured comparison of the trade-offs between likelihood ratio, perturbation, and natural gradient approaches. It remains a standard reference for applying RL to physical systems and is directly credited as an influence on TRPO's design. The identification of sample efficiency as the primary axis for evaluating robotics RL algorithms shaped how subsequent hardware-learning papers framed their contributions.

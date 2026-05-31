@@ -6,33 +6,20 @@
 
 ## What the paper argues
 
-Backpropagation computes the correct gradients but using it naively leads to slow and unstable training. This paper is a practical guide to making backpropagation work: normalize inputs, choose good initial weights, select an appropriate learning rate, and understand the geometry of the loss surface.
+Backpropagation computes the correct gradients, but using it naively produces slow, unstable training. This 1998 chapter is a practitioner's guide to making backpropagation actually work in practice. It covers input normalization, weight initialization, learning rate selection, and the geometry of the loss surface, and most of its recommendations became standard defaults in modern frameworks decades later.
 
 ## Input normalization
 
-Raw features with different scales produce an ill-conditioned loss landscape. Gradient descent on elongated contours zig-zags rather than going straight to the minimum. Normalization fixes this:
-
-```
-Before:  x ranges [0, 255]   →   loss contours are stretched ellipses
-After:   x ~ N(0, 1)         →   loss contours are closer to circles
-```
-
-Each input feature should have zero mean and unit variance across the training set. This is one of the highest-leverage changes you can make to a training pipeline.
+Raw features with different scales create an ill-conditioned loss landscape. Gradient descent on elongated loss contours zig-zags rather than descending efficiently, wasting many update steps on oscillation. Normalizing each input feature to zero mean and unit variance across the training set makes the loss surface more isotropic and gradient descent substantially more efficient. The paper identifies this as one of the highest-leverage changes available before any architectural modifications. The same logic extends to the inputs of each hidden layer, prefiguring batch normalization.
 
 ## Weight initialization
 
-Weights too small: gradients vanish through layers. Weights too large: activations saturate. The paper recommends scaling initial weights by the inverse square root of the number of inputs to each neuron:
+Weights initialized too small cause gradients to vanish as each backward pass multiplies them through another layer. Weights initialized too large drive activations into the saturation regions of sigmoid and tanh, where derivatives collapse to near zero and gradients stop flowing. The practical rule is to scale initial weights by the inverse square root of the number of inputs to each neuron, keeping activation variance roughly constant across layers. This prefigures the Xavier initialization derived more formally by Glorot and Bengio in 2010.
 
-```
-W ~ Uniform(-1/√n_in, +1/√n_in)
-```
+## Learning rate and second-order methods
 
-This keeps the variance of activations roughly constant across layers, prefiguring the Xavier initialization derived more formally later.
-
-## Learning rate selection
-
-The optimal learning rate is related to the curvature of the loss (the Hessian). The paper discusses using diagonal approximations of the Hessian to set per-parameter learning rates, a precursor to adaptive optimizers. A practical heuristic: start with a small rate, increase it until loss starts oscillating, then back off slightly.
+The optimal learning rate for any parameter is inversely related to the local curvature of the loss, described by the Hessian. The paper discusses using the diagonal of the Hessian as a per-parameter preconditioner, giving each weight an individual effective rate proportional to inverse curvature. This is a conceptual precursor to Adagrad and Adam, which approximate the same idea using running gradient statistics rather than explicit curvature computation. The paper also recommends stochastic over batch training, since noisy gradient estimates can help escape sharp minima and make each training epoch carry more independent information.
 
 ## Results and impact
 
-The practical recommendations in this paper, input standardization, careful initialization, and learning rate scheduling, are now basic practice built into every deep learning framework and training tutorial.
+Input standardization, careful weight scaling, and learning rate scheduling are now built into every deep learning framework and every standard training tutorial. This paper laid the conceptual groundwork for both modern initialization strategies and adaptive optimizers.

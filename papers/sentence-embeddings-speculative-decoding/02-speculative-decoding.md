@@ -4,35 +4,24 @@
 **Area:** Natural Language Processing, Inference Optimization
 **Link:** [arXiv](https://arxiv.org/abs/2211.17192)
 
-## What the paper argues
+## Why autoregressive inference is slow
 
-Autoregressive LLM decoding is memory-bandwidth bound: each forward pass of a large model produces exactly one token, and the GPU spends most time moving model weights from HBM to compute units. A single forward pass over k tokens in parallel is barely more expensive than a single-token pass. Speculative decoding exploits this: a small cheap model proposes k candidate tokens, then the large model verifies all k in one parallel pass. If the candidates are good, k tokens are produced for roughly the cost of one large model forward pass.
+Generating text with a large language model is memory-bandwidth bound, not compute bound. Each forward pass loads all model weights from high-bandwidth memory to compute units to produce exactly one token. The GPU's arithmetic units are mostly idle during this transfer. The bottleneck is not the computation itself but the cost of moving billions of parameters across the memory bus on every single step. Speculative decoding attacks this bottleneck directly.
 
 ## The draft-verify algorithm
 
-```
-Step 1 (draft):   small model generates tokens t_1, t_2, ..., t_k autoregressively
-Step 2 (verify):  large model runs one forward pass over all k+1 positions in parallel
+The key insight is that a single forward pass over k tokens in parallel costs only slightly more than a single-token pass, because the memory transfer of weights dominates. If a cheap draft model can propose k plausible tokens, the large model can verify all k simultaneously in one forward pass. The algorithm works as follows. A small draft model generates k candidate tokens autoregressively. The large model then runs a single forward pass over the k+1 positions (original context plus k drafts) and computes its own probability distribution at each position. Starting from position 1, token i is accepted if the large model's distribution agrees with the draft to within a threshold; otherwise the first disagreement is found, the token is resampled from a corrected distribution, and all subsequent draft tokens are discarded. This procedure is provably lossless: the output distribution is identical to running the large model alone token by token.
 
-For each position i:
-  - if large_model agrees with draft token:  accept t_i, move to i+1
-  - if large_model disagrees:               reject, sample from corrected distribution, stop
+The expected number of tokens generated per large-model forward pass depends on the average acceptance rate alpha and the number of draft tokens k:
 
-Accepted tokens are emitted. Restart from the last accepted position.
-```
+\[ \mathbb{E}[\text{tokens per step}] = \frac{1 - \alpha^k}{1 - \alpha} \]
 
-The output distribution is provably identical to the large model's distribution. Speculative decoding is lossless: it changes speed, not quality.
+At alpha = 0.8 and k = 5, this yields roughly 3.4 tokens per step instead of 1.
 
-## When it helps
+## When it helps and when it does not
 
-Speedup depends on the draft acceptance rate α (fraction of draft tokens the large model agrees with). If α is high (predictable, templated outputs), many tokens are accepted per verification pass. If α is low (creative, diverse outputs), few tokens are accepted and overhead is wasted.
-
-```
-Expected tokens per step ≈ (1 - αᵏ) / (1 - α)
-```
-
-For α = 0.8 and k = 5, expected tokens per step ≈ 3.4 instead of 1.
+Speculative decoding works best when outputs are predictable and templated, such as code generation, summarization of structured documents, and repetitive formatting tasks. It works poorly when outputs are highly creative or diverse, because a low acceptance rate means the large model rejects most drafts and the overhead of running the draft model adds latency without benefit. Performance also depends on the draft and target models being from the same family so that the draft's token distribution is well-aligned with the target's.
 
 ## Results and impact
 
-2-3x speedup on code generation and summarization with no change in output distribution. Adopted in production inference systems at Google and implemented in vLLM, llama.cpp, and HuggingFace TGI. Motivated follow-up work on self-speculative decoding and tree-based speculative approaches.
+Speculative decoding achieves 2 to 3 times speedup on code generation and summarization benchmarks with no change in output quality. It has been adopted in vLLM, llama.cpp, HuggingFace TGI, and Google production inference systems, making it one of the most widely deployed inference optimizations in practice.
