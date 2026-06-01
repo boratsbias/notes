@@ -16,7 +16,7 @@ $$
 L^\text{CLIP}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\cdot A_t,\; \text{clip}(r_t(\theta), 1-\varepsilon, 1+\varepsilon)\cdot A_t\right)\right]
 $$
 
-where r_t(θ) = π_θ(a_t|s_t) / π_old(a_t|s_t) is the importance ratio between the current and old policy. The clipping works asymmetrically based on the sign of the advantage. When A_t > 0, the action was better than expected and the policy wants to increase its probability. The min prevents r_t from growing beyond 1 + ε, stopping the policy from claiming excessive credit. When A_t < 0, the action was worse than expected and the policy wants to decrease its probability. The clip prevents r_t from falling below 1 - ε, stopping the policy from moving too far away from the action it took. Both cases limit the policy shift without requiring a KL computation or a constrained solver. A typical value of ε is 0.2.
+where $r_t(\theta) = \pi_\theta(a_t \mid s_t) / \pi_\text{old}(a_t \mid s_t)$ is the importance ratio between the current and old policy. The clipping works asymmetrically based on the sign of the advantage. When $A_t > 0$, the action was better than expected and the policy wants to increase its probability. The min prevents $r_t$ from growing beyond $1 + \varepsilon$, stopping the policy from claiming excessive credit. When $A_t < 0$, the action was worse than expected and the policy wants to decrease its probability. The clip prevents $r_t$ from falling below $1 - \varepsilon$, stopping the policy from moving too far away from the action it took. Both cases limit the policy shift without requiring a KL computation or a constrained solver. A typical value of $\varepsilon$ is 0.2.
 
 ## Multiple epochs per rollout and GAE
 

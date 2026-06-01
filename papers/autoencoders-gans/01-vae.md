@@ -14,13 +14,13 @@ Learning a generative model over high-dimensional data like images requires comp
 
 The core contribution is the Evidence Lower BOund (ELBO), which the model maximizes:
 
-ELBO = E_{q(z|x)}[log p(x|z)] - KL(q(z|x) || p(z))
+$$\text{ELBO} = \mathbb{E}_{q(z \mid x)}[\log p(x \mid z)] - \text{KL}(q(z \mid x) \,\|\, p(z))$$
 
-The first term is the reconstruction objective: sample a latent code z from the encoder's distribution q_φ(z|x), pass it through the decoder p_θ(x|z), and measure how well the decoder reproduces the original input x. The second term is a KL divergence that regularizes the encoder's approximate posterior toward the standard Gaussian prior N(0, I). Without this term, the encoder would learn to map each input to a narrow spike in latent space, making the space useless for sampling because arbitrary z values would land in empty, unlearned regions.
+The first term is the reconstruction objective: sample a latent code $z$ from the encoder's distribution $q_\phi(z \mid x)$, pass it through the decoder $p_\theta(x \mid z)$, and measure how well the decoder reproduces the original input $x$. The second term is a KL divergence that regularizes the encoder's approximate posterior toward the standard Gaussian prior $\mathcal{N}(0, I)$. Without this term, the encoder would learn to map each input to a narrow spike in latent space, making the space useless for sampling because arbitrary $z$ values would land in empty, unlearned regions.
 
 ## The reparameterization trick
 
-Sampling z from q(z|x) is non-differentiable, so gradients cannot flow back through the sampling step to the encoder parameters. The reparameterization trick resolves this by writing z = μ + σ · ε where ε ~ N(0, 1). The stochasticity moves into ε, which has no learned parameters, while μ and σ are deterministic outputs of the encoder. Gradients can now flow through μ and σ normally, making the entire model trainable end-to-end with standard backpropagation.
+Sampling $z$ from $q(z \mid x)$ is non-differentiable, so gradients cannot flow back through the sampling step to the encoder parameters. The reparameterization trick resolves this by writing $z = \mu + \sigma \cdot \varepsilon$ where $\varepsilon \sim \mathcal{N}(0, 1)$. The stochasticity moves into $\varepsilon$, which has no learned parameters, while $\mu$ and $\sigma$ are deterministic outputs of the encoder. Gradients can now flow through μ and σ normally, making the entire model trainable end-to-end with standard backpropagation.
 
 ## Latent space structure and applications
 

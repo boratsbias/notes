@@ -10,21 +10,19 @@ Q-learning and related methods estimate a value function and then derive a polic
 
 ## The policy gradient theorem
 
-Policy gradient methods bypass the value function entirely as a policy source by directly parameterizing the policy as π_θ(a|s) and optimizing the expected return J(θ) with respect to θ. The paper's core contribution is a clean formula for the gradient of J:
+Policy gradient methods bypass the value function entirely as a policy source by directly parameterizing the policy as $\pi_\theta(a \mid s)$ and optimizing the expected return $J(\theta)$ with respect to $\theta$. The paper's core contribution is a clean formula for the gradient of $J$:
 
-$$
-\nabla_\theta J(\theta) = \mathbb{E}_\pi\left[\nabla_\theta \log \pi_\theta(a|s) \cdot Q^\pi(s,a)\right]
-$$
+$$\nabla_\theta J(\theta) = \mathbb{E}_\pi\!\left[\nabla_\theta \log \pi_\theta(a \mid s) \cdot Q^\pi(s,a)\right]$$
 
-Here J(θ) is the expected cumulative return, ∇_θ log π_θ(a|s) is the score function measuring how a change in parameters shifts the log probability of the action taken, and Q^π(s, a) is the expected return starting from state s and taking action a under the current policy. The expectation is taken over trajectories sampled from π_θ, so no differentiation through environment dynamics is needed. The formula is tractable because it reduces to an average over rollouts.
+Here $J(\theta)$ is the expected cumulative return, $\nabla_\theta \log \pi_\theta(a \mid s)$ is the score function measuring how a change in parameters shifts the log probability of the action taken, and $Q^\pi(s, a)$ is the expected return starting from state $s$ and taking action $a$ under the current policy. The expectation is taken over trajectories sampled from $\pi_\theta$, so no differentiation through environment dynamics is needed. The formula is tractable because it reduces to an average over rollouts.
 
 ## REINFORCE and variance reduction
 
-The simplest implementation, REINFORCE, replaces Q^π(s, a) with the actual sampled return G_t collected from the trajectory. The update rule is θ += α · ∇_θ log π_θ(a_t|s_t) · G_t. This is unbiased but has extremely high variance because G_t accumulates stochastic rewards over many steps. Subtracting a baseline b(s) from G_t controls variance without introducing bias, since any function of state alone has zero expectation in the gradient expression. The state value function V(s) is the natural baseline because it represents the average return from that state, and the difference G_t - V(s) is the advantage: how much better the taken action was than average.
+The simplest implementation, REINFORCE, replaces $Q^\pi(s, a)$ with the actual sampled return $G_t$ collected from the trajectory. The update rule is $\theta \mathrel{+}= \alpha \cdot \nabla_\theta \log \pi_\theta(a_t \mid s_t) \cdot G_t$. This is unbiased but has extremely high variance because $G_t$ accumulates stochastic rewards over many steps. Subtracting a baseline $b(s)$ from $G_t$ controls variance without introducing bias, since any function of state alone has zero expectation in the gradient expression. The state value function $V(s)$ is the natural baseline because it represents the average return from that state, and the difference $G_t - V(s)$ is the advantage: how much better the taken action was than average.
 
 ## Actor-critic interpretation
 
-This baseline choice gives rise to the actor-critic architecture. The actor is the policy π_θ, updated using the policy gradient. The critic is a separate function approximator for V(s), used to estimate the advantage A(s, a) = Q^π(s, a) - V(s). The actor improves by following the direction that increases returns above what the critic predicts. The critic improves by minimizing prediction error against observed returns. The two components train in a loop, with the critic providing lower-variance gradient estimates to the actor.
+This baseline choice gives rise to the actor-critic architecture. The actor is the policy $\pi_\theta$, updated using the policy gradient. The critic is a separate function approximator for $V(s)$, used to estimate the advantage $A(s, a) = Q^\pi(s, a) - V(s)$. The actor improves by following the direction that increases returns above what the critic predicts. The critic improves by minimizing prediction error against observed returns. The two components train in a loop, with the critic providing lower-variance gradient estimates to the actor.
 
 ## Results and impact
 
