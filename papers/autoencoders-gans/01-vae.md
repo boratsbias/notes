@@ -8,7 +8,7 @@ link: https://arxiv.org/abs/1312.6114
 
 ## The generative modeling problem
 
-Learning a generative model over high-dimensional data like images requires computing the marginal likelihood p(x) = ∫ p(x|z) p(z) dz. This integral is intractable because it sums over all possible latent configurations z. Exact inference is impossible for all but trivial distributions, and naive Monte Carlo estimation is too expensive. The VAE addresses this by approximating the true posterior p(z|x) with a learned encoder network, then optimizing a tractable lower bound on log p(x).
+Learning a generative model over high-dimensional data like images requires computing the marginal likelihood $p(x) = \int p(x \mid z)\, p(z)\, dz$. This integral is intractable because it sums over all possible latent configurations $z$. Exact inference is impossible for all but trivial distributions, and naive Monte Carlo estimation is too expensive. The VAE addresses this by approximating the true posterior $p(z \mid x)$ with a learned encoder network, then optimizing a tractable lower bound on $\log p(x)$.
 
 ## The ELBO and what it contains
 

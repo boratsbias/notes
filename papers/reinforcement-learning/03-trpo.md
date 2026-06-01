@@ -20,7 +20,7 @@ $$
 \text{subject to} \quad \mathbb{E}_s\left[\text{KL}\left(\pi_\text{old}(\cdot|s) \,\|\, \pi_\theta(\cdot|s)\right)\right] \leq \delta
 $$
 
-The importance ratio π_θ / π_old corrects for the fact that the data was collected under the old policy, allowing the objective to be evaluated without additional rollouts. The KL constraint limits how far the new distribution can move from the old one in any single update. A typical value of δ is 0.01. This is small enough to keep the importance ratio well-conditioned and the surrogate objective a faithful proxy for the true objective.
+The importance ratio $\pi_\theta / \pi_\text{old}$ corrects for the fact that the data was collected under the old policy, allowing the objective to be evaluated without additional rollouts. The KL constraint limits how far the new distribution can move from the old one in any single update. A typical value of $\delta$ is 0.01. This is small enough to keep the importance ratio well-conditioned and the surrogate objective a faithful proxy for the true objective.
 
 ## Solving the constrained problem
 
@@ -28,7 +28,7 @@ Directly inverting the Fisher information matrix is infeasible for neural networ
 
 ## Monotonic improvement guarantee
 
-TRPO provides one of the few formal guarantees in deep RL: if the KL constraint is satisfied, the true expected return J(θ_new) is at least J(θ_old) minus a term that depends on the approximation error in the surrogate. In practice this means training is monotonically improving on the surrogate, with only minor deviations from monotonicity in the true objective due to finite-sample estimation. Locomotion tasks where vanilla policy gradient diverges show stable, consistent improvement curves under TRPO.
+TRPO provides one of the few formal guarantees in deep RL: if the KL constraint is satisfied, the true expected return $J(\theta_\text{new})$ is at least $J(\theta_\text{old})$ minus a term that depends on the approximation error in the surrogate. In practice this means training is monotonically improving on the surrogate, with only minor deviations from monotonicity in the true objective due to finite-sample estimation. Locomotion tasks where vanilla policy gradient diverges show stable, consistent improvement curves under TRPO.
 
 ## Results and impact
 
