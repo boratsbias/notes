@@ -14,9 +14,9 @@ Before GANs, generative models required either computing or approximating the in
 
 The core contribution is the minimax game:
 
-min_G max_D E_{x~p_data}[log D(x)] + E_{z~p(z)}[log(1 - D(G(z)))]
+$$\min_G \max_D \; \mathbb{E}_{x \sim p_\text{data}}[\log D(x)] + \mathbb{E}_{z \sim p(z)}[\log(1 - D(G(z)))]$$
 
-The generator G takes a noise vector z as input and produces a synthetic sample G(z). The discriminator D takes any sample and outputs the probability that it came from the real data distribution. D is trained to maximize its classification accuracy on both real and fake samples. G is trained to minimize D's ability to distinguish its outputs from real data. At the theoretical optimum, G's distribution exactly matches the data distribution and D outputs 0.5 everywhere, provably derived using optimal transport arguments. In practice, G is trained to maximize log D(G(z)) rather than minimize log(1 - D(G(z))), because the latter saturates and produces near-zero gradients early in training when D is confident that G's outputs are fake.
+The generator $G$ takes a noise vector $z$ as input and produces a synthetic sample $G(z)$. The discriminator $D$ takes any sample and outputs the probability that it came from the real data distribution. $D$ is trained to maximize its classification accuracy on both real and fake samples. $G$ is trained to minimize $D$'s ability to distinguish its outputs from real data. At the theoretical optimum, $G$'s distribution exactly matches the data distribution and $D$ outputs 0.5 everywhere, provably derived using optimal transport arguments. In practice, $G$ is trained to maximize $\log D(G(z))$ rather than minimize $\log(1 - D(G(z)))$, because the latter saturates and produces near-zero gradients early in training when $D$ is confident that $G$'s outputs are fake.
 
 ## Training dynamics and instabilities
 
