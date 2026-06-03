@@ -138,6 +138,7 @@
 
   var pagefindPath = '{{ "/pagefind/pagefind.js" | relative_url }}';
   var pagefind = null;
+  var pagefindFailed = false;
   var activeIdx = -1;
   var resultLinks = [];
 
@@ -163,14 +164,22 @@
     setExpanded(true);
   }
 
+  function showUnavailable() {
+    resultsEl.innerHTML =
+      '<div class="site-search-empty">Search index unavailable. Rebuild with pagefind or wait for the site to finish regenerating.</div>';
+    openResults();
+    resultLinks = [];
+  }
+
   async function getPagefind() {
     if (pagefind) return pagefind;
+    if (pagefindFailed) return null;
     try {
       pagefind = await import(pagefindPath);
       await pagefind.init();
       return pagefind;
     } catch (err) {
-      container.style.display = 'none';
+      pagefindFailed = true;
       return null;
     }
   }
@@ -210,7 +219,10 @@
 
   async function runSearch(query) {
     var pf = await getPagefind();
-    if (!pf) return;
+    if (!pf) {
+      if (query.trim()) showUnavailable();
+      return;
+    }
 
     if (!query.trim()) {
       closeResults();
@@ -228,8 +240,9 @@
     activeIdx = -1;
   }
 
-  input.addEventListener('focus', function () {
-    getPagefind();
+  input.addEventListener('focus', async function () {
+    var pf = await getPagefind();
+    if (!pf) showUnavailable();
   });
 
   input.addEventListener('input', function () {

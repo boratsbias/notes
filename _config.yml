@@ -1,5 +1,11 @@
 remote_theme: jekyll/minima
 
+keep_files:
+  - pagefind
+
+exclude:
+  - .obsidian
+
 defaults:
   - scope:
       path: ""
@@ -9,6 +15,9 @@ defaults:
 plugins:
   - jekyll-remote-theme
   - jekyll-feed
+  - jekyll-optional-front-matter
+  - jekyll-default-layout
+  - jekyll-titles-from-headings
 title: CS Notes
 description: Anubrat Bora
 markdown: kramdown
