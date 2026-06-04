@@ -101,7 +101,7 @@ Not a true metric (asymmetric), but widely used as a distributional distance:
 
 $$D_{KL}(p \| q) = \sum_x p(x) \log \frac{p(x)}{q(x)}$$
 
-See [Information Theory](04-information-theory.md) for full details.
+See [Information Theory](04-information-theory) for full details.
 
 ## Jensen-Shannon Divergence
 

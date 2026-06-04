@@ -89,4 +89,4 @@ $$\binom{n}{k} = \frac{n!}{k!(n-k)!}$$
 | Uniform | Continuous | $\frac{1}{b-a}$ on $[a,b]$ | $\frac{a+b}{2}$ | $\frac{(b-a)^2}{12}$ |
 | Normal | Continuous | $\frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$ | $\mu$ | $\sigma^2$ |
 
-See [Probability Distributions](02-probability-distributions.md) for full details.
+See [Probability Distributions](02-probability-distributions) for full details.
