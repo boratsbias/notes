@@ -1,0 +1,12 @@
+{
+  "name": "cs-notes",
+  "private": true,
+  "scripts": {
+    "build:search": "pagefind --site _site",
+    "build:site": "bundle exec jekyll build",
+    "serve": "bundle exec jekyll serve"
+  },
+  "devDependencies": {
+    "pagefind": "1.5.2"
+  }
+}

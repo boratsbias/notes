@@ -27,6 +27,15 @@ jobs:
           ruby-version: "3.3"
           bundler-cache: true
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install Node dependencies
+        run: npm ci
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
@@ -34,9 +43,6 @@ jobs:
         run: bundle exec jekyll build --baseurl ""
         env:
           JEKYLL_ENV: production
-
-      - name: Index with Pagefind
-        run: npx --yes pagefind --site _site
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
